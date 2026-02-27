@@ -1,16 +1,15 @@
 #include "main.h"
 
-Gimbal_t Gimbal =
-{
-    .Yaw_Angle_Set = 0,
+Gimbal_t Gimbal = {
+    .Yaw_Angle_Set   = 0,
     .Pitch_Angle_Set = 0,
 };
 
 void Gimbal_PID_Init(void)
 {
-    PID_StructInit(&DJI6020_PID_V,DJI6020_PID_V_Init);
-    PID_StructInit(&DJI6020_PID_P,DJI6020_PID_P_Init);
-    PID_StructInit(&DM4310_PID_P,DM4310_PID_P_Init);
+    PID_StructInit(&DJI6020_PID_V, DJI6020_PID_V_Init);
+    PID_StructInit(&DJI6020_PID_P, DJI6020_PID_P_Init);
+    PID_StructInit(&DM4310_PID_P, DM4310_PID_P_Init);
 }
 
 void Gimbal_PID_Clear(void)
@@ -27,15 +26,14 @@ void DJI6020_Yaw_Control(float Angle)
     PID_Cal(&DJI6020_PID_P, Angle, Gimbal.Yaw_Angle_Get);
     PID_Cal(&DJI6020_PID_V, DJI6020_PID_P.Out, Gimbal.Yaw_Speed_Get);
     DJI6020_PID_V.Out *= -1;
-    DATA[0]           = ((int) DJI6020_PID_V.Out >> 8) & 0xFF;
-    DATA[1]           = (int) DJI6020_PID_V.Out;
+    DATA[0] = ((int) DJI6020_PID_V.Out >> 8) & 0xFF;
+    DATA[1] = (int) DJI6020_PID_V.Out;
     CAN2_Transmit(DJI6020_Yaw_Send_ID, 8, DATA);
 }
 
 void DM4310_Pitch_Control(float Angle)
 {
-    DM4310_PV_Ctrl(
-        DM4310_Pitch_ID_Send,
+    DM4310_PV_Ctrl(DM4310_Pitch_ID_Send,
         Angle + DM4310_Pitch.POS + Gimbal.Pitch_Angle_Get,
         60);
 }
@@ -44,13 +42,12 @@ void DM4310_Pitch_Control(float Angle)
 void Gimbal_Set_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
 {
     //_sgn(gm6020×°·´ÁË)
-    if ( DJI6020_Yaw.multi_turns_deg + Yaw_inc <= Yaw_Angle_MIN && Yaw_inc >=
-        0 )
+    if (DJI6020_Yaw.multi_turns_deg + Yaw_inc <= Yaw_Angle_MIN && Yaw_inc >= 0)
     {
         Yaw_inc               = 0;
         Gimbal->Yaw_Angle_Set = Gimbal->Yaw_Angle_Get;
-    } else if ( DJI6020_Yaw.multi_turns_deg + Yaw_inc >= Yaw_Angle_MAX &&
-        Yaw_inc <= 0 )
+    } else if (DJI6020_Yaw.multi_turns_deg + Yaw_inc >= Yaw_Angle_MAX
+        && Yaw_inc <= 0)
     {
         Yaw_inc               = 0;
         Gimbal->Yaw_Angle_Set = Gimbal->Yaw_Angle_Get;
@@ -59,12 +56,12 @@ void Gimbal_Set_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
         Gimbal->Yaw_Angle_Set += Yaw_inc;
     }
 
-    if ( DM4310_Pitch.POS + Pitch_inc <= Pitch_Angle_MIN && Pitch_inc <= 0 )
+    if (DM4310_Pitch.POS + Pitch_inc <= Pitch_Angle_MIN && Pitch_inc <= 0)
     {
         Pitch_inc               = 0;
         Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
-    } else if ( DM4310_Pitch.POS + Pitch_inc >= Pitch_Angle_MAX && Pitch_inc >=
-        0 )
+    } else if (DM4310_Pitch.POS + Pitch_inc >= Pitch_Angle_MAX
+        && Pitch_inc >= 0)
     {
         Pitch_inc               = 0;
         Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
@@ -74,28 +71,27 @@ void Gimbal_Set_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
     }
 }
 
-//Incremental
+// Incremental
 void Gimbal_Control_Task_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
 {
     static volatile uint16_t Control_Flag = 0;
     Control_Flag++;
     Gimbal_Set_Inc(Gimbal, Yaw_inc, Pitch_inc);
-    if ( Control_Flag % 2 == 0 )
+    if (Control_Flag % 2 == 0)
         DJI6020_Yaw_Control(Gimbal->Yaw_Angle_Set);
-    if ( Control_Flag % 2 == 1 )
+    if (Control_Flag % 2 == 1)
         DM4310_Pitch_Control(Gimbal->Pitch_Angle_Set);
-    if ( Control_Flag >= 10000 )
+    if (Control_Flag >= 10000)
     {
         Control_Flag = 0;
     }
 }
 
 //_?
-void Gimbal_Get_Angle_Data(
-    Gimbal_t*  Gimbal,
-    CH040_t*   CH040_Data,
-    DJI6020_t* DJI6020_Yaw,
-    DM4310_t*  DM4310_Pitch)
+void Gimbal_Get_Angle_Data(Gimbal_t* Gimbal,
+    CH040_t*                         CH040_Data,
+    DJI6020_t*                       DJI6020_Yaw,
+    DM4310_t*                        DM4310_Pitch)
 {
     Gimbal->Yaw_Angle_Get   = CH040_Data->yaw_total_agl_calib;
     Gimbal->Pitch_Angle_Get = CH040_Data->pitch_agl_calib;

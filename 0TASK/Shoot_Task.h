@@ -23,7 +23,7 @@ typedef enum
 typedef enum
 {
 	SHOOTER_INIT=0,
-	RUNNING_FIRE,
+	FullAuto_FIRE,
 	SINGLE_SHOT,
 	CLOSE,
 }Shooter_Mode;
@@ -58,9 +58,9 @@ typedef struct
 	float Friction_Get_Trap_Cnt;
 	
 	int16_t Poke_Get_Trap_cnt;
-	
-	uint8_t Into_Single_Mode_Flag;
-	uint8_t Into_Single_Mode_Flag_Finish;
+
+	uint8_t switch_Single_Mode_Flag;
+	uint8_t switch_Single_Mode_Flag_Finish;
 	uint8_t Init_Flag;
 	
 	float Freq;
@@ -84,7 +84,7 @@ typedef struct
 	
 	float Heat;
 	
-	int16_t Running_Fire_CNT;
+	int16_t FullAuto_Fire_CNT;
 
 	First_Order_Kalman_Filter_t Bullet_Speed_Kalman;
 	
@@ -94,9 +94,9 @@ extern Shooter_t Shooter;
 
 void Shooter_PID_Init(void);
 void Friction_Speed_Get(Shooter_t* Shooter);
-void Shooter_Speed_Set_Running(float Speed,int8_t Freq);
-void Shooter_Speed_Set_Single(float Speed,uint8_t Fire_Flag);
-void Shooter_Speed_Set_Get_Trap(float Speed,float Freq);
+void Shooter_Speed_CalcSend_FullAutoFire(float Speed,int8_t Freq);
+void Shooter_Speed_CalcSend_Single(float Speed,uint8_t Fire_Flag);
+void Shooter_Speed_CalcSend_GetTrap(float Speed,float Freq);
 void Shooter_Angle_Clear(void);
 void Shooter_PID_Clear(void);
 void Poke_Data_Get(Shooter_t* Shooter);

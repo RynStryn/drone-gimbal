@@ -46,7 +46,7 @@ typedef struct{
 	float 	Out_Max;
  PID_Mode 	PID_Mode;
 	
-	DOF		DOF_Flag;
+	DOF		DOF_Flag;//Œ¢∑÷œ»––
 	
 }pid_t;
 

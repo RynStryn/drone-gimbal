@@ -341,7 +341,7 @@ void Control_Mode_Choise(void)
                     switch (Remote_data.Remote_Control.s1)
                     {
                         case 1:
-                            Shooter.Mode = RUNNING_FIRE; //拨杆在上，连发开火
+                            Shooter.Mode = FullAuto_FIRE; //拨杆在上，连发开火
                             if (Shooter.Mode != Shooter.Mode_Last)
                             {
                                 Shooter.State = START;
@@ -401,9 +401,9 @@ void Control_Mode_Choise(void)
                 }
                 //短按B切换开火模式（单发、连发）
                 if (Remote_data.Remote_Key.Key_B_Action.Key_Mouse_Action ==
-                    CLICK_FAST && Shooter.Mode != RUNNING_FIRE)
+                    CLICK_FAST && Shooter.Mode != FullAuto_FIRE)
                 {
-                    Shooter.Mode = RUNNING_FIRE;
+                    Shooter.Mode = FullAuto_FIRE;
                 } else if (Remote_data.Remote_Key.Key_B_Action.Key_Mouse_Action
                            == CLICK_FAST && Shooter.Mode != SINGLE_SHOT)
                 {
