@@ -39,7 +39,7 @@
 
 #define CH4_Dead_Zone								50
 
-#define Remote_Sensitivity								0.0001f
+#define RmtCtrl_Sensitivity								0.0001f
 
 #define Mouse_Sensitivity								0.001f
 

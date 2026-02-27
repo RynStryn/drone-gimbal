@@ -6,15 +6,15 @@ pid_t DJI6020_PID_V,		DJI6020_PID_P,
 	  DJI2006_Fric_PID_V_1,	DJI2006_Fric_PID_V_2, DJI2006_Fric_PID_V_3;
 	  
 
-void PID_Cal(pid_t* pid,float Set,float Act)
+void PID_Cal(pid_t* pid,float Set,float Get)
 {
-	pid->Act[1]=pid->Act[0];
-	pid->Act[0]=Act;
+	pid->Get[1]=pid->Get[0];
+	pid->Get[0]=Get;
 	pid->Set=Set;
 	
 	pid->Err[2]  =	pid->Err[1]; 
 	pid->Err[1]  =	pid->Err[0];
-	pid->Err[0]  =	pid->Set-pid->Act[0];
+	pid->Err[0]  =	pid->Set-pid->Get[0];
 
 	if(pid->PID_Mode==Position_PID)
 	{
@@ -28,7 +28,7 @@ void PID_Cal(pid_t* pid,float Set,float Act)
 		VAL_LIMIT(pid->Iout,-pid->Inc_Max,pid->Inc_Max);
 		if(pid->DOF_Flag)
 		{
-			pid->Dout = pid->Kd  * (pid->Act[1] -pid->Act[0]);
+			pid->Dout = pid->Kd  * (pid->Get[1] -pid->Get[0]);
 		}
 		else
 		{
@@ -78,8 +78,8 @@ pid->Kd			=	kd;
 
 void PID_Clear(pid_t* pid)
 {
-	pid->Act[0]=0;
-	pid->Act[1]=0;
+	pid->Get[0]=0;
+	pid->Get[1]=0;
 	pid->Set=0;
 	pid->Err[0]=0;
 	pid->Err[1]=0;

@@ -314,7 +314,7 @@ void Control_Mode_Choise(void)
 
                 /*云台只需切换模式*/
                 if (Gimbal.Mode != GIMBAL_INIT)
-                    Gimbal.Mode = GIMBAL_REMOTE;
+                    Gimbal.Mode = GIMBAL_RC;
 
                 if (1)
                 {
@@ -385,7 +385,7 @@ void Control_Mode_Choise(void)
             /*****键鼠模式*****/
             case KEY_MOUSE:
                 if (Gimbal.Mode != GIMBAL_INIT)
-                    Gimbal.Mode = GIMBAL_KM_NORMAL;
+                    Gimbal.Mode = GIMBAL_KeyMouse_NORMAL;
                 //短按C开摩擦轮
                 if (Remote_data.Remote_Key.Key_C_Action.Key_Mouse_Action ==
                     CLICK_FAST && Shooter.Friction_State == Friction_OFF)

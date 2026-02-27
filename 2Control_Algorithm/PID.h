@@ -13,7 +13,7 @@ typedef enum
 	Disable=0,
 	Enable,
 }DOF;
-//									PID类型			微分先行		输出限幅		积分限幅		Kp			Ki			Kd
+//									PID类型			微分先行	输出限幅	积分限幅	Kp			Ki			Kd
 #define DJI6020_PID_V_Init 			Position_PID,	Disable,	13000,		200,		78,			2,			100
 #define DJI6020_PID_P_Init 			Position_PID,	Disable,	1200,		40,			38,			0,			40
 
@@ -33,7 +33,7 @@ typedef struct{
 	float 	Kd;
 	
 	float 	Set;
-	float 	Act[2];
+	float 	Get[2];
 	float 	Err[3];
 	
 	float 	Pout;
@@ -55,7 +55,7 @@ extern	pid_t 	DJI6020_PID_V,		  DJI6020_PID_P,
 				DJI2006_Poke_PID_V,	  DJI2006_Poke_PID_P,
 				DJI2006_Fric_PID_V_1, DJI2006_Fric_PID_V_2,	DJI2006_Fric_PID_V_3;
 
-void PID_Cal(pid_t* pid,float Set,float Act);
+void PID_Cal(pid_t* pid,float Set,float Get);
 void PID_StructInit(
 	 pid_t 		*pid,
 	 PID_Mode 	Mode,

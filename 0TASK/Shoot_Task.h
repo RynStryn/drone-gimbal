@@ -65,15 +65,15 @@ typedef struct
 	
 	float Freq;
 	
-	float Poke_Speed_Act;
+	float Poke_Speed_Get;
 	float Poke_Speed_Set;
-	float Poke_Angle_Act;
+	float Poke_Angle_Get;
 	float Poke_Angle_Set;
 	float Poke_Angle_Init;
 	
-	float Friction_Speed_1_Act;
-	float Friction_Speed_2_Act;
-	float Friction_Speed_3_Act;
+	float Friction_Speed_1_Get;
+	float Friction_Speed_2_Get;
+	float Friction_Speed_3_Get;
 	float Friction_Speed_Set;
 	
 	float Bullet_Speed;

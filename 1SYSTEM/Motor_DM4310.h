@@ -48,7 +48,7 @@ typedef struct
 	float T_MOS;
 	float T_Rotor;
 	
-	float Init_degs;
+	float Init_deg;
 	
 }DM4310_t;
  

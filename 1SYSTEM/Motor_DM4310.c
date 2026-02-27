@@ -152,7 +152,7 @@ void DM4310_Receive_Data(DM4310_t* DM4310_Pitch,uint8_t *DATA)
 	DM4310_Pitch->T_Rotor	= (float)(DATA[7]);
 	if(Init_Flag==0)
 	{
-		DM4310_Pitch->Init_degs=DM4310_Pitch->POS;
+		DM4310_Pitch->Init_deg=DM4310_Pitch->POS;
 		Init_Flag=1;
 	}
 }

@@ -3,18 +3,20 @@
 #include "stm32f4xx.h"
 
 #define DJI6020_Yaw_ID 0x205
+
+//I_loop 0x1FE
 #define DJI6020_Yaw_Send_ID 0x1FE
 
 typedef struct
 {
-	float	pos_degs_last;
-	float 	pos_degs;
-	float	Init_degs;
+	float	pos_deg_last;
+	float 	pos_deg;
+	float	Init_deg;
     int32_t pos_turns;
-	float	mult_degs;
+	float	multi_turns_deg;//
     float 	speed_rpm;
 	
-	float 	I_O;
+	float 	I_ofTorq;//I_O?
 	
 	float	Temp;
 	

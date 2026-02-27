@@ -1,0 +1,95 @@
+---
+Language: Cpp
+# 以 Chromium 为基准
+BasedOnStyle: Chromium
+
+# --- 核心特征强化 (Chromium 味道的来源) ---
+# 1. 指针/引用靠左 (int* p 而不是 int *p)，这是 Chromium 最显著的特征
+PointerAlignment: Left
+
+# 2. 括号前的空格控制
+# Chromium 要求 if/for/while 后必须有空格，如 if (x) 而不是 if(x)
+# 你原来的配置 SpacesInConditionalStatement: false 会导致代码太挤
+SpaceBeforeParens: ControlStatements
+SpacesInConditionalStatement: true 
+
+# 3. 包含头文件的排序 (Chromium 极其严格)
+SortIncludes: true
+
+# 4. 允许短代码块在单行 (Chromium 允许简单的 get/set 单行)
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+# --- 你的自定义偏好 (保留) ---
+AccessModifierOffset: -4
+# 你的强迫症选项：连续赋值/声明对齐 (Chromium 默认是 false，这里保留你的设置)
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignOperands: DontAlign
+AlignTrailingComments: true
+AlignAfterOpenBracket: AlwaysBreak
+#Align
+
+# 你的大括号换行风格 (Allman 变体)
+BreakBeforeBinaryOperators: All
+BreakBeforeBraces: Custom
+BraceWrapping: 
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: true
+  AfterEnum: false
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+
+# --- 细节微调 ---
+# 建议改回 80。60 字符太短了，配合 4 空格缩进和长变量名，代码会频繁换行，阅读体验很差
+ColumnLimit: 80 
+
+# 严格的参数换行 (保留你的设置)
+BinPackArguments: false
+BinPackParameters: false
+# 构造函数初始化列表的换行处理
+BreakConstructorInitializers: AfterColon
+BreakConstructorInitializersBeforeComma: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+
+# 缩进设置 (保留你的 4 空格)
+IndentWidth: 4
+TabWidth: 4
+ContinuationIndentWidth: 4
+#8
+IndentCaseLabels: true
+
+# 模板与宏
+AlwaysBreakTemplateDeclarations: true
+SpaceAfterTemplateKeyword: false
+SpacesInAngles: false
+
+# 其他
+IncludeCategories: 
+  - Regex: '^<.*'
+    Priority: 1
+  - Regex: '^".*'
+    Priority: 2
+  - Regex: '.*'
+    Priority: 3
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+InsertNewlineAtEOF: true
+MaxEmptyLinesToKeep: 2
+NamespaceIndentation: All
+SpaceAfterCStyleCast: true
+# 修正：C风格转换括号内不应有空格，但 for 循环冒号前通常需要空格
+SpaceBeforeRangeBasedForLoopColon: true 
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false

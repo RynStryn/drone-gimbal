@@ -48,7 +48,7 @@
   
   #define CH040_RX_BUFF_SIZE 100
 
-
+//_?
 __packed typedef struct 
 {
 	uint8_t 	tag;
@@ -60,24 +60,24 @@ __packed typedef struct
 	float		acc_x;
 	float		acc_z;
 	
-	float		gry_y;
-	float		gry_x;
-	float		gry_z;
+	float		omega_y;
+	float		omega_x;
+	float		omega_z;
 	
 	float		mag_y;
 	float		mag_x;
 	float		mag_z;
 	
-	float		pitch_a_get;
-	float		roll_a_get;
-	float		yaw_a_get;
+	float		pitch_agl_get;
+	float		roll_agl_get;
+	float		yaw_agl_get;
 	float		quat[4];
 	
-	float		Init_yaw_a;
-	float		Init_pitch_a;
+	float		Init_yaw_agl;
+	float		Init_pitch_agl;
 	
-	float		yaw_a;
-	float		pitch_a;
+	float		yaw_total_agl_calib;
+	float		pitch_agl_calib;
 	uint8_t		Init_Flag;
 	
 }CH040_t;

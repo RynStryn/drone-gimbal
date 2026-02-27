@@ -9,17 +9,17 @@
 
 typedef struct
 {
-	float	pos_degs_last;
-	float 	pos_degs;
+	float   pos_deg_last;
+	float 	pos_deg;
     int32_t pos_turns;
-	float	mult_degs;
+	float	multi_turns_deg;
 	
-	float 	out_degs;
+	float 	out_deg;
 	
-    float 	speed_degs;
+    float 	speed_deg;
     float 	speed_rpm;
 
-	float   N_m;
+	float   Torq;//(N*m)
 	
 	uint32_t ID;
 	

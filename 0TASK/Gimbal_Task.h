@@ -13,8 +13,8 @@ typedef enum
 	GIMBAL_INIT       = 0 ,//³õÊ¼»¯
 	GIMBAL_STOP           ,//Í£Ö¹
 	GIMBAL_RELAX          ,//·ÅËÉ
-	GIMBAL_REMOTE  	      ,//Ò£¿ØÆ÷
-	GIMBAL_KM_NORMAL      ,//¼üÊó
+	GIMBAL_RC  	      ,//Ò£¿ØÆ÷
+	GIMBAL_KeyMouse_NORMAL      ,//¼üÊó
 } eGimbal_Mode;
 
 typedef struct
@@ -28,14 +28,14 @@ typedef struct
 	float Yaw_Angle_Set;
 	float Pitch_Angle_Set;
 	
-	float Yaw_Angle_Actual;
-	float Pitch_Angle_Actual;
+	float Yaw_Angle_Get;
+	float Pitch_Angle_Get;
 	
 	float Yaw_Speed_Set;
 	float Pitch_Speed_Set;
 	
-	float Yaw_Speed_Act;
-	float Pitch_Speed_Act;
+	float Yaw_Speed_Get;
+	float Pitch_Speed_Get;
 	
 	eGimbal_Mode Mode;
 	eGimbal_Mode Mode_Last;
@@ -49,8 +49,8 @@ extern Gimbal_t Gimbal;
 void Gimbal_PID_Init(void);
 void DJI6020_Yaw_Control(float Angle);
 void DM4310_Pitch_Control(float Angle);
-void Gimbal_Set_Inc(Gimbal_t *Gimbal,float Yaw,float Pitch);
-void Gimbal_Control_Task_Inc(Gimbal_t *Gimbal,float Yaw,float Pitch);
+void Gimbal_Set_Inc(Gimbal_t *Gimbal,float Yaw_inc,float Pitch_inc);
+void Gimbal_Control_Task_Inc(Gimbal_t *Gimbal,float Yaw_inc,float Pitch_inc);
 void Gimbal_Get_Angle_Data(Gimbal_t *Gimbal,CH040_t *CH040_Data,DJI6020_t* DJI6020_Yaw,DM4310_t* DM4310_Pitch);
 void Gimbal_PID_Clear(void);
 #endif
