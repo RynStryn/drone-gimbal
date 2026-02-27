@@ -69,7 +69,7 @@ void Gimbal_Set_Inc(Gimbal_t* Gimbal,float Yaw,float Pitch)
 	}
 	
 }
-
+//Incremental
 void Gimbal_Control_Task_Inc(Gimbal_t* Gimbal,float Yaw,float Pitch)
 {
 	static volatile uint16_t Control_Flag=0;

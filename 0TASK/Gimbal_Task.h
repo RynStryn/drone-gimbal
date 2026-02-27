@@ -15,7 +15,7 @@ typedef enum
 	GIMBAL_RELAX          ,//·ÅËÉ
 	GIMBAL_REMOTE  	      ,//Ò£¿ØÆ÷
 	GIMBAL_KM_NORMAL      ,//¼üÊó
-} Gimbal_Mode_e;
+} eGimbal_Mode;
 
 typedef struct
 {
@@ -37,8 +37,8 @@ typedef struct
 	float Yaw_Speed_Act;
 	float Pitch_Speed_Act;
 	
-	Gimbal_Mode_e Mode;
-	Gimbal_Mode_e Mode_Last;
+	eGimbal_Mode Mode;
+	eGimbal_Mode Mode_Last;
 	
 	uint8_t Flag_Init_Finish;
 	
