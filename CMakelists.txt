@@ -1,0 +1,88 @@
+cmake_minimum_required(VERSION 3.15)
+project(AAA26Drone C ASM)
+
+message(STATUS "*** CLion IntelliSense Only (no real build) ***")
+
+# Handle platform-specific flags for code analysis
+if (WIN32)
+    message(STATUS "Using Windows native compiler for code analysis.")
+    set(MCU_FLAGS "")
+else()
+    # Matches the STM32F40_41xxx target found in your project 
+    set(MCU_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=softfp")
+endif()
+
+set(CMAKE_C_FLAGS "${MCU_FLAGS} -Wall -Wextra -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER")
+set(CMAKE_C_STANDARD 11)
+
+# ---------------------------------------------------------
+# 1. Collect Source Files (Globbing)
+# ---------------------------------------------------------
+
+# Task Module [cite: 5, 6]
+file(GLOB TASK_SOURCES "0TASK/*.c")
+
+# System/Hardware Module [cite: 6, 7]
+file(GLOB SYSTEM_SOURCES "1SYSTEM/*.c")
+
+# Control Algorithm [cite: 7]
+file(GLOB ALGO_SOURCES "2Control_Algorithm/*.c")
+
+# Judge System 
+file(GLOB JUDGE_SOURCES "3Judge_System/*.c")
+
+# Core and Startup 
+file(GLOB CORE_SOURCES "CORE/*.c" "CORE/*.s")
+
+# Firmware Library (FWLIB) 
+file(GLOB_RECURSE FWLIB_SOURCES "FWLIB/src/*.c")
+
+# User Application Code [cite: 9]
+file(GLOB USER_SOURCES "USER/*.c")
+
+# Combine all sources
+set(ALL_SOURCES
+    ${TASK_SOURCES}
+    ${SYSTEM_SOURCES}
+    ${ALGO_SOURCES}
+    ${JUDGE_SOURCES}
+    ${CORE_SOURCES}
+    ${FWLIB_SOURCES}
+    ${USER_SOURCES}
+)
+
+# ---------------------------------------------------------
+# 2. Include Directories
+# ---------------------------------------------------------
+include_directories(
+    "0TASK"
+    "1SYSTEM"
+    "2Control_Algorithm"
+    "3Judge_System"
+    "CORE"
+    "FWLIB/inc"
+    "USER"
+)
+
+# ---------------------------------------------------------
+# 3. Create Dummy Target for IntelliSense
+# ---------------------------------------------------------
+add_library(drone_dummy STATIC ${ALL_SOURCES})
+
+set_target_properties(drone_dummy PROPERTIES
+                      EXCLUDE_FROM_ALL TRUE
+                      LINKER_LANGUAGE C
+)
+set(CMAKE_C_FLAGS "${MCU_FLAGS} -Wall -Wextra -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER")
+
+# ÃÌº”πÿº¸◊÷”≥…‰“‘  ≈‰ CLion ¥˙¬Î∑÷Œˆ
+add_definitions(
+        -D__packed=
+        -D__weak=__attribute__((weak))
+        -D__align(x)=__attribute__((aligned(x)))
+        -D__inline=inline
+)
+
+# Status Messages for verification
+message(STATUS "Task files: ${TASK_SOURCES}")
+message(STATUS "System files: ${SYSTEM_SOURCES}")
