@@ -19,7 +19,7 @@ void Gimbal_PID_Clear(void)
     PID_Clear(&DM4310_PID_P);
 }
 
-void DJI6020_Yaw_Control(float Angle)
+void DJI6020_Yaw_CalcSend(float Angle)
 {
     uint8_t DATA[8];
     memset(DATA, 0, 8);
@@ -74,20 +74,20 @@ void Gimbal_Set_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
 // Incremental
 void Gimbal_Control_Task_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
 {
-    static volatile uint16_t Control_Flag = 0;
-    Control_Flag++;
+    static volatile uint16_t task_timer = 0;
+    task_timer++;
     Gimbal_Set_Inc(Gimbal, Yaw_inc, Pitch_inc);
-    if (Control_Flag % 2 == 0)
-        DJI6020_Yaw_Control(Gimbal->Yaw_Angle_Set);
-    if (Control_Flag % 2 == 1)
+    if (task_timer % 2 == 0)
+        DJI6020_Yaw_CalcSend(Gimbal->Yaw_Angle_Set);
+    if (task_timer % 2 == 1)
         DM4310_Pitch_Control(Gimbal->Pitch_Angle_Set);
-    if (Control_Flag >= 10000)
+    if (task_timer >= 10000)
     {
-        Control_Flag = 0;
+        task_timer = 0;
     }
 }
 
-//_?
+
 void Gimbal_Get_Angle_Data(Gimbal_t* Gimbal,
     CH040_t*                         CH040_Data,
     DJI6020_t*                       DJI6020_Yaw,

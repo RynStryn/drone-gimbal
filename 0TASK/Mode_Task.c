@@ -10,6 +10,7 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             if (DM4310_Pitch.ERR == 0x01)
             {
                 Gimbal->Flag_Init_Finish = 1;
+                //保险起见,重复失能
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_PV, DM4310_Init_Disable);
             } else
@@ -26,11 +27,11 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             // 云台放松，将实际值作为设定值，防跳变
             if (Gimbal->Mode != Gimbal->Mode_Last)
             {
-                //_sgn
+                //sgn
                 Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
             }
-            // 失能达妙
+            // 保险起见,重复失能
             DM4310_Init(
                 DM4310_Pitch_ID_Send, DM4310_Mode_PV, DM4310_Init_Disable);
             // PID清零
@@ -54,7 +55,7 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_PV, DM4310_Init_Enable);
             }
-            // 积分设置角度
+            // 角度增量
             Gimbal_Control_Task_Inc(Gimbal,
                 -(Remote_data.Remote_Control.ch2 - 1024) * RmtCtrl_Sensitivity,
                 -(Remote_data.Remote_Control.ch3 - 1024) * RmtCtrl_Sensitivity);
@@ -136,7 +137,7 @@ void Shooter_Mode_Control(Shooter_t* Shooter)
                 // 拨盘卡弹反转
                 if (Shooter->State == Poke_Get_Trap)
                 {
-                    // TODO
+
                     Shooter_Speed_CalcSend_GetTrap(speed_calib,
                         -20);
                 }
@@ -153,6 +154,7 @@ void Shooter_Mode_Control(Shooter_t* Shooter)
                     Shooter->FullAuto_Fire_CNT = 0;
                 }
                 // 开火
+                // 等待预热,太小会打不出,卡弹
                 else if (Shooter->State == START
                     && (DJI2006_Fric[0].speed_rpm > FRICTION_SPEED_MIN
                         && DJI2006_Fric[1].speed_rpm > FRICTION_SPEED_MIN
@@ -198,6 +200,7 @@ void Shooter_Mode_Control(Shooter_t* Shooter)
         }
     } else
     {
+        //off:clear
         Shooter_Speed_CalcSend_FullAutoFire(0, 0);
         Shooter->Poke_Get_Trap_cnt     = 0;
         Shooter->Friction_Get_Trap_Cnt = 0;

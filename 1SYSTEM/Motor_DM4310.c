@@ -1,7 +1,7 @@
 #include "main.h"
 DM4310_t DM4310_Pitch;
 
-void DM4310_Init(uint8_t ID,eDM4310_Mode Mode,eDM4310_Init_State State)	//DM4310电机初始化
+void DM4310_Init(uint8_t ID,eDM4310_Mode Mode,DM4310_Init_State State)	//DM4310电机初始化
 {
 	uint8_t DATA[8];
 	memset(DATA,0xFF,sizeof(DATA));
@@ -23,13 +23,14 @@ void DM4310_Init(uint8_t ID,eDM4310_Mode Mode,eDM4310_Init_State State)	//DM4310
 	}
 	switch(State)
 	{
+	    //_?
 		case DM4310_Init_Enable:
 		DATA[7]=0xFC;
-		CAN2_Transmit(ID+ID_offset,8,DATA);
+		CAN2_Transmit(ID+ID_offset,8,DATA);//enable signal.try once(tap)
 		break;
 		case DM4310_Init_Disable:
 		DATA[7]=0xFD;
-		CAN2_Transmit(ID+ID_offset,8,DATA);
+		CAN2_Transmit(ID+ID_offset,8,DATA);//disable signal.try once(tap)
 		break;
 		case DM4310_Init_Set_Zero_Position:
 		DATA[7]=0xFE;

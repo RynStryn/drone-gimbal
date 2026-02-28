@@ -48,7 +48,7 @@
   
   #define CH040_RX_BUFF_SIZE 100
 
-//_?
+
 __packed typedef struct 
 {
 	uint8_t 	tag;

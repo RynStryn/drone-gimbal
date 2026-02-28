@@ -1,7 +1,7 @@
 #ifndef __FAULT_DIAGNOSIS_TASK_H__
 #define __FAULT_DIAGNOSIS_TASK_H__
 #include "stm32f4xx.h"
-typedef enum{
+typedef enum{//_?
 	DISCONNECT          ,//正常
 	NORMAL       		,//连接异常
 	INACTIVE         	,//关闭状态

@@ -52,15 +52,14 @@ typedef enum{
 	M_2_L       ,
 	M_2_H       ,
 	H_2_M       ,
-}Clicker_Action_e;			//遥控器上开关状态枚举
+}Clicker_Action_e;			// 遥控器上开关状态枚举
 
-typedef __packed enum
-{
-	ZERO_INPUT     			,//无输入
-	CLICK_FAST     			,//单击:按下后松开时置1一个时间周期
-	CLICK_LONG_TIME			,//按住时间较长
-	TAP_AND_HOLD   			,//长按：按下后还未松开置1，松开后置0
-}Key_Mouse_Action_e;//按键动作枚举
+typedef __packed enum {
+    NONE,              // 无输入
+    SHORT_PRESS,       // 单击:按下后松开时置1一个时间周期
+    LONG_PRESS,        // 按住时间较长
+    TAP_AND_HOLD,      // 长按：按下后还未松开置1，松开后置0
+} Key_Mouse_Action_e;  // 按键动作枚举
 
 typedef __packed struct
 {
@@ -141,7 +140,7 @@ typedef __packed struct
 
 typedef enum
 {
-	Null=0,
+	None=0,
 	REMOTE,
 	KEY_MOUSE,
 }Control_Mode_e;				//控制模式枚举（无/遥控器/键鼠）

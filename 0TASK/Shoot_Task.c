@@ -42,10 +42,10 @@ void Friction_Speed_Get(Shooter_t* Shooter)
 void Shooter_Speed_CalcSend_Single(float Speed, uint8_t Fire_Flag)
 {
     static volatile uint8_t Fire_Flag_Last = 0;
-
-    if (Fire_Flag != Fire_Flag_Last && Fire_Flag_Last == 0)
+    // 只有...才...
+    if (Fire_Flag == 1 && Fire_Flag_Last == 0)
     {
-        Shooter.Poke_Angle_Set += 1620;//单发(45 deg)
+        Shooter.Poke_Angle_Set += 1620;  //单发(45 deg)
     }
     Fire_Flag_Last = Fire_Flag;
     PID_Cal(&DJI2006_Fric_PID_V_1, Speed, Shooter.Friction_Speed_1_Get);
@@ -73,10 +73,12 @@ void Shooter_Speed_CalcSend_FullAutoFire(float Speed, int8_t Freq)
     if (Freq == 0)
     {
         Shooter_Speed_CalcSend_Single(Speed, 0);
-    } else if (Shooter.FullAuto_Fire_CNT % (1000 / Freq) == 0)
+    }
+    else if (Shooter.FullAuto_Fire_CNT % (1000 / Freq) == 0)
     {
         Shooter_Speed_CalcSend_Single(Speed, 1);
-    } else
+    }
+    else
     {
         Shooter_Speed_CalcSend_Single(Speed, 0);
     }
@@ -107,6 +109,8 @@ void Shooter_Speed_CalcSend_GetTrap(float Speed, float Freq)
     CAN1_Transmit(0x200, 8, DATA);
 }
 
+//in:Shooter.switch_Single_Mode_Flag
+//out:Shooter.switch_Single_Mode_Flag_Finish
 void Shooter_Angle_Clear(void)
 {
     static volatile int16_t Mode_Change_Cnt = 0;
@@ -130,13 +134,14 @@ void Shooter_Angle_Clear(void)
         DATA[6] = ((int) DJI2006_Poke_PID_V.Out >> 8) & 0xFF;
         DATA[7] = (int) DJI2006_Poke_PID_V.Out;
         CAN1_Transmit(0x200, 8, DATA);
-    } else if (Mode_Change_Cnt >= 200)
+    }
+    else if (Mode_Change_Cnt >= 200)
     {
-        DJI2006_Pock.pos_turns               = 0;
-        Shooter.Poke_Angle_Set               = DJI2006_Pock.pos_deg + 900;
-        Shooter.Poke_Angle_Init              = Shooter.Poke_Angle_Set;
+        DJI2006_Pock.pos_turns                 = 0;
+        Shooter.Poke_Angle_Set                 = DJI2006_Pock.pos_deg + 900;
+        Shooter.Poke_Angle_Init                = Shooter.Poke_Angle_Set;
         Shooter.switch_Single_Mode_Flag_Finish = 1;
-        Mode_Change_Cnt                      = 0;
+        Mode_Change_Cnt                        = 0;
     }
     Mode_Change_Cnt++;
 }
@@ -169,7 +174,8 @@ void Poke_Get_Trap_Judge(void)
     if (Shooter.Poke_Get_Trap_cnt >= 100)
     {
         Shooter.State = Poke_Get_Trap;
-    } else if (Shooter.Poke_Get_Trap_cnt <= 0
+    }
+    else if (Shooter.Poke_Get_Trap_cnt <= 0
         && Shooter.State != Friction_Get_Trap)
     {
         Shooter.State = START;
@@ -201,7 +207,8 @@ void Friction_Get_Trap_Judge(void)
     if (Shooter.Friction_Get_Trap_Cnt >= 1000)
     {
         Shooter.State = Friction_Get_Trap;
-    } else if (Shooter.Friction_Get_Trap_Cnt <= 0
+    }
+    else if (Shooter.Friction_Get_Trap_Cnt <= 0
         && Shooter.State != Poke_Get_Trap)
     {
         Shooter.State = START;
@@ -212,16 +219,17 @@ void Friction_Get_Trap_Judge(void)
     }
 }
 
-// TODO
 void Stop_Fire_Judge(void)
 {
     static volatile float Friction_Speed_Last;
+
     if (Shooter.Poke_State == POKE_OFF
-        || (Shooter.Poke_Speed_Set - Shooter.Poke_Speed_Get > 1000
-            || Shooter.Poke_Speed_Set < 0))
+        || (Shooter.Poke_Speed_Set - Shooter.Poke_Speed_Get > 1000  // trapped
+            || Shooter.Poke_Speed_Set < 0))                         // 反转
     {
         if (Shooter.Friction_Speed_Set < FRICTION_SPEED + 200)
         {
+            // target:匀加速
             Shooter.Friction_Speed_Set
                 = FRICTION_SPEED + 0.05 * Shooter.Stop_Fire_CNT;
             VAL_LIMIT(Shooter.Friction_Speed_Set,
@@ -233,7 +241,8 @@ void Stop_Fire_Judge(void)
             Shooter.Stop_Fire_CNT++;
         }
         Friction_Speed_Last = Shooter.Friction_Speed_Set;
-    } else if (Shooter.Poke_State == POKE_ON)
+    }
+    else if (Shooter.Poke_State == POKE_ON)
     {
         if (Shooter.Friction_Speed_Set > FRICTION_SPEED)
         {
@@ -255,22 +264,24 @@ uint8_t Shooter_Cooling_Judge(void)
         <= 20)
     {
         return 1;
-    } else if (judge_rece_mesg.game_robot_state.shooter_barrel_heat_limit
+    }
+    else if (judge_rece_mesg.game_robot_state.shooter_barrel_heat_limit
             - Shooter.Heat
         >= 30)
     {
         return 0;
-    } else
+    }
+    else
         return 0;
 }
 
 
 float Shooter_Bullet_Speed_Self_Adaptation(float Bullet_Speed)
 {
-float static bullet_k = BULLET_SPEED_SELF_ADAPTATION_K;
+    float static bullet_k = BULLET_SPEED_SELF_ADAPTATION_K;
     float static Bullet_Speed_Error;
     Bullet_Speed_Error = (BULLET_SPEED_TARGET - Bullet_Speed);
-    float error_calib = Bullet_Speed_Error * bullet_k;
+    float error_calib  = Bullet_Speed_Error * bullet_k;
     if (error_calib > 200)
         return 200;
     else if (error_calib < -1200)
@@ -308,10 +319,11 @@ float First_Order_Kalman_Filter_Cal(
     return _First_Order_Kalman_Filter->X_hat;
 }
 
+// 上限25,23容错
 void Shooter_Bullet_Speed_Fbd_Set(Shooter_t* Shooter, float Bullet_Speed)
 {
     if (Bullet_Speed < 15)
-        Shooter->Bullet_Speed = 24;
+        Shooter->Bullet_Speed = 23;
     else
         Shooter->Bullet_Speed = Bullet_Speed;
 
@@ -319,8 +331,9 @@ void Shooter_Bullet_Speed_Fbd_Set(Shooter_t* Shooter, float Bullet_Speed)
     if (fired_bullet_cnt < 15)
     {
         fired_bullet_cnt++;
-        First_Order_Kalman_Filter_Cal(&Shooter->Bullet_Speed_Kalman, 24);//上限25,23容错大一点
-    } else
+        First_Order_Kalman_Filter_Cal(&Shooter->Bullet_Speed_Kalman, 23);
+    }
+    else
     {
         First_Order_Kalman_Filter_Cal(
             &Shooter->Bullet_Speed_Kalman, Bullet_Speed);

@@ -52,7 +52,7 @@
 #define BULEET_SPEED_FILTER_ENABLE 1
 
 //数值限制
-#define VAL_LIMIT(val, min, max)\
+#define VAL_LIMIT(val, min, max) do{\
 if(val<=min)\
 {\
 	val = min;\
@@ -61,6 +61,6 @@ else if(val>=max)\
 {\
 	val = max;\
 }\
-
+}while (0)
 
 #endif
