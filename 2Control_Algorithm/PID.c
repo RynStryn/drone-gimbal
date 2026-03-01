@@ -24,7 +24,7 @@ void PID_Cal(pidlc_t* pid, float Set, float Get)
 
         pid->Iout += pid->Ki * pid->Err[0];
 
-        CLAMP(pid->Iout, -pid->Inc_Max, pid->Inc_Max);
+        CLAMP(pid->Iout, -pid->I_Max, pid->I_Max);
 
         if (pid->Enable_D_on_Fdbk)
         {
@@ -61,26 +61,35 @@ void PID_Cal(pidlc_t* pid, float Set, float Get)
 
 void PID_Init(pidlc_t* pid,
     PID_Mode           Mode,
-    Enable_D_on_Fdbk                Flag,
-    float              Out_Max,
-    float              Inc_Max,
+    Enable_D_on_Fdbk   isEnable,
+
+    float Out_Max,
+    float I_Max,
+    float ff_v_outMax,
+    float ff_a_outMax,
 
     float kp,
     float ki,
     float kd,
-    float FKv,
-    float FKa,
-    float Ftr_alpha)
-{
-    pid->PID_Mode = Mode;
-    pid->Out_Max  = Out_Max;
-    pid->Inc_Max  = Inc_Max;
+    float Ftr_alpha,
 
-    pid->Kp       = kp;
-    pid->Ki       = ki;
-    pid->Kd       = kd;
-    pid->FdFwd.Kv = FKv;
-    pid->filter_a=Ftr_alpha;
+    float FKv,
+    float FKa)
+{
+    pid->PID_Mode         = Mode;
+    pid->Enable_D_on_Fdbk = isEnable;
+
+    pid->Out_Max        = Out_Max;
+    pid->I_Max          = I_Max;
+    pid->FdFwd.a_outMax = ff_a_outMax;
+    pid->FdFwd.v_outMax = ff_v_outMax;
+
+    pid->Kp             = kp;
+    pid->Ki             = ki;
+    pid->Kd             = kd;
+    pid->filter_a       = Ftr_alpha;
+
+    pid->FdFwd.Kv       = FKv;
     if (pid->FdFwd.E_2nd_ff == 0 || pid->FdFwd.Ka == 0)
     {
         pid->FdFwd.Ka       = 0;
@@ -94,17 +103,17 @@ void PID_Init(pidlc_t* pid,
 
 void PID_Clear(pidlc_t* pid)
 {
-    pid->Get[0]     = 0;
-    pid->Get[1]     = 0;
-    pid->Set        = 0;
-    pid->Err[0]     = 0;
-    pid->Err[1]     = 0;
-    pid->Err[2]     = 0;
-    pid->Pout       = 0;
-    pid->Iout       = 0;
-    pid->Dout       = 0;
-    pid->Dout_last  = 0;
-    pid->Out        = 0;
+    pid->Get[0]    = 0;
+    pid->Get[1]    = 0;
+    pid->Set       = 0;
+    pid->Err[0]    = 0;
+    pid->Err[1]    = 0;
+    pid->Err[2]    = 0;
+    pid->Pout      = 0;
+    pid->Iout      = 0;
+    pid->Dout      = 0;
+    pid->Dout_last = 0;
+    pid->Out       = 0;
 
     pid->FdFwd.v[0] = 0;
     pid->FdFwd.v[1] = 0;
@@ -127,7 +136,6 @@ void Feed_Forward_Calc(FdFwd_t* FF, float get)
     CLAMP(FF->a, -FF->a_max, FF->a_max);
     FF->v_out = FF->Kv * FF->v[0];
     FF->a_out = FF->Ka * FF->a;
-    CLAMP(FF->v_out,-FF->out_max,FF->out_max);
-    CLAMP(FF->a_out,-FF->out_max,FF->out_max);
+    CLAMP(FF->v_out, -FF->v_outMax, FF->v_outMax);
+    CLAMP(FF->a_out, -FF->v_outMax, FF->v_outMax);
 }
-

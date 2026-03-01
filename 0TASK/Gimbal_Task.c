@@ -36,9 +36,9 @@ void DJI6020_Yaw_CalcSend(float Angle)
 }
 
 void DM4310_Pitch_Control(float Angle)
-{
+{//TODO
     DM4310_PV_Ctrl(DM4310_Pitch_ID_Send,
-        Angle + DM4310_Pitch.POS + Gimbal.Pitch_Angle_Get,
+        Angle + DM4310_Pitch.POS + Gimbal.Pitch_Angle_Get,//_?
         60);
 }
 

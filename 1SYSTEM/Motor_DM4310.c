@@ -122,7 +122,8 @@ void DM4310_MIT_Ctrl(uint8_t ID, float pos, float vel,float kp, float kd, float 
 	
 	CAN2_Transmit(ID,8,DATA);
 }
-	
+
+//position,velocity
 void DM4310_PV_Ctrl(uint8_t ID, float _pos, float _vel)//
 {
 	uint8_t DATA[8];
