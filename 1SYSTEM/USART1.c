@@ -94,7 +94,7 @@ void USART1_IRQHandler(void)
 			//包长度正确进行数据处理
 			if(this_time_rx_len == RC_FRAME_LENGTH)
 			{
-				Equipment_Counter_Make_Zero(&Peripheral_State.Remote_Control);
+				Equipment_Cnt_Clear(&Peripheral_State.Remote_Control);
 				Get_Remote_Data(_USART1_DMA_RX_BUF[0]);
 			}
 		}
@@ -109,7 +109,7 @@ void USART1_IRQHandler(void)
 			DMA_Cmd(DMA2_Stream2, ENABLE);
 			if(this_time_rx_len == RC_FRAME_LENGTH)
 			{
-				Equipment_Counter_Make_Zero(&Peripheral_State.Remote_Control);
+				Equipment_Cnt_Clear(&Peripheral_State.Remote_Control);
 				Get_Remote_Data(_USART1_DMA_RX_BUF[1]);
 			}
 		}

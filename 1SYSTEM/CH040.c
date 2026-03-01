@@ -115,7 +115,7 @@ void USART_CH040_IRQHandler(void)
 
 		memcpy(&CH040_Data,&CH040_Rx_Buffer[6],76);
 		
-		Equipment_Counter_Make_Zero(&Peripheral_State.Gimbal_Yaw_Gyro);
+		Equipment_Cnt_Clear(&Peripheral_State.Gimbal_Yaw_Gyro);
 
 		CH040_Data_Cal();
 		

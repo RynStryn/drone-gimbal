@@ -31,23 +31,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment="改进命名">
-      <change afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.clang-format" beforeDir="false" afterPath="$PROJECT_DIR$/.clang-format" afterDir="false" />
+    <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment="备份,即将上脚手架">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Control_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Control_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Mode_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Mode_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Remote_Control_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Remote_Control_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Remote_Control_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Remote_Control_Task.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Shoot_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Shoot_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Shoot_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Shoot_Task.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/CH040.h" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CH040.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.h" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CORE/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1SYSTEM/CH040.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CH040.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1SYSTEM/USART1.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/USART1.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +158,8 @@
       <workItem from="1772201419794" duration="562000" />
       <workItem from="1772202000490" duration="7388000" />
       <workItem from="1772245814718" duration="18416000" />
-      <workItem from="1772287503780" duration="2115000" />
+      <workItem from="1772287503780" duration="3179000" />
+      <workItem from="1772352584909" duration="605000" />
     </task>
     <task id="LOCAL-00001" summary="hi">
       <option name="closed" value="true" />
@@ -202,7 +193,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772209030295</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="备份,即将上脚手架">
+      <option name="closed" value="true" />
+      <created>1772291904809</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1772291904809</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,7 +217,8 @@
     <MESSAGE value="hi" />
     <MESSAGE value="." />
     <MESSAGE value="改进命名" />
-    <option name="LAST_COMMIT_MESSAGE" value="改进命名" />
+    <MESSAGE value="备份,即将上脚手架" />
+    <option name="LAST_COMMIT_MESSAGE" value="备份,即将上脚手架" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

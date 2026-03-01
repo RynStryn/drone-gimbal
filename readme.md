@@ -14,3 +14,11 @@
 //_在这里添加功能 : void Control_Mode_Choise(void)
 
 上debug脚手架前,先备份完好代码
+
+调试结束时,烧录回稳定版本,供操作手使用
+
+刚上电的一段时间,cnt尚未积累到报错,
+Peripheral_State.Remote_Control.Link_State==NORMAL,!=DISCONNECT
+
+空中自稳:需要跟随机身(陀螺仪):pitch不太够,前馈或换模式
+

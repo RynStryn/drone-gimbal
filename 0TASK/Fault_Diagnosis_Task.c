@@ -23,7 +23,7 @@ void Link_State_Set(Equipment_State_t* Equipment_State, Link_State_e Link_State)
  *@Note:在相应中断中调用此函数，当计数器超过一定值时说明改设备连接异常。
  *@RetVal:无
  **********************/
-void Equipment_Counter_Make_Zero(Equipment_State_t* Equipment_State)
+void Equipment_Cnt_Clear(Equipment_State_t* Equipment_State)
 {
     Equipment_State->Counter = 0;
 }
