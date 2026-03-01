@@ -22,3 +22,4 @@ Peripheral_State.Remote_Control.Link_State==NORMAL,!=DISCONNECT
 
 空中自稳:需要跟随机身(陀螺仪):pitch不太够,前馈或换模式
 
+其实一开始Effort不叫Effort, 命名是Forcer ,但后来一查, occupied!

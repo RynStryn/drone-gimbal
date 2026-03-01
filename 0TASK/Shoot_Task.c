@@ -232,7 +232,7 @@ void Stop_Fire_Judge(void)
             // target:‘»º”ÀŸ
             Shooter.Friction_Speed_Set
                 = FRICTION_SPEED + 0.05 * Shooter.Stop_Fire_CNT;
-            VAL_LIMIT(Shooter.Friction_Speed_Set,
+            CLAMP(Shooter.Friction_Speed_Set,
                 FRICTION_SPEED,
                 FRICTION_SPEED + 200);
         }
@@ -248,7 +248,7 @@ void Stop_Fire_Judge(void)
         {
             Shooter.Friction_Speed_Set
                 = FRICTION_SPEED + 0.05 * Shooter.Stop_Fire_CNT;
-            VAL_LIMIT(Shooter.Friction_Speed_Set,
+            CLAMP(Shooter.Friction_Speed_Set,
                 FRICTION_SPEED,
                 FRICTION_SPEED + 200);
         }

@@ -7,9 +7,9 @@ Gimbal_t Gimbal = {
 
 void Gimbal_PID_Init(void)
 {
-    PID_StructInit(&DJI6020_PID_V, DJI6020_PID_V_Init);
-    PID_StructInit(&DJI6020_PID_P, DJI6020_PID_P_Init);
-    PID_StructInit(&DM4310_PID_P, DM4310_PID_P_Init);
+    PID_Init(&DJI6020_PID_V, DJI6020_PID_V_Init);
+    PID_Init(&DJI6020_PID_P, DJI6020_PID_P_Init);
+    PID_Init(&DM4310_PID_P, DM4310_PID_P_Init);
 }
 
 void Gimbal_PID_Clear(void)
@@ -23,11 +23,15 @@ void DJI6020_Yaw_CalcSend(float Angle)
 {
     uint8_t DATA[8];
     memset(DATA, 0, 8);
+
+    Feed_Forward_Calc(&DJI6020_PID_P.FdFwd, Angle);
     PID_Cal(&DJI6020_PID_P, Angle, Gimbal.Yaw_Angle_Get);
-    PID_Cal(&DJI6020_PID_V, DJI6020_PID_P.Out, Gimbal.Yaw_Speed_Get);
-    DJI6020_PID_V.Out *= -1;
-    DATA[0] = ((int) DJI6020_PID_V.Out >> 8) & 0xFF;
-    DATA[1] = (int) DJI6020_PID_V.Out;
+    float Speed=DJI6020_PID_P.Out+DJI6020_PID_P.FdFwd.v_out;
+    PID_Cal(&DJI6020_PID_V, Speed, Gimbal.Yaw_Speed_Get);
+    float Effort =(DJI6020_PID_V.Out+DJI6020_PID_P.FdFwd.a_out);
+    Effort *=-1;
+    DATA[0] = ((int) Effort >> 8) & 0xFF;
+    DATA[1] = (int) Effort;
     CAN2_Transmit(DJI6020_Yaw_Send_ID, 8, DATA);
 }
 
