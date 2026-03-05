@@ -90,15 +90,15 @@ void PID_Init(pidlc_t* pid,
     pid->filter_a       = Ftr_alpha;
 
     pid->FdFwd.Kv       = FKv;
-    if (pid->FdFwd.E_2nd_ff == 0 || pid->FdFwd.Ka == 0)
-    {
-        pid->FdFwd.Ka       = 0;
-        pid->FdFwd.E_2nd_ff = 0;
-    }
-    else if (pid->FdFwd.E_2nd_ff == 1 && pid->FdFwd.Ka != 0)
-    {
+//    if (pid->FdFwd.E_2nd_ff == 0 || pid->FdFwd.Ka == 0)
+//    {
+//        pid->FdFwd.Ka       = 0;
+//        pid->FdFwd.E_2nd_ff = 0;
+//    }
+//    else if (pid->FdFwd.E_2nd_ff == 1 && pid->FdFwd.Ka != 0)
+//    {
         pid->FdFwd.Ka = FKa;
-    }
+//    }
 }
 
 void PID_Clear(pidlc_t* pid)
@@ -132,10 +132,10 @@ void Feed_Forward_Calc(FdFwd_t* FF, float get)
     FF->v[0] = FF->x[0] - FF->x[1];
     FF->a    = FF->v[0] - FF->v[1];
     // ·ÀÖ¹Ìø±ä
-    CLAMP(FF->v[0], -FF->v_max, FF->v_max);
-    CLAMP(FF->a, -FF->a_max, FF->a_max);
-    FF->v_out = FF->Kv * FF->v[0];
-    FF->a_out = FF->Ka * FF->a;
+   // CLAMP(FF->v[0], -FF->v_max, FF->v_max);
+    //CLAMP(FF->a, -FF->a_max, FF->a_max);
+    FF->v_out =500* FF->Kv * FF->v[0];
+    FF->a_out =250000* FF->Ka * FF->a;
     CLAMP(FF->v_out, -FF->v_outMax, FF->v_outMax);
     CLAMP(FF->a_out, -FF->v_outMax, FF->v_outMax);
 }

@@ -15,12 +15,12 @@ Shooter_t Shooter = {
 
 void Shooter_PID_Init(void)
 {
-    PID_StructInit(&DJI2006_Poke_PID_V, DJI2006_Poke_PID_V_Init);
-    PID_StructInit(&DJI2006_Poke_PID_P, DJI2006_Poke_PID_P_Init);
+    PID_Init(&DJI2006_Poke_PID_V, DJI2006_Poke_PID_V_Init);
+    PID_Init(&DJI2006_Poke_PID_P, DJI2006_Poke_PID_P_Init);
 
-    PID_StructInit(&DJI2006_Fric_PID_V_1, DJI2006_Fric_1_PID_V_Init);
-    PID_StructInit(&DJI2006_Fric_PID_V_2, DJI2006_Fric_2_PID_V_Init);
-    PID_StructInit(&DJI2006_Fric_PID_V_3, DJI2006_Fric_3_PID_V_Init);
+    PID_Init(&DJI2006_Fric_PID_V_1, DJI2006_Fric_1_PID_V_Init);
+    PID_Init(&DJI2006_Fric_PID_V_2, DJI2006_Fric_2_PID_V_Init);
+    PID_Init(&DJI2006_Fric_PID_V_3, DJI2006_Fric_3_PID_V_Init);
 }
 
 void Shooter_PID_Clear(void)

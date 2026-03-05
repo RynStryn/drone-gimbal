@@ -2,10 +2,12 @@
 #define __MOTOR_DJI6020_H__
 #include "stm32f4xx.h"
 
-#define DJI6020_Yaw_ID 0x205
+#define DJI6020_Yaw_ID 0x209
+//ID.5:0x205+4
 
+//0x2FE for 5~7
 //I_loop 0x1FE
-#define DJI6020_Yaw_Send_ID 0x1FE
+#define DJI6020_Yaw_Send_ID 0x2FE
 
 typedef struct
 {
@@ -26,6 +28,6 @@ typedef struct
 
 extern DJI6020_t DJI6020_Yaw;
 
-void DJI6020_Receive_Data(DJI6020_t* My_Motor,uint8_t* Data);
+void DJI6020_Receive_Data(uint8_t* Data);//DJI6020_t* DJI6020_Yaw,
 
 #endif

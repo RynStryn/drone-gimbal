@@ -28,7 +28,7 @@ typedef struct
 	float Yaw_Angle_Set;
 	float Pitch_Angle_Set;
 	
-	float Yaw_Angle_Get;
+	float Yaw_Angle_Get;//deg
 	float Pitch_Angle_Get;
 	
 	float Yaw_Speed_Set;

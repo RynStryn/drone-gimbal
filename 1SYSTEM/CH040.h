@@ -75,8 +75,8 @@ __packed typedef struct
 	
 	float		Init_yaw_agl;
 	float		Init_pitch_agl;
-	
-	float		yaw_total_agl_calib;
+
+	float		yaw_total_agl_calib; //deg
 	float		pitch_agl_calib;
 	uint8_t		Init_Flag;
 	

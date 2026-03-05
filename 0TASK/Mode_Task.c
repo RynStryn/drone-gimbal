@@ -20,7 +20,9 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             }
             if (CH040_Data.Init_Flag == 1 && Gimbal->Flag_Init_Finish == 1)
             {
+#ifndef TEST
                 Gimbal->Mode = GIMBAL_RELAX;
+#endif
             }
             break;
         case GIMBAL_RELAX:

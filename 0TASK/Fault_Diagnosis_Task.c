@@ -57,10 +57,12 @@ void Peripheral_State_Init(Peripheral_State_t* Peripheral_State)
 **********************/
 void Equipment_State_Judge(Equipment_State_t* Equipment_State, float T)
 {
+#ifndef TEST
     Equipment_State->Counter++;
     if (Equipment_State->Counter * T > 1)
         Equipment_State->Link_State = DISCONNECT;
     else
+#endif
         Equipment_State->Link_State = NORMAL;
 }
 /**********************

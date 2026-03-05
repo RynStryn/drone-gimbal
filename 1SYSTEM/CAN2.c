@@ -81,7 +81,7 @@ void CAN2_RX0_IRQHandler(void)
 		switch(rx_message.StdId)
 		{
 			case DJI6020_Yaw_ID :
-				DJI6020_Receive_Data(&DJI6020_Yaw,rx_message.Data);
+				DJI6020_Receive_Data(rx_message.Data);//&...,
 			break;
 			case DM4310_Pitch_ID_Recieve :
 				DM4310_Receive_Data(&DM4310_Pitch,rx_message.Data);

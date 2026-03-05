@@ -23,7 +23,6 @@ void DM4310_Init(uint8_t ID,eDM4310_Mode Mode,DM4310_Init_State State)	//DM4310µ
 	}
 	switch(State)
 	{
-	    //_?
 		case DM4310_Init_Enable:
 		DATA[7]=0xFC;
 		CAN2_Transmit(ID+ID_offset,8,DATA);//enable signal.try once(tap)
@@ -123,14 +122,15 @@ void DM4310_MIT_Ctrl(uint8_t ID, float pos, float vel,float kp, float kd, float 
 	CAN2_Transmit(ID,8,DATA);
 }
 
-//position,velocity
-void DM4310_PV_Ctrl(uint8_t ID, float _pos, float _vel)//
+//position,velocity||rad,rad/s
+//max(velMax)=12.566370614359171830206674001655rad/s
+void DM4310_PV_Ctrl(uint8_t ID, float _pos, float _velMax)
 {
 	uint8_t DATA[8];
 	_pos*=ANGLE_TO_RAD;
-	_vel/=6.0f;
+    _velMax/=6.0f;//´ïÃîµÄ,ÔÝÊ±²»¶¯
     memcpy(DATA,&_pos,4);
-	memcpy(&DATA[4],&_vel,4);
+	memcpy(&DATA[4],&_velMax,4);
     CAN2_Transmit(ID+0x100,0x08,DATA);
 }
 

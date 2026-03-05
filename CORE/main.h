@@ -32,7 +32,10 @@
 /*************б¤╦у╖иб¤*************/
 #include "PID.h"
 /*************б№╦у╖иб№*************/
-
+//without RC
+#define TEST
+//a new motor
+//#define motorTEST
 
 #ifndef PI
 #define PI 3.14159265358979f

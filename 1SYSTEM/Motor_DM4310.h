@@ -61,7 +61,7 @@ extern DM4310_t DM4310_Pitch;
 
 void DM4310_Receive_Data(DM4310_t* DM4310_Pitch,uint8_t *DATA);
 void DM4310_V_Ctrl(uint8_t ID,float _vel);
-void DM4310_PV_Ctrl(uint8_t ID, float _pos, float _vel);
+void DM4310_PV_Ctrl(uint8_t ID, float _pos, float _velMax);
 void DM4310_MIT_Ctrl(uint8_t ID, float pos, float vel,float kp, float kd, float torq);
 void DM4310_Init(uint8_t ID,eDM4310_Mode Mode,DM4310_Init_State State);
 
