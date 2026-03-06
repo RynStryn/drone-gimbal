@@ -32,25 +32,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment="开始调参">
-      <change beforePath="$PROJECT_DIR$/.clang-format" beforeDir="false" afterPath="$PROJECT_DIR$/.clang-format" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Control_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Control_Task.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Mode_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Mode_Task.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Shoot_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Shoot_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1SYSTEM/CAN1.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CAN1.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/1SYSTEM/CAN2.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CAN2.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/1SYSTEM/CH040.h" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CH040.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.h" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.h" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/Timer.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Timer.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.c" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.h" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CORE/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CORE/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CORE/startup_stm32f40_41xxx.s" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/startup_stm32f40_41xxx.s" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -176,6 +171,7 @@
       <workItem from="1772594176929" duration="235000" />
       <workItem from="1772629212094" duration="1999000" />
       <workItem from="1772676550657" duration="6641000" />
+      <workItem from="1772779924098" duration="13771000" />
     </task>
     <task id="LOCAL-00001" summary="hi">
       <option name="closed" value="true" />

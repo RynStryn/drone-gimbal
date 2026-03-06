@@ -32,23 +32,26 @@
 /*************↓算法↓*************/
 #include "PID.h"
 /*************↑算法↑*************/
-//without RC
-#define TEST
-//a new motor
-//#define motorTEST
-
+/***without RC***/
+//#define YAW_TEST
+#define PITCH_TEST
+#define MIT
+/***a new motor***/
+//#define DJI6020_TEST
+//#define DM4310_TEST
+//#define DJI2006_TEST
 #ifndef PI
 #define PI 3.14159265358979f
 #endif
 
 //角度转弧度的比例
-#ifndef ANGLE_TO_RAD
-#define ANGLE_TO_RAD 0.01745329251994329576923690768489f
+#ifndef DEG2RAD
+#define DEG2RAD 0.01745329251994329576923690768489f
 #endif
 
 //弧度转角度的比例
-#ifndef RAD_TO_ANGLE
-#define RAD_TO_ANGLE 57.295779513082320876798154814105f
+#ifndef RAD2DEG
+#define RAD2DEG 57.295779513082320876798154814105f
 #endif
 
 //是否使能卡尔曼滤波

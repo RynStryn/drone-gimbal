@@ -127,7 +127,7 @@ void DM4310_MIT_Ctrl(uint8_t ID, float pos, float vel,float kp, float kd, float 
 void DM4310_PV_Ctrl(uint8_t ID, float _pos, float _velMax)
 {
 	uint8_t DATA[8];
-	_pos*=ANGLE_TO_RAD;
+	_pos*=DEG2RAD;
     _velMax/=6.0f;//达妙的,暂时不动
     memcpy(DATA,&_pos,4);
 	memcpy(&DATA[4],&_velMax,4);

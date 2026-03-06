@@ -12,11 +12,11 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
                 Gimbal->Flag_Init_Finish = 1;
                 //保险起见,重复失能
                 DM4310_Init(
-                    DM4310_Pitch_ID_Send, DM4310_Mode_PV, DM4310_Init_Disable);
+                    DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Disable);
             } else
             {
                 DM4310_Init(
-                    DM4310_Pitch_ID_Send, DM4310_Mode_PV, DM4310_Init_Enable);
+                    DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
             }
             if (CH040_Data.Init_Flag == 1 && Gimbal->Flag_Init_Finish == 1)
             {
@@ -35,7 +35,7 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             }
             // 保险起见,重复失能
             DM4310_Init(
-                DM4310_Pitch_ID_Send, DM4310_Mode_PV, DM4310_Init_Disable);
+                DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Disable);
             // PID清零
             Gimbal_PID_Clear();
             break;
@@ -55,7 +55,7 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
                 Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
                 DM4310_Init(
-                    DM4310_Pitch_ID_Send, DM4310_Mode_PV, DM4310_Init_Enable);
+                    DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
             }
             // 角度增量
             Gimbal_Control_Task_Inc(Gimbal,
@@ -69,7 +69,7 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
                 Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
                 DM4310_Init(
-                    DM4310_Pitch_ID_Send, DM4310_Mode_PV, DM4310_Init_Enable);
+                    DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
             }
             // 同理
             Gimbal_Control_Task_Inc(Gimbal,
@@ -85,7 +85,7 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             }
             // 失能达妙
             DM4310_Init(
-                DM4310_Pitch_ID_Send, DM4310_Mode_PV, DM4310_Init_Disable);
+                    DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Disable);
             // PID清零
             Gimbal_PID_Clear();
             break;

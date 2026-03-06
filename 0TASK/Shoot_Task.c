@@ -15,12 +15,12 @@ Shooter_t Shooter = {
 
 void Shooter_PID_Init(void)
 {
-    PID_Init(&DJI2006_Poke_PID_V, DJI2006_Poke_PID_V_Init);
-    PID_Init(&DJI2006_Poke_PID_P, DJI2006_Poke_PID_P_Init);
+    Ctrler_Init(&DJI2006_Poke_PID_V, DJI2006_Poke_PID_V_Init);
+    Ctrler_Init(&DJI2006_Poke_PID_P, DJI2006_Poke_PID_P_Init);
 
-    PID_Init(&DJI2006_Fric_PID_V_1, DJI2006_Fric_1_PID_V_Init);
-    PID_Init(&DJI2006_Fric_PID_V_2, DJI2006_Fric_2_PID_V_Init);
-    PID_Init(&DJI2006_Fric_PID_V_3, DJI2006_Fric_3_PID_V_Init);
+    Ctrler_Init(&DJI2006_Fric_PID_V_1, DJI2006_Fric_1_PID_V_Init);
+    Ctrler_Init(&DJI2006_Fric_PID_V_2, DJI2006_Fric_2_PID_V_Init);
+    Ctrler_Init(&DJI2006_Fric_PID_V_3, DJI2006_Fric_3_PID_V_Init);
 }
 
 void Shooter_PID_Clear(void)
@@ -57,6 +57,7 @@ void Shooter_Speed_CalcSend_Single(float Speed, uint8_t Fire_Flag)
     PID_Cal(
         &DJI2006_Poke_PID_V, Shooter.Poke_Speed_Set, Shooter.Poke_Speed_Get);
     uint8_t DATA[8];
+
     DATA[0] = ((int) DJI2006_Fric_PID_V_1.Out >> 8) & 0xFF;
     DATA[1] = (int) DJI2006_Fric_PID_V_1.Out;
     DATA[2] = ((int) -DJI2006_Fric_PID_V_2.Out >> 8) & 0xFF;

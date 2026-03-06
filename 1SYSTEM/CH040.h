@@ -47,8 +47,20 @@
   
   
   #define CH040_RX_BUFF_SIZE 100
-
-
+/*
+0 uint8_t 1-数据包标签:0x91
+1 uint8_t 1-保留
+2 uint8_t 1-保留
+3 int8_t 1 °C模块陀螺仪平均温度
+4 float 4 Pa气压(部分型号支持)
+8 uint32_t 4 ms节点本地时间戳信息，从系统开机开始累加，每毫秒增加1
+12 float 12 G(1G = 1重力 加速度)经过出厂校准后的加速度,顺序为：XYZ
+24 float 12 deg/s经过出厂校准后的角速度,顺序为： XYZ
+36 float 12 uT磁强度,顺序为： XYZ
+48 float 12 deg
+节点欧拉角 顺序为：横滚角(Roll, -180°~180°)，俯仰角(Pitch，-90°~90°)，航向角(Yaw, -180°~180°)
+60 float 16-节点四元数集合,顺序为WXYZ
+*/
 __packed typedef struct 
 {
 	uint8_t 	tag;

@@ -28,6 +28,6 @@ typedef struct
 
 extern DJI6020_t DJI6020_Yaw;
 
-void DJI6020_Receive_Data(uint8_t* Data);//DJI6020_t* DJI6020_Yaw,
+void DJI6020_Receive_Data(DJI6020_t* DJI6020_Yaw,uint8_t* Data);//
 
 #endif

@@ -1,8 +1,8 @@
 #include "main.h"
 
-pidlc_t DJI6020_PID_V, DJI6020_PID_P, DM4310_PID_P, DJI2006_Poke_PID_V,
-    DJI2006_Poke_PID_P, DJI2006_Fric_PID_V_1, DJI2006_Fric_PID_V_2,
-    DJI2006_Fric_PID_V_3;
+pidlc_t DJI6020_PID_V, DJI6020_PID_P, DM4310_PID_P, DM4310_PID_V,
+    DJI2006_Poke_PID_V, DJI2006_Poke_PID_P,
+    DJI2006_Fric_PID_V_1,DJI2006_Fric_PID_V_2, DJI2006_Fric_PID_V_3;
 
 
 void PID_Cal(pidlc_t* pid, float Set, float Get)
@@ -59,9 +59,9 @@ void PID_Cal(pidlc_t* pid, float Set, float Get)
     //	}
 }
 
-void PID_Init(pidlc_t* pid,
-    PID_Mode           Mode,
-    Enable_D_on_Fdbk   isEnable,
+void Ctrler_Init(pidlc_t* pid,
+    PID_Mode              Mode,
+    Enable_D_on_Fdbk      isEnable,
 
     float Out_Max,
     float I_Max,
@@ -76,31 +76,47 @@ void PID_Init(pidlc_t* pid,
     float FKv,
     float FKa)
 {
+    Pid_Init(pid, Mode, isEnable, Out_Max, I_Max, kp, ki, kd, Ftr_alpha);
+    FeedForward_Init(&pid->FdFwd, ff_v_outMax, ff_a_outMax, FKv, FKa);
+    if (pid==&DM4310_PID_P)
+    {pid->FdFwd.Kgrv=DM_kGRV;}
+}
+void Pid_Init(pidlc_t* pid,
+    PID_Mode           Mode,
+    Enable_D_on_Fdbk   isEnable,
+
+    float Out_Max,
+    float I_Max,
+
+
+    float kp,
+    float ki,
+    float kd,
+    float Ftr_alpha)
+{
     pid->PID_Mode         = Mode;
     pid->Enable_D_on_Fdbk = isEnable;
 
-    pid->Out_Max        = Out_Max;
-    pid->I_Max          = I_Max;
-    pid->FdFwd.a_outMax = ff_a_outMax;
-    pid->FdFwd.v_outMax = ff_v_outMax;
+    pid->Out_Max = Out_Max;
+    pid->I_Max   = I_Max;
 
-    pid->Kp             = kp;
-    pid->Ki             = ki;
-    pid->Kd             = kd;
-    pid->filter_a       = Ftr_alpha;
-
-    pid->FdFwd.Kv       = FKv;
-//    if (pid->FdFwd.E_2nd_ff == 0 || pid->FdFwd.Ka == 0)
-//    {
-//        pid->FdFwd.Ka       = 0;
-//        pid->FdFwd.E_2nd_ff = 0;
-//    }
-//    else if (pid->FdFwd.E_2nd_ff == 1 && pid->FdFwd.Ka != 0)
-//    {
-        pid->FdFwd.Ka = FKa;
-//    }
+    pid->Kp       = kp;
+    pid->Ki       = ki;
+    pid->Kd       = kd;
+    pid->filter_a = Ftr_alpha;
 }
+void FeedForward_Init(FdFwd_t* FF,
+    float                      ff_v_outMax,
+    float                      ff_a_outMax,
+    float                      FKv,
+    float                      FKa)
+{
+    FF->a_outMax = ff_a_outMax;
+    FF->v_outMax = ff_v_outMax;
 
+    FF->Kv = FKv;
+    FF->Ka = FKa;
+}
 void PID_Clear(pidlc_t* pid)
 {
     pid->Get[0]    = 0;
@@ -122,20 +138,27 @@ void PID_Clear(pidlc_t* pid)
     pid->FdFwd.a    = 0;
 }
 
-void Feed_Forward_Calc(FdFwd_t* FF, float get)
+void Feed_Forward_Calc(FdFwd_t* f, float get)
 {
     // smaller index indicate a newer value
-    FF->x[1] = FF->x[0];
-    FF->v[1] = FF->v[0];
+    f->x[1] = f->x[0];
+    f->v[1] = f->v[0];
 
-    FF->x[0] = get;
-    FF->v[0] = FF->x[0] - FF->x[1];
-    FF->a    = FF->v[0] - FF->v[1];
+    f->x[0] = get;
+    f->v[0] = f->x[0] - f->x[1];
+    f->a    = f->v[0] - f->v[1];
     // ·ÀÖ¹Ìø±ä
    // CLAMP(FF->v[0], -FF->v_max, FF->v_max);
     //CLAMP(FF->a, -FF->a_max, FF->a_max);
-    FF->v_out =500* FF->Kv * FF->v[0];
-    FF->a_out =250000* FF->Ka * FF->a;
-    CLAMP(FF->v_out, -FF->v_outMax, FF->v_outMax);
-    CLAMP(FF->a_out, -FF->v_outMax, FF->v_outMax);
+    // float frc=0;
+    // if (f->v[0]< -f->frc_deadzone)
+    // {frc=-f->Kfrc;}
+    // if (f->v[0]> f->frc_deadzone)
+    // {frc=f->Kfrc;}
+    f->v_out =500* f->Kv * f->v[0];
+    f->a_out = (250000 * f->Ka * f->a) + f->Kgrv * cos(get * DEG2RAD);
+
+    CLAMP(f->v_out, -f->v_outMax, f->v_outMax);
+    CLAMP(f->a_out, -f->a_outMax, f->a_outMax);
+
 }
