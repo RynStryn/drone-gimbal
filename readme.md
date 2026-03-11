@@ -1,21 +1,21 @@
+(说明:年后临时接到无人机,代码的框架是江文涛写的.我对部分代码做了重构与变量重命名,添加注释,为无白控调试加了脚手架,增加前馈,修复停火卡弹等)
+
 ### TODO
 
-灯条亮导致视角模糊,把枪管位置往下调?
+pitch不太够,前馈/换模式
 
 ### 安全第一
 
-~~你知道吗~~:发疯的电机可以干碎机械限位
+待机拨到relax,下电,人走拔电池
+
+发疯的电机可以干碎机械限位
 
 ### Tips
 
-6020,2006init只需要init pid,并入在对应的pid init
-
-如果想给大喵(PV/V)加前馈:
+如果想给达妙(PV/V)加前馈:
 - 把目标值订的虚高：例. 鼠标移动的时候多加一部分(临时,不进入累积)
 
-大喵enable态即使不下指令也会转,**必须**disable
-
-1 rad/s = 9.549296585513721 rpm
+达妙enable态即使不下指令也会转,**必须**disable
 
 //_在这里添加功能 : void Control_Mode_Choise(void)
 
@@ -26,15 +26,8 @@
 刚上电的一段时间,cnt尚未积累到报错,
 Peripheral_State.Remote_Control.Link_State==NORMAL,!=DISCONNECT
 
-空中自稳:需要跟随机身(陀螺仪):pitch不太够,前馈或换模式
+frc2:默认反着的
 
-shoot<->can1
-gimbal<->can2
 yaw电机安装最小可转动:120 or 90 -> 30
 
 
-
-
-
-
-其实一开始Effort不叫Effort, 命名是Forcer ,但后来一查, occupied!

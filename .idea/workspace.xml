@@ -31,21 +31,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment="开始调参">
+    <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment="改进停火逻辑;死区防摇杆回中漂移">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Control_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Control_Task.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Mode_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Mode_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Shoot_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Shoot_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/CAN1.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CAN1.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/CAN2.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CAN2.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/CH040.h" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CH040.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.h" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.c" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.h" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CORE/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReadMe/ReadMe.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +108,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;CMakeSettings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.platform.ide.impl.presentationAssistant.PresentationAssistantConfigurable&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -172,6 +161,14 @@
       <workItem from="1772629212094" duration="1999000" />
       <workItem from="1772676550657" duration="6641000" />
       <workItem from="1772779924098" duration="13771000" />
+      <workItem from="1772879280656" duration="3000" />
+      <workItem from="1772879292047" duration="126000" />
+      <workItem from="1772930614565" duration="10134000" />
+      <workItem from="1772970372969" duration="6683000" />
+      <workItem from="1773023632491" duration="421000" />
+      <workItem from="1773027156092" duration="8877000" />
+      <workItem from="1773220666414" duration="1495000" />
+      <workItem from="1773242762640" duration="1163000" />
     </task>
     <task id="LOCAL-00001" summary="hi">
       <option name="closed" value="true" />
@@ -237,7 +234,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772382542610</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="改进停火逻辑;死区防摇杆回中漂移">
+      <option name="closed" value="true" />
+      <created>1773242875826</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1773242875826</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,7 +285,9 @@
     <MESSAGE value="rename" />
     <MESSAGE value="准备调参" />
     <MESSAGE value="开始调参" />
-    <option name="LAST_COMMIT_MESSAGE" value="开始调参" />
+    <MESSAGE value="准备施工凌乱脚手架.准备调参纯转矩" />
+    <MESSAGE value="改进停火逻辑;死区防摇杆回中漂移" />
+    <option name="LAST_COMMIT_MESSAGE" value="改进停火逻辑;死区防摇杆回中漂移" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

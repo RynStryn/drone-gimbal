@@ -28,15 +28,10 @@ float A=30;
 float omega=0.005;
 float Time=0;
 uint16_t runit =0;
-uint16_t isInit=1;
+uint16_t isInit=0;
 uint16_t wave=1;
 float stepTA=0;
-uint16_t argChange=0;
-typedef struct mem {
-    pidlc_t P;
-    pidlc_t V;
-}mem_t;
-mem_t mem_last;
+
 #endif
 
 #ifdef DJI6020_TEST
@@ -49,31 +44,22 @@ float TempAngle;
     memset(DATA, 0, 8);
 #ifdef YAW_TEST
 
-//    if (   mem_last.P.Kp != DJI6020_PID_P.Kp
-//        || mem_last.P.Ki != DJI6020_PID_P.Ki
-//        || mem_last.P.Kd != DJI6020_PID_P.Kd
-//        || mem_last.V.Kp != DJI6020_PID_V.Kp
-//        || mem_last.V.Ki != DJI6020_PID_V.Ki
-//        || mem_last.V.Kd != DJI6020_PID_V.Kd
-//        || mem_last.P.FdFwd.Kv != DJI6020_PID_P.FdFwd.Kv
-//        || mem_last.P.FdFwd.Ka != DJI6020_PID_P.FdFwd.Ka)
-//        {argChange=1;}
-//    if (runit == 0 || argChange == 1)
-//        {runit = 1;
-//				argChange=0;}
-    if (runit == 1)
+
+        if (runit == 1)
         {Time++;}
-			else if (isInit<20)
-			{Target_Angle=Gimbal.Yaw_Angle_Get;
-				Gimbal_PID_Clear();
-			isInit++;}
-			if(isInit==20)
-			{TempAngle=Target_Angle;}
-			if(isInit>20&&isInit<222)
-			{Target_Angle-=TempAngle/200;}
-			if(isInit>1000)
-			{isInit=1000;}
-		
+        // else
+        // {isInit++;
+        //    if (isInit<20)
+        //    {Target_Angle=Gimbal.Pitch_Angle_Get;
+        //        Gimbal_PID_Clear();
+        //        }
+        //    if(isInit==20)
+        //    {TempAngle=Target_Angle;}
+        //    if(isInit>20&&isInit<222)
+        //    {Target_Angle-=TempAngle/200;}
+        //    if(isInit>1000)
+        //    {isInit=1000;}
+        // }
     if (wave == 1)
         {Target_Angle = A * sin(omega * Time);}
     else
@@ -90,14 +76,7 @@ float TempAngle;
     float Speed = DJI6020_PID_P.Out + DJI6020_PID_P.FdFwd.v_out;
     PID_Cal(&DJI6020_PID_V, Speed, Gimbal.Yaw_Speed_Get);
     float Effort = (DJI6020_PID_V.Out + DJI6020_PID_P.FdFwd.a_out);
-    // mem_last.P.Kp = DJI6020_PID_P.Kp;
-    // mem_last.P.Ki = DJI6020_PID_P.Ki;
-    // mem_last.P.Kd = DJI6020_PID_P.Kd;
-    // mem_last.V.Kp = DJI6020_PID_V.Kp;
-    // mem_last.V.Ki = DJI6020_PID_V.Ki;
-    // mem_last.V.Kd = DJI6020_PID_V.Kd;
-    // mem_last.P.FdFwd.Kv = DJI6020_PID_P.FdFwd.Kv;
-    // mem_last.P.FdFwd.Ka = DJI6020_PID_P.FdFwd.Ka;
+
 		if(isInit<20)
 {Effort=0;}
 #else
@@ -119,24 +98,33 @@ float TempAngle;
     CAN2_Transmit(DJI6020_Yaw_Send_ID, 8, DATA);
 
 }
+
+/*
+float dmpos=0;
+void DM4310_Pitch_Control(float Angle)
+    {
+    dmpos = Angle + DM4310_Pitch.POS + Gimbal.Pitch_Angle_Get;
+        DM4310_PV_Ctrl(DM4310_Pitch_ID_Send,
+            dmpos,
+            60);
+    }
+*/
+
 //500Hz,2ms;n.m
 //angle->deg,speed->deg/s;T=2ms,pid,ff省略 (*/)T;
+
 float torq;
 #ifdef PITCH_TEST
 float Target_Angle=0;
 float A=20;
-float omega=0.003;
+float omega=0.002;
 float Time=0;
 uint16_t runit =0;
 uint16_t isInit=1;
 uint16_t wave=1;
 float stepTA=0;
 uint16_t argChange=0;
-typedef struct mem {
-    pidlc_t P;
-    pidlc_t V;
-}mem_t;
-mem_t mem_last;
+
 #endif
 
 #ifdef DJI6020_TEST
@@ -148,17 +136,19 @@ float TempAngle;
 #ifdef PITCH_TEST
     if (runit == 1)
         {Time++;}
-			else if (isInit<20)
-			{Target_Angle=Gimbal.Pitch_Angle_Get;
-				Gimbal_PID_Clear();
-			isInit++;}
-			if(isInit==20)
-			{TempAngle=Target_Angle;}
-			if(isInit>20&&isInit<222)
-			{Target_Angle-=TempAngle/200;}
-			if(isInit>1000)
-			{isInit=1000;}
-
+    // else
+    // {isInit++;
+			 //    if (isInit<20)
+			 //    {Target_Angle=Gimbal.Pitch_Angle_Get;
+			 //        Gimbal_PID_Clear();
+			 //        }
+			 //    if(isInit==20)
+			 //    {TempAngle=Target_Angle;}
+			 //    if(isInit>20&&isInit<222)
+			 //    {Target_Angle-=TempAngle/200;}
+			 //    if(isInit>1000)
+			 //    {isInit=1000;}
+    // }
     if (wave == 1)
         {Target_Angle = A * sin(omega * Time);}
     else
@@ -194,14 +184,12 @@ float TempAngle;
     torq = testEffort;
 #endif
     // torq=0;
-    DM4310_MIT_Ctrl(DM4310_Pitch_ID_Send, 0, 0, 0, 0, torq);
+    //DM4310_MIT_Ctrl(DM4310_Pitch_ID_Send, 0, 0, 0, 0, torq);
 }
 
-
-
 void Gimbal_Set_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
-{//TODO
-    //_sgn(gm6020装反了)
+{
+    //_sgn
     if (DJI6020_Yaw.multi_turns_deg + Yaw_inc <= Yaw_Angle_MIN && Yaw_inc >= 0)
     {
         Yaw_inc               = 0;
@@ -211,7 +199,7 @@ void Gimbal_Set_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
     {
         Yaw_inc               = 0;
         Gimbal->Yaw_Angle_Set = Gimbal->Yaw_Angle_Get;
-    } else
+    } else if (Yaw_inc< -0.01||Yaw_inc>+0.01)//_deadzone
     {
         Gimbal->Yaw_Angle_Set += Yaw_inc;
     }
