@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(AAA26Drone C ASM)
+project(26DroneMstd C ASM)
 
 message(STATUS "*** CLion IntelliSense Only (no real build) ***")
 
