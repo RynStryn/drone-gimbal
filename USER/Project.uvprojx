@@ -10,7 +10,8 @@
       <TargetName>Project </TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::ARMCC</pCCUsed>
+      <pArmCC>5060960::V5.06 update 7 (build 960)::ARMCC</pArmCC>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -649,14 +650,14 @@
               <FilePath>..\0TASK\Control_Task.c</FilePath>
             </File>
             <File>
-              <FileName>Fault_Diagnosis_Task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\0TASK\Fault_Diagnosis_Task.c</FilePath>
-            </File>
-            <File>
               <FileName>Gimbal_Task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\0TASK\Gimbal_Task.c</FilePath>
+            </File>
+            <File>
+              <FileName>Fault_Diagnosis_Task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\0TASK\Fault_Diagnosis_Task.c</FilePath>
             </File>
             <File>
               <FileName>Init_Task.c</FileName>
@@ -698,6 +699,21 @@
               <FileType>1</FileType>
               <FilePath>..\2Control_Algorithm\PID.c</FilePath>
             </File>
+            <File>
+              <FileName>LESO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\2Control_Algorithm\LESO.c</FilePath>
+            </File>
+            <File>
+              <FileName>signal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\2Control_Algorithm\signal.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_sample.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\2Control_Algorithm\data_sample.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -719,14 +735,5 @@
     <components/>
     <files/>
   </RTE>
-
-  <LayerInfo>
-    <Layers>
-      <Layer>
-        <LayName>Project</LayName>
-        <LayPrjMark>1</LayPrjMark>
-      </Layer>
-    </Layers>
-  </LayerInfo>
 
 </Project>

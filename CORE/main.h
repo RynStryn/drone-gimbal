@@ -31,10 +31,14 @@
 
 /*************б¤╦у╖иб¤*************/
 #include "PID.h"
+#include "LESO.h"
+#include "signal.h"
+#include "data_sample.h"
 /*************б№╦у╖иб№*************/
 /***without RC***/
+//#define TEST
 //#define YAW_TEST
-#define PITCH_TEST
+//#define PITCH_TEST
 #define MIT
 /***a new motor***/
 //#define DJI6020_TEST

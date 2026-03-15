@@ -20,9 +20,9 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             }
             if (CH040_Data.Init_Flag == 1 && Gimbal->Flag_Init_Finish == 1)
             {
-#ifndef TEST
+//#ifndef TEST
                 Gimbal->Mode = GIMBAL_RELAX;
-#endif
+//#endif
             }
             break;
         case GIMBAL_RELAX:
@@ -30,7 +30,7 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             if (Gimbal->Mode != Gimbal->Mode_Last)
             {
                 //sgn
-                Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
+                Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;//_
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
             }
             // 保险起见,重复失能
@@ -43,7 +43,7 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             // 云台静止（暂时用不到）
             if (Gimbal->Mode != Gimbal->Mode_Last)
             {
-                Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
+                Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;//_
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
             }
 
@@ -52,7 +52,7 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             if (Gimbal->Mode != Gimbal->Mode_Last
                 /*||DM4310_Pitch.ERR!=0x01*/)
             {
-                Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
+                Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;//_
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
@@ -60,13 +60,13 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             // 角度增量
             Gimbal_Control_Task_Inc(Gimbal,
                 -(Remote_data.Remote_Control.ch2 - 1024) * RmtCtrl_Sensitivity,
-                -(Remote_data.Remote_Control.ch3 - 1024) * RmtCtrl_Sensitivity);
+                (Remote_data.Remote_Control.ch3 - 1024) * RmtCtrl_Sensitivity);//_
             break;
         case GIMBAL_KeyMouse_NORMAL:
             if (Gimbal->Mode != Gimbal->Mode_Last
                 /*||DM4310_Pitch.ERR!=0x01*/)
             {
-                Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
+                Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;//_
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
@@ -74,13 +74,13 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             // 同理
             Gimbal_Control_Task_Inc(Gimbal,
                 -(Remote_data.Remote_Mouse.x) * Mouse_Sensitivity,
-                -(Remote_data.Remote_Mouse.y) * Mouse_Sensitivity);
+                (Remote_data.Remote_Mouse.y) * Mouse_Sensitivity);//_
             break;
         default:
             // 云台放松，将实际值设为设定值，防跳变
             if (Gimbal->Mode != Gimbal->Mode_Last)
             {
-                Gimbal->Pitch_Angle_Set = -Gimbal->Pitch_Angle_Get;
+                Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;//_
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
             }
             // 失能达妙

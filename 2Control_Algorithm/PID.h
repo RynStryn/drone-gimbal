@@ -8,20 +8,20 @@
 // PID_mode, D on fdbk, out max, Iout max ; (ff:v_out max,a_...)
 //	Kp, Ki, Kd ;; filter: a ;; (ff: Kv, Ka )
 #define DJI6020_PID_P_Init \
-Position_PID, Enable,  150,  50,    150, 50, \
-11.0f, 0.0f, 0.0f,    1.0f,         0.78f, 0.0f
+Position_PID, Enable,  5000,  50,    150, 50, \
+28.0f, 0.01f, 350.0f,    1.0f,         0.0f, 0.0f
 
 #define DJI6020_PID_V_Init \
-Position_PID, Enable, 13000, 200,   0, 0, \
-55.0f, 0.0f, 5.0f,    1.0f,         0.0f, 0.0f
+Position_PID, Enable, 20000, 200,   0, 0, \
+30.0f, 0.0f, 0.0f,    1.0f,         0.0f, 0.0f
 
 #define DM4310_PID_P_Init \
-Position_PID, Disable, 150, 50, 150, 50,\
-0.02, 0.000f, 0, 1.0f, 0.5f, 0
+Position_PID, Disable, 5000, 100, 150, 50,\
+25, 0.000f, 65, 1.0f, 0, 0
 #define DM_kGRV 0.1
 #define DM4310_PID_V_Init \
-Position_PID, Disable, 3, 1, 3,1, \
-20, 0, 0, 1.0f, 0, 0
+Position_PID, Disable, 4, 1, 3,1, \
+0.025f, 0.0005, 0.085f, 1.0f, 0, 0
 
 //---gimbal end---
 

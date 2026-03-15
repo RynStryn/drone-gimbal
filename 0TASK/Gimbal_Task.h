@@ -2,11 +2,12 @@
 #define __GIMBAL_H__
 
 #include "stm32f4xx.h"
+#include "LESO.h"
 
 #define Yaw_Angle_MAX 50
 #define Yaw_Angle_MIN -50
-#define Pitch_Angle_MAX 24
-#define Pitch_Angle_MIN -13
+#define Pitch_Angle_MAX 30//24
+#define Pitch_Angle_MIN -25//_ -16
 
 typedef enum
 {
@@ -41,7 +42,8 @@ typedef struct
 	eGimbal_Mode Mode_Last;
 	
 	uint8_t Flag_Init_Finish;
-	
+	gimbal_ESO_t 	Yaw_LESO;
+	gimbal_ESO_t 	Pitch_LESO;
 }Gimbal_t;
 
 extern Gimbal_t Gimbal;
