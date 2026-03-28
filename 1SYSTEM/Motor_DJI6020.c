@@ -12,16 +12,22 @@ void DJI6020_Receive_Data(DJI6020_t* DJI6020_Yaw,uint8_t* Data)//
 	{
 		(DJI6020_Yaw)->Init_deg=(DJI6020_Yaw)->pos_deg-236+30+30;
 		(DJI6020_Yaw)->Init_Flag=1;
+	    //__
 		CH040_Data.Init_Flag=1;
-	} 
-	else if((DJI6020_Yaw)->Init_Flag==1&&(DJI6020_Yaw)->pos_deg_last>(DJI6020_Yaw)->pos_deg&&((DJI6020_Yaw)->pos_deg_last-(DJI6020_Yaw)->pos_deg)>320)
-	{
-		(DJI6020_Yaw)->pos_turns++;
 	}
-	else if((DJI6020_Yaw)->Init_Flag==1&&(DJI6020_Yaw)->pos_deg_last<(DJI6020_Yaw)->pos_deg&&((DJI6020_Yaw)->pos_deg-(DJI6020_Yaw)->pos_deg_last)>320)
-	{
-		(DJI6020_Yaw)->pos_turns--;
-	}
+    else if ((DJI6020_Yaw)->Init_Flag == 1)
+    {
+        if ((DJI6020_Yaw)->pos_deg_last > (DJI6020_Yaw)->pos_deg
+            && ((DJI6020_Yaw)->pos_deg_last - (DJI6020_Yaw)->pos_deg) > 320)
+        {
+            (DJI6020_Yaw)->pos_turns++;
+        }
+        else if ((DJI6020_Yaw)->pos_deg_last < (DJI6020_Yaw)->pos_deg
+            && ((DJI6020_Yaw)->pos_deg - (DJI6020_Yaw)->pos_deg_last) > 320)
+        {
+            (DJI6020_Yaw)->pos_turns--;
+        }
+    }
 	(DJI6020_Yaw)->multi_turns_deg=(DJI6020_Yaw)->pos_deg+360*(DJI6020_Yaw)->pos_turns-236+30+30;
 	(DJI6020_Yaw)->pos_deg_last=(DJI6020_Yaw)->pos_deg;
 }

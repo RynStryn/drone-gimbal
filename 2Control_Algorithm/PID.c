@@ -59,6 +59,7 @@ void PID_Cal(pidlc_t* pid, float Set, float Get)
     //	}
 }
 
+//IN:struct,arg
 void Ctrler_Init(pidlc_t* pid,
     PID_Mode              Mode,
     Enable_D_on_Fdbk      isEnable,

@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include "Gyroscope4Comparison.h"
 void Drone_akaFighter_init(void)
 {
     CAN1_Init();
@@ -7,9 +7,10 @@ void Drone_akaFighter_init(void)
 
     USART1_Init(100000);
     CH040_USART3_Init();
+	CH040_UART4_Init();//
     USART5_DMA_R_T_JUDGE_Init();
 
-    Gimbal_PID_Init();
+    Gimbal_Ctrler_Init();
     Shooter_PID_Init();
 
     Tim2_Init();

@@ -107,5 +107,5 @@ void Stop_Fire_Judge(void);
 void Shooter_Bullet_Speed_Fbd_Set(Shooter_t *Shooter,float Bullet_Speed);
 float First_Order_Kalman_Filter_Cal(First_Order_Kalman_Filter_t *_First_Order_Kalman_Filter,float _Z);
 float Shooter_Bullet_Speed_Self_Adaptation(float Bullet_Speed);
-
+u8 Shoot_Cooling_Judge(u16 Shooter_Heat );
 #endif

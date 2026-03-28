@@ -1,27 +1,36 @@
 #ifndef __PID_H__
 #define __PID_H__
-
-#include "stm32f4xx.h"
+#include "main.h"
 
 //a=1.0 : None filter || ndef ...
 #define filter
 // PID_mode, D on fdbk, out max, Iout max ; (ff:v_out max,a_...)
 //	Kp, Ki, Kd ;; filter: a ;; (ff: Kv, Ka )
 #define DJI6020_PID_P_Init \
-Position_PID, Enable,  5000,  50,    150, 50, \
-28.0f, 0.01f, 350.0f,    1.0f,         0.0f, 0.0f
+Position_PID, Enable,  200,  5,    150, 50, \
+50.0f, 0.0f, 300.0f,    1.0f,         0.0f, 0.0f
 
 #define DJI6020_PID_V_Init \
 Position_PID, Enable, 20000, 200,   0, 0, \
 30.0f, 0.0f, 0.0f,    1.0f,         0.0f, 0.0f
 
+
 #define DM4310_PID_P_Init \
 Position_PID, Disable, 5000, 100, 150, 50,\
 25, 0.000f, 65, 1.0f, 0, 0
 #define DM_kGRV 0.1
+
+#ifdef DM4310_MIT
 #define DM4310_PID_V_Init \
 Position_PID, Disable, 4, 1, 3,1, \
 0.025f, 0.0005, 0.085f, 1.0f, 0, 0
+#else
+#ifdef  DM4310_V
+#define DM4310_PID_V_Init \
+Position_PID, Disable, 4, 1, 3,1, \
+0.025f, 0.0005, 0.085f, 1.0f, 0, 0
+#endif
+#endif
 
 //---gimbal end---
 

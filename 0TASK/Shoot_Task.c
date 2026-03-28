@@ -341,3 +341,72 @@ void Shooter_Bullet_Speed_Fbd_Set(Shooter_t* Shooter, float Bullet_Speed)
     }
 #endif
 }
+
+//TODO
+u8 Shoot_Cooling_Judge(u16 Shooter_Heat )
+{
+    u8 static Flag_Coolin = 0;
+
+    uint8_t level  = judge_rece_mesg.game_robot_state.robot_level;
+    u16 heat_limit = judge_rece_mesg.game_robot_state.shooter_barrel_heat_limit;
+    if ((level > 2)
+        && (Gimbal.Mode == GIMBAL_RC || Gimbal.Mode == GIMBAL_KeyMouse_NORMAL))
+    {
+        if (level > 5)
+        {
+            if (heat_limit - Shooter_Heat
+                < 60)  // judge_rece_mesg.game_robot_state.shooter_barrel_cooling_value)
+            {
+                Flag_Coolin = 1;
+            }
+            else if (heat_limit - Shooter_Heat > 85)
+            {
+                Flag_Coolin = 0;
+            }
+        }
+
+        else
+        {
+            if (heat_limit - Shooter_Heat
+                < 40)  // judge_rece_mesg.game_robot_state.shooter_barrel_cooling_value)
+            {
+                Flag_Coolin = 1;
+            }
+            else if (heat_limit - Shooter_Heat > 55)
+            {
+                Flag_Coolin = 0;
+            }
+        }
+    }
+
+    else
+    {
+        if (level > 2)
+        {
+            if (heat_limit - Shooter_Heat
+                < 40)  // judge_rece_mesg.game_robot_state.shooter_barrel_cooling_value)
+            {
+                Flag_Coolin = 1;
+            }
+            else if (heat_limit - Shooter_Heat > 55)
+            {
+                Flag_Coolin = 0;
+            }
+        }
+        else
+        {
+            if (heat_limit - Shooter_Heat
+                < 25)  // judge_rece_mesg.game_robot_state.shooter_barrel_cooling_value)
+            {
+                Flag_Coolin = 1;
+            }
+            else if (heat_limit - Shooter_Heat > 30)
+            {
+                Flag_Coolin = 0;
+            }
+        }
+    }
+
+
+    return Flag_Coolin;
+}

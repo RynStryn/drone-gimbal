@@ -48,7 +48,7 @@ typedef struct
 
 extern Gimbal_t Gimbal;
 
-void Gimbal_PID_Init(void);
+void Gimbal_Ctrler_Init(void);
 void DJI6020_Yaw_CalcSend(float Angle);
 void DM4310_Pitch_Control(float Angle);
 void Gimbal_Set_Inc(Gimbal_t *Gimbal,float Yaw_inc,float Pitch_inc);

@@ -13,11 +13,20 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
                 //保险起见,重复失能
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Disable);
+#ifdef DM4310_V
+                DM4310_Init(
+                    DM4310_Pitch_ID_Send, DM4310_Mode_V, DM4310_Init_Disable);
+#endif
             } else
             {
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
+#ifdef DM4310_V
+                DM4310_Init(
+                    DM4310_Pitch_ID_Send, DM4310_Mode_V, DM4310_Init_Enable);
+#endif
             }
+
             if (CH040_Data.Init_Flag == 1 && Gimbal->Flag_Init_Finish == 1)
             {
 //#ifndef TEST
@@ -36,6 +45,10 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             // 保险起见,重复失能
             DM4310_Init(
                 DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Disable);
+#ifdef DM4310_V
+            DM4310_Init(
+                DM4310_Pitch_ID_Send, DM4310_Mode_V, DM4310_Init_Disable);
+#endif
             // PID清零
             Gimbal_PID_Clear();
             break;
@@ -70,6 +83,10 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
+#ifdef DM4310_V
+                DM4310_Init(
+                    DM4310_Pitch_ID_Send, DM4310_Mode_V, DM4310_Init_Enable);
+#endif
             }
             // 同理
             Gimbal_Control_Task_Inc(Gimbal,
@@ -86,6 +103,10 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
             // 失能达妙
             DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Disable);
+#ifdef DM4310_V
+            DM4310_Init(
+                DM4310_Pitch_ID_Send, DM4310_Mode_V, DM4310_Init_Disable);
+#endif
             // PID清零
             Gimbal_PID_Clear();
             break;
@@ -100,6 +121,11 @@ void Shooter_Mode_Control(Shooter_t* Shooter)
     //		}
     // 停火校验（停火时缓慢增加摩擦轮转速，减少因为摩擦轮冷却收缩导致的弹速大幅度降低）
     Stop_Fire_Judge();
+    if ( Shoot_Cooling_Judge(Shooter->Heat) )
+    {
+        Shooter->Poke_State = POKE_OFF;
+    }
+
     if (Shooter->Mode == SHOOTER_INIT)
     {
         if (Shooter->Poke_Angle_Get != 0 || DJI2006_Pock.Torq != 0)

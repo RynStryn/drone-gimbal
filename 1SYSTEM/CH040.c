@@ -95,7 +95,7 @@ void CH040_Data_Cal(void)
 		Yaw_count++;
 	} 
 	CH040_Data.yaw_total_agl_calib=CH040_Data.yaw_agl_get+Yaw_count*360.0f-CH040_Data.Init_yaw_agl;
-	CH040_Data.pitch_agl_calib=CH040_Data.pitch_agl_get-CH040_Data.Init_pitch_agl-24;//(在最下方初始化)
+	CH040_Data.pitch_agl_calib=CH040_Data.pitch_agl_get-CH040_Data.Init_pitch_agl-24;//(在最下方初始化)//_
 	if(CH040_Data.Init_Flag==0)
 	{
 		CH040_Data.Init_yaw_agl=CH040_Data.yaw_agl_get;

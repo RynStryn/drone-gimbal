@@ -5,7 +5,7 @@ Gimbal_t Gimbal = {
     .Pitch_Angle_Set = -24,//_
 };
 
-void Gimbal_PID_Init(void)
+void Gimbal_Ctrler_Init(void)
 {
     Ctrler_Init(&DJI6020_PID_V, DJI6020_PID_V_Init);
     Ctrler_Init(&DJI6020_PID_P, DJI6020_PID_P_Init);
@@ -138,14 +138,15 @@ float TempAngle;
 float Speed;
 float kg=0.38;//0.4大致平衡,但很可能把摩擦也带上了
 //float kgg=0.15;//?->0.4
-    void DM4310_Pitch_Control(float Angle)
+void DM4310_Pitch_Control(float Angle)
 {
-//    #ifndef MIT
-//        DM4310_PV_Ctrl(DM4310_Pitch_ID_Send,
-//            Angle + DM4310_Pitch.POS + Gimbal.Pitch_Angle_Get,
-//            60);
-//    #else
-    // TempAngle = Angle + Gimbal.Pitch_Angle_Get;
+#ifdef DM4310_V
+        Feed_Forward_Calc(&DM4310_PID_P.FdFwd, Angle);
+        PID_Cal(&DM4310_PID_P, Angle, Gimbal.Pitch_Angle_Get);
+        Speed = DM4310_PID_P.Out + DM4310_PID_P.FdFwd.v_out;
+        DM4310_V_Ctrl(DM4310_Pitch_ID_Send,Speed);
+#endif
+#ifdef DM4310_MIT
     Feed_Forward_Calc(&DM4310_PID_P.FdFwd, Angle);
     PID_Cal(&DM4310_PID_P, Angle, Gimbal.Pitch_Angle_Get);
     Speed = DM4310_PID_P.Out + DM4310_PID_P.FdFwd.v_out;
@@ -153,18 +154,17 @@ float kg=0.38;//0.4大致平衡,但很可能把摩擦也带上了
         float theta=CH040_Data.pitch_agl_get*DEG2RAD;
 		gimbal_ESO_cal(&Gimbal.Pitch_LESO,torq,Gimbal.Pitch_Speed_Get);
     torq = DM4310_PID_V.Out+0.00668*Gimbal.Pitch_Angle_Get+0.2838-Gimbal.Pitch_LESO.output;
-	
-	
-//#endif
+#endif
 #ifdef DM4310_TEST
     //torq = ( testEffort+(-kg)*cos( theta))//+(-kgg)*sin(theta);
 #endif
    
         torq*=-1;
-	  //torq=0;
+	  torq=0;
     DM4310_MIT_Ctrl(DM4310_Pitch_ID_Send, 0, 0, 0, 0, torq);
 }
 
+//TODO
 void Gimbal_Set_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
 {
     //_sgn

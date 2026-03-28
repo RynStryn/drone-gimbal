@@ -8,7 +8,8 @@
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/LiveTemplatesHousekeeping/HotspotSessionHintIsShown/@EntryValue" value="true" type="bool" />
-    <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppFormatterOtherPage" type="string" />
+    <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppIncludesOrderOptions" type="string" />
+    <option name="/Default/Housekeeping/RefactoringsMru/RenameRefactoring/DoSearchForTextInStrings/@EntryValue" value="true" type="bool" />
     <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
   </component>
   <component name="CMakePresetLoader">{
@@ -31,10 +32,26 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment="上LESO.操作手参数Ver1.0">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+    <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment=".">
+      <change afterPath="$PROJECT_DIR$/1SYSTEM/Gyroscope4Comparison.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1SYSTEM/Gyroscope4Comparison.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakelists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakelists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Init_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Init_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Mode_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Mode_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Shoot_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Shoot_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Shoot_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Shoot_Task.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1SYSTEM/CH040.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CH040.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DJI6020.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.c" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.h" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3Judge_System/Judge_System.h" beforeDir="false" afterPath="$PROJECT_DIR$/3Judge_System/Judge_System.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CORE/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CORE/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/USER/Project.uvprojx" beforeDir="false" afterPath="$PROJECT_DIR$/USER/Project.uvprojx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/USER/stm32f4xx.h" beforeDir="false" afterPath="$PROJECT_DIR$/USER/stm32f4xx.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +69,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="playful" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -62,6 +79,10 @@
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="xswAnBFu" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -76,6 +97,9 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="3ACPz8ETBf5YmgY3EYc0oWrVTL2" />
+  <component name="ProjectStatusUIService">{
+  &quot;uiKindId&quot;: &quot;Widget&quot;
+}</component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -84,6 +108,7 @@
   &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
@@ -97,7 +122,7 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;beta&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/keil/prjct/26DroneMastered&quot;,
@@ -107,7 +132,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.file-colors&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;fileTemplates&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -172,6 +197,16 @@
       <workItem from="1773334895871" duration="654000" />
       <workItem from="1773366979316" duration="18835000" />
       <workItem from="1773540890429" duration="357000" />
+      <workItem from="1773541313282" duration="2744000" />
+      <workItem from="1773739308751" duration="10363000" />
+      <workItem from="1774078466098" duration="624000" />
+      <workItem from="1774424357255" duration="6441000" />
+      <workItem from="1774521372382" duration="14424000" />
+      <workItem from="1774601632914" duration="14513000" />
+      <workItem from="1774619771584" duration="277000" />
+      <workItem from="1774620060856" duration="2191000" />
+      <workItem from="1774622267542" duration="3742000" />
+      <workItem from="1774662093236" duration="1265000" />
     </task>
     <task id="LOCAL-00001" summary="hi">
       <option name="closed" value="true" />
@@ -261,7 +296,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773540981888</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary=".">
+      <option name="closed" value="true" />
+      <created>1773541351255</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1773541351255</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,6 +316,21 @@
     <isAutomaticReloadCMake value="true" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -283,7 +341,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="beta" />
                       </list>
                     </value>
                   </entry>
@@ -298,7 +356,6 @@
   <component name="VcsManagerConfiguration">
     <option name="MARK_IGNORED_AS_EXCLUDED" value="true" />
     <MESSAGE value="hi" />
-    <MESSAGE value="." />
     <MESSAGE value="改进命名" />
     <MESSAGE value="备份,即将上脚手架" />
     <MESSAGE value="rename" />
@@ -307,7 +364,8 @@
     <MESSAGE value="准备施工凌乱脚手架.准备调参纯转矩" />
     <MESSAGE value="改进停火逻辑;死区防摇杆回中漂移" />
     <MESSAGE value="上LESO.操作手参数Ver1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="上LESO.操作手参数Ver1.0" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
