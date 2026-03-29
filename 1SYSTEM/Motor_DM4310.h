@@ -54,7 +54,8 @@ typedef struct {
 	float T_Rotor;
 	
 	float Init_deg;
-	
+    float Init_Flag;
+	float Acked;
 }DM4310_t;
  
 extern DM4310_t DM4310_Pitch;

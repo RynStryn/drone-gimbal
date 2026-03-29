@@ -16,7 +16,7 @@ void Drone_akaFighter_init(void)
     Tim2_Init();
 }
 
-// 软件复位
+
 void SoftReset(void)
 {
     __set_FAULTMASK(1);  // 关闭所有中断

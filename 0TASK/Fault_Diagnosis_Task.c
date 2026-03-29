@@ -38,13 +38,13 @@ void Equipment_Cnt_Clear(Equipment_State_t* Equipment_State)
  **********************/
 void Peripheral_State_Init(Peripheral_State_t* Peripheral_State)
 {
-    Peripheral_State->Remote_Control.Link_State = NORMAL;
+    Peripheral_State->Remote_Control.Link_State = CONNECTED;
     Peripheral_State->Remote_Control.Counter    = 0;
 
-    Peripheral_State->Gimbal_Yaw_Gyro.Link_State = NORMAL;
+    Peripheral_State->Gimbal_Yaw_Gyro.Link_State = CONNECTED;
     Peripheral_State->Gimbal_Yaw_Gyro.Counter    = 0;
 
-    Peripheral_State->Equipment_Visual_Equipment_Auto_Aim.Link_State = NORMAL;
+    Peripheral_State->Equipment_Visual_Equipment_Auto_Aim.Link_State = CONNECTED;
     Peripheral_State->Equipment_Visual_Equipment_Auto_Aim.Counter    = 0;
 }
 /**********************
@@ -57,13 +57,12 @@ void Peripheral_State_Init(Peripheral_State_t* Peripheral_State)
 **********************/
 void Equipment_State_Judge(Equipment_State_t* Equipment_State, float T)
 {
-#ifndef TEST
+
     Equipment_State->Counter++;
     if (Equipment_State->Counter * T > 1)
-        Equipment_State->Link_State = DISCONNECT;
+        Equipment_State->Link_State = DISCONNECTED;
     else
-#endif
-        Equipment_State->Link_State = NORMAL;
+        Equipment_State->Link_State = CONNECTED;
 }
 /**********************
  *@Brief:º¯Êý
@@ -74,7 +73,9 @@ void Equipment_State_Judge(Equipment_State_t* Equipment_State, float T)
  **********************/
 void Peripheral_State_Judge(Peripheral_State_t* Peripheral_State, float T)
 {
+
     Equipment_State_Judge(&Peripheral_State->Remote_Control, T);
+
     Equipment_State_Judge(&Peripheral_State->Gimbal_Yaw_Gyro, T);
     Equipment_State_Judge(
         &Peripheral_State->Equipment_Visual_Equipment_Auto_Aim, T);

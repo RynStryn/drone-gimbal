@@ -101,11 +101,7 @@ void CH040_Data_Cal2(void)
     CH040_Data2.yaw_total_agl_calib = CH040_Data2.yaw_agl_get + Yaw_count2 * 360.0f - CH040_Data2.Init_yaw_agl;
     CH040_Data2.pitch_agl_calib = CH040_Data2.pitch_agl_get - CH040_Data2.Init_pitch_agl - 24;
 
-    if(CH040_Data2.Init_Flag == 0)
-    {
-        CH040_Data2.Init_yaw_agl = CH040_Data2.yaw_agl_get;
-        CH040_Data2.Init_pitch_agl = CH040_Data2.pitch_agl_get;
-    }
+
 }
 
 void USART_CH040_2_IRQHandler(void)

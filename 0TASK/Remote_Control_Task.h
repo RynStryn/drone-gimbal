@@ -140,10 +140,11 @@ typedef __packed struct
 
 typedef enum
 {
-	None=0,
+	OFFLINE=0,
+
 	REMOTE,
 	KEY_MOUSE,
-}Control_Mode_e;				//控制模式枚举（无/遥控器/键鼠）
+}Control_Mode_e;
 
 
 

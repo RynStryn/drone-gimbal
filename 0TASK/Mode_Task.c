@@ -1,15 +1,21 @@
 #include "main.h"
-
+uint8_t power_on=0;
 void Gimbal_Mode_Control(Gimbal_t* Gimbal)
 {
     switch (Gimbal->Mode)
     {
+        case GIMBAL_OFF:
+    if (power_on)
+    {
+        Gimbal->Mode=GIMBAL_INIT;
+    }
+break;
+        case GIMBAL_INIT:
         // 云台初始化时不断尝试使能达妙电机，
         // 直到收到达妙电机的反馈(说明电机已上电)
-        case GIMBAL_INIT:
             if (DM4310_Pitch.ERR == 0x01)
             {
-                Gimbal->Flag_Init_Finish = 1;
+                DM4310_Pitch.Acked = 1;
                 //保险起见,重复失能
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Disable);
@@ -27,11 +33,18 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
 #endif
             }
 
-            if (CH040_Data.Init_Flag == 1 && Gimbal->Flag_Init_Finish == 1)
+            if (DJI6020_Yaw.Init_Flag == 0
+#ifdef pitchHoming
+                && DM4310_Pitch.Acked == 1 && DM4310_Pitch.Init_Flag == 0
+#endif
+            )
             {
-//#ifndef TEST
+                Gimbal_Homing();
+            }
+            if (DM4310_Pitch.Init_Flag == 1 && DM4310_Pitch.Acked == 1
+                && DJI6020_Yaw.Init_Flag == 1)
+            {
                 Gimbal->Mode = GIMBAL_RELAX;
-//#endif
             }
             break;
         case GIMBAL_RELAX:
@@ -115,11 +128,6 @@ void Gimbal_Mode_Control(Gimbal_t* Gimbal)
 
 void Shooter_Mode_Control(Shooter_t* Shooter)
 {
-    //		if(Shooter_Cooling_Judge())//热量限制
-    //		{
-    //			Shooter->Poke_State=POKE_OFF;
-    //		}
-    // 停火校验（停火时缓慢增加摩擦轮转速，减少因为摩擦轮冷却收缩导致的弹速大幅度降低）
     Stop_Fire_Judge();
     if ( Shoot_Cooling_Judge(Shooter->Heat) )
     {
@@ -218,7 +226,6 @@ void Shooter_Mode_Control(Shooter_t* Shooter)
             }
             break;
             case SHOOTER_INIT:
-
                 break;
             default:
                 Shooter_PID_Clear();

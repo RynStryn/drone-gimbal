@@ -1,18 +1,36 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
+#define DJI6020_YAW_ZERO_ENCODER 176.0f//236-30-30
+#define DJI6020_YAW_HOMING_DIR   1
+#define DJI6020_YAW_HOMING_TOLERANCE 0.5f
+//#define pitchHoming
+#define DM4310_Pitch_ZERO_ENCODER -60.0f
+#define DM4310_Pitch_HOMING_DIR   1
+#define DM4310_Pitch_HOMING_TOLERANCE 0.5f
+
+#define DJI6020_Yaw_ID 0x205
+//ID.5:0x205+4
+#define DJI6020_Yaw_Send_ID 0x1FE
+//I_loop 0x1FE;0x2FE for 5~7
+
+
 
 /***without RC***/
-//#define TEST
+#define TEST
 //#define YAW_TEST
+
 //#define PITCH_TEST
 
 #define DM4310_MIT
-#define DM4310_V
+//#define DM4310_V
 /***a new motor***/
 //#define DJI6020_TEST
 //#define DM4310_TEST
 //#define DJI2006_TEST
+
+#define BULEET_SPEED_KALMAN_ENABLE 1
+
 #ifndef PI
 #define PI 3.14159265358979f
 #endif
@@ -27,8 +45,7 @@
 #define RAD2DEG 57.295779513082320876798154814105f
 #endif
 
-//是否使能卡尔曼滤波
-#define BULEET_SPEED_FILTER_ENABLE 1
+
 
 //数值限制
 #define CLAMP(val, min, max) do{\

@@ -11,11 +11,13 @@
 
 typedef enum
 {
-	GIMBAL_INIT       = 0 ,//≥ı ºªØ
+    GIMBAL_OFF  =0,
+	GIMBAL_INIT        ,//≥ı ºªØ
 	GIMBAL_STOP           ,//Õ£÷π
 	GIMBAL_RELAX          ,//∑≈À…
 	GIMBAL_RC  	      ,//“£øÿ∆˜
 	GIMBAL_KeyMouse_NORMAL      ,//º¸ Û
+
 } eGimbal_Mode;
 
 typedef struct
@@ -40,8 +42,7 @@ typedef struct
 	
 	eGimbal_Mode Mode;
 	eGimbal_Mode Mode_Last;
-	
-	uint8_t Flag_Init_Finish;
+
 	gimbal_ESO_t 	Yaw_LESO;
 	gimbal_ESO_t 	Pitch_LESO;
 }Gimbal_t;
@@ -55,4 +56,6 @@ void Gimbal_Set_Inc(Gimbal_t *Gimbal,float Yaw_inc,float Pitch_inc);
 void Gimbal_Control_Task_Inc(Gimbal_t *Gimbal,float Yaw_inc,float Pitch_inc);
 void Gimbal_Get_Angle_Data(Gimbal_t *Gimbal,CH040_t *CH040_Data,DJI6020_t* DJI6020_Yaw,DM4310_t* DM4310_Pitch);
 void Gimbal_PID_Clear(void);
+void Gimbal_Homing(void);
+
 #endif

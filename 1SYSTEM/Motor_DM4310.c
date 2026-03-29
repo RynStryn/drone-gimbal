@@ -144,7 +144,6 @@ void DM4310_V_Ctrl(uint8_t ID,float _vel)
 	
 void DM4310_Receive_Data(DM4310_t* DM4310_Pitch,uint8_t *DATA)
 {
-	static volatile uint8_t Init_Flag=0;
 	DM4310_Pitch->ID 		= (DATA[0])&0x0F;
 	DM4310_Pitch->ERR 		= (DATA[0])>>4;
 	DM4310_Pitch->POS 		= uint_to_float((DATA[1]<<8)|DATA[2], 		-180, 	180, 	16);
@@ -152,11 +151,6 @@ void DM4310_Receive_Data(DM4310_t* DM4310_Pitch,uint8_t *DATA)
 	DM4310_Pitch->T 		= uint_to_float(((DATA[4]&0xF)<<8)|DATA[5], -18, 	18, 	12);
 	DM4310_Pitch->T_MOS 	= (float)(DATA[6]);
 	DM4310_Pitch->T_Rotor	= (float)(DATA[7]);
-	if(Init_Flag==0)
-	{
-		DM4310_Pitch->Init_deg=DM4310_Pitch->POS;
-		Init_Flag=1;
-	}
 }
 
 

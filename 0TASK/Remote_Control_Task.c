@@ -1,9 +1,6 @@
 #include "main.h"
-/**************************提示***************************/
 
 /*******************************************************/
-
-/**********************结构体定义**********************/
 Remote         Remote_data;        // 遥控数据结构体（包含键鼠）
 Control_Mode_e Control_Mode;       // 本次控制方式
 Control_Mode_e Control_Mode_Last;  // 上次控制方式
@@ -284,9 +281,13 @@ void Control_Mode_Choise(void)
     // 通过右上拨杆来选择控制模式
     if (1)
     {
+// #ifdef TEST
+//         Peripheral_State.Remote_Control.Link_State=CONNECTED;
+// #endif
         if (Peripheral_State.Remote_Control.Link_State)
         {
             Control_Mode_Last = Control_Mode;
+
             switch (Remote_data.Remote_Control.s2)//_{db
             {
                 case 1:
@@ -296,25 +297,26 @@ void Control_Mode_Choise(void)
                     Control_Mode = KEY_MOUSE;
                     break;
                 case 2:
-                    Control_Mode = None;
+                    Control_Mode = OFFLINE;
                     break;
                 default:
-                    Control_Mode = None;
+                    Control_Mode = OFFLINE;
                     break;
             }
         }
         else
         {
-            Control_Mode = None;
+            Control_Mode = OFFLINE;
         }
     }
     // 对应控制模式下的任务
     switch (Control_Mode)
     {
-        case None:
+        case OFFLINE:
         {
-            if (Gimbal.Mode != GIMBAL_INIT)
-                Gimbal.Mode = GIMBAL_RELAX;
+            if (Gimbal.Mode != GIMBAL_INIT&&Gimbal.Mode!=GIMBAL_OFF)
+                
+						Gimbal.Mode = GIMBAL_RELAX;
 
             Shooter.Poke_State     = POKE_OFF;
             Shooter.State          = STOP;

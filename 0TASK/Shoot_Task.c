@@ -220,6 +220,7 @@ void Friction_Get_Trap_Judge(void)
     }
 }
 
+// 停火校验（停火时缓慢增加摩擦轮转速，减少因为摩擦轮冷却收缩导致的弹速大幅度降低）
 void Stop_Fire_Judge(void)
 {
     static volatile float Friction_Speed_Last;
@@ -328,7 +329,7 @@ void Shooter_Bullet_Speed_Fbd_Set(Shooter_t* Shooter, float Bullet_Speed)
     else
         Shooter->Bullet_Speed = Bullet_Speed;
 
-#if BULEET_SPEED_FILTER_ENABLE == 1
+#if BULEET_SPEED_KALMAN_ENABLE == 1
     if (fired_bullet_cnt < 15)
     {
         fired_bullet_cnt++;

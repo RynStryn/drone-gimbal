@@ -22,9 +22,11 @@ void Control_Task()
     Peripheral_State_Judge(&Peripheral_State, 0.001);  // 模块心跳检测
 
     Remote_Control();  // 遥控数据
-
+     #ifdef TEST
+             Peripheral_State.Remote_Control.Link_State=CONNECTED;
+     #endif
     if (Peripheral_State.Gimbal_Yaw_Gyro.Link_State
-        == NORMAL)  // 陀螺仪连接正常
+        == CONNECTED)  // 陀螺仪连接正常
     {
         Gimbal_Get_Angle_Data(
             &Gimbal, &CH040_Data, &DJI6020_Yaw, &DM4310_Pitch);
@@ -37,7 +39,13 @@ void Control_Task()
         Shooter.Friction_State = Friction_OFF;
     }
     Mode_Control(&Gimbal, &Shooter);  // 对应模式下的任务处理
-
+#ifdef TEST
+    if (DM4310_Pitch.Init_Flag == 1 && DM4310_Pitch.Acked == 1
+        && DJI6020_Yaw.Init_Flag == 1)
+    {
+        Remote_data.Remote_Control.s2=1;
+    }
+#endif
 #endif
     if (Control_timer >= 10000)
     {

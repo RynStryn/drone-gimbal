@@ -89,3 +89,4 @@ SpacesInParensOptions:
   InEmptyParentheses: false
   Other: false
 # AllowShortBlocksOnASingleLine: Always
+IndentPPDirectives: AfterHash

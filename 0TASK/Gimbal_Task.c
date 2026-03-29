@@ -11,8 +11,8 @@ void Gimbal_Ctrler_Init(void)
     Ctrler_Init(&DJI6020_PID_P, DJI6020_PID_P_Init);
     Ctrler_Init(&DM4310_PID_P, DM4310_PID_P_Init);
     Ctrler_Init(&DM4310_PID_V, DM4310_PID_V_Init);
-		gimbal_ESO_param_Init(&Gimbal.Yaw_LESO,1.3568e-04,180.0/PI,0.002,0.0029,0.0558,2500,800,0,0,0);
-		gimbal_ESO_param_Init(&Gimbal.Pitch_LESO,1.3568e-04,180.0/PI,0.002,0.0082,0.5602,10000000,800,0,0,0);
+    gimbal_ESO_param_Init(&Gimbal.Yaw_LESO,1.3568e-04,180.0/PI,0.002,0.0029,0.0558,2500,800,0,0,0);
+    gimbal_ESO_param_Init(&Gimbal.Pitch_LESO,1.3568e-04,180.0/PI,0.002,0.0082,0.5602,10000000,800,0,0,0);
 
 }
 
@@ -23,6 +23,90 @@ void Gimbal_PID_Clear(void)
     PID_Clear(&DM4310_PID_P);
     PID_Clear(&DM4310_PID_V);
 }
+void Gimbal_Homing(void)
+{
+    static uint8_t hmFin_cnt;
+    uint8_t        DATA[8];
+    memset(DATA, 0, 8);
+
+    float err_y = DJI6020_YAW_ZERO_ENCODER - DJI6020_Yaw.pos_deg;
+    // if (err_y > 180.0f)
+    //     err_y -= 360.0f;
+    // if (err_y < -180.0f)
+    //     err_y += 360.0f;
+    float err_p = DM4310_Pitch_ZERO_ENCODER - DM4310_Pitch.POS;
+    // if (err_p > 180.0f)
+    //     err_p -= 360.0f;
+    // if (err_p < -180.0f)
+    //     err_p += 360.0f;
+
+    if ((fabs(err_y) < DJI6020_YAW_HOMING_TOLERANCE)
+#ifdef pitchHoming
+        && (fabs(err_p) < DM4310_Pitch_HOMING_TOLERANCE)
+#endif
+    )
+    {
+        hmFin_cnt++;
+    }
+#ifdef pitchHoming
+    CH040_Data.Init_pitch_agl=CH040_Data.pitch_agl_get;
+#endif
+    if (hmFin_cnt > 20)
+    {
+        DJI6020_Yaw.Init_Flag     = 1;
+        DM4310_Pitch.Init_Flag    = 1;
+        CH040_Data.Init_yaw_agl   = CH040_Data.yaw_agl_get;
+        CH040_Data.Init_pitch_agl = CH040_Data.pitch_agl_get;
+        PID_Clear(&DJI6020_PID_P);
+        PID_Clear(&DJI6020_PID_V);
+        Gimbal.Yaw_Angle_Set = Gimbal.Yaw_Angle_Get;
+
+#ifdef pitchHoming
+        PID_Clear(&DM4310_PID_P);
+        PID_Clear(&DM4310_PID_V);
+        Gimbal.Pitch_Angle_Set = Gimbal.Pitch_Angle_Get;
+#endif
+        DATA[0] = 0;
+        DATA[1] = 0;
+        CAN2_Transmit(DJI6020_Yaw_Send_ID, 8, DATA);
+        return;
+    }
+
+    PID_Cal(&DJI6020_PID_P, DJI6020_YAW_ZERO_ENCODER, DJI6020_Yaw.pos_deg);
+    float Speed=DJI6020_PID_P.Out;
+    CLAMP(Speed,-50,50);
+    PID_Cal(&DJI6020_PID_V, Speed, Gimbal.Yaw_Speed_Get);
+    float Effort =DJI6020_PID_V.Out;
+    CLAMP(Effort,-16384,16384);
+
+    Effort *= -1;
+    DATA[0] = ((int) Effort >> 8) & 0xFF;
+    DATA[1] = (int) Effort;
+    CAN2_Transmit(DJI6020_Yaw_Send_ID, 8, DATA);
+#ifdef pitchHoming
+#    ifdef DM4310_V
+    PID_Cal(&DM4310_PID_P, DM4310_Pitch_ZERO_ENCODER, DM4310_Pitch.POS);
+    Speed = DM4310_PID_P.Out;
+    DM4310_V_Ctrl(DM4310_Pitch_ID_Send, Speed);
+#    endif
+#    ifdef DM4310_MIT
+    PID_Cal(&DM4310_PID_P, DM4310_Pitch_ZERO_ENCODER, DM4310_Pitch.POS);
+    Speed = DM4310_PID_P.Out;
+    PID_Cal(&DM4310_PID_V, Speed, Gimbal.Pitch_Speed_Get);
+    float torq;
+    torq = DM4310_PID_V.Out + 0.00668 * Gimbal.Pitch_Angle_Get + 0.2838;
+    torq *= -1;
+    torq = 0;
+    DM4310_MIT_Ctrl(DM4310_Pitch_ID_Send, 0, 0, 0, 0, torq);
+#    endif
+#endif
+
+}
+
+
+
+
+
 // 500Hz,2ms
 //angle->deg,speed->deg/s;T=2ms,pid,ff省略 (*/)T;
 #ifdef YAW_TEST
@@ -141,25 +225,26 @@ float kg=0.38;//0.4大致平衡,但很可能把摩擦也带上了
 void DM4310_Pitch_Control(float Angle)
 {
 #ifdef DM4310_V
-        Feed_Forward_Calc(&DM4310_PID_P.FdFwd, Angle);
-        PID_Cal(&DM4310_PID_P, Angle, Gimbal.Pitch_Angle_Get);
-        Speed = DM4310_PID_P.Out + DM4310_PID_P.FdFwd.v_out;
-        DM4310_V_Ctrl(DM4310_Pitch_ID_Send,Speed);
+    Feed_Forward_Calc(&DM4310_PID_P.FdFwd, Angle);
+    PID_Cal(&DM4310_PID_P, Angle, Gimbal.Pitch_Angle_Get);
+    Speed = DM4310_PID_P.Out + DM4310_PID_P.FdFwd.v_out;
+    DM4310_V_Ctrl(DM4310_Pitch_ID_Send, Speed);
 #endif
 #ifdef DM4310_MIT
     Feed_Forward_Calc(&DM4310_PID_P.FdFwd, Angle);
     PID_Cal(&DM4310_PID_P, Angle, Gimbal.Pitch_Angle_Get);
     Speed = DM4310_PID_P.Out + DM4310_PID_P.FdFwd.v_out;
     PID_Cal(&DM4310_PID_V, Speed, Gimbal.Pitch_Speed_Get);
-        float theta=CH040_Data.pitch_agl_get*DEG2RAD;
-		gimbal_ESO_cal(&Gimbal.Pitch_LESO,torq,Gimbal.Pitch_Speed_Get);
-    torq = DM4310_PID_V.Out+0.00668*Gimbal.Pitch_Angle_Get+0.2838-Gimbal.Pitch_LESO.output;
+    float theta = CH040_Data.pitch_agl_get * DEG2RAD;
+    gimbal_ESO_cal(&Gimbal.Pitch_LESO, torq, Gimbal.Pitch_Speed_Get);
+    torq = DM4310_PID_V.Out + 0.00668 * Gimbal.Pitch_Angle_Get + 0.2838
+        - Gimbal.Pitch_LESO.output;
 #endif
 #ifdef DM4310_TEST
-    //torq = ( testEffort+(-kg)*cos( theta))//+(-kgg)*sin(theta);
+    // torq = ( testEffort+(-kg)*cos( theta))//+(-kgg)*sin(theta);
 #endif
-   
-        torq*=-1;
+
+    torq *=-1;
 	  torq=0;
     DM4310_MIT_Ctrl(DM4310_Pitch_ID_Send, 0, 0, 0, 0, torq);
 }
@@ -222,7 +307,7 @@ void Gimbal_Get_Angle_Data(Gimbal_t* Gimbal,
     Gimbal->Pitch_Angle_Get = CH040_Data->pitch_agl_calib;
     Gimbal->Yaw_Speed_Get   = CH040_Data->omega_z;
     Gimbal->Pitch_Speed_Get = CH040_Data->omega_x;
-    // Gimbal->Yaw_Angle_Ch`assis = DJI6020_Yaw->multi_turns_deg - CH040_Data->
+    // Gimbal->Yaw_Angle_Chassis = DJI6020_Yaw->multi_turns_deg - CH040_Data->
     //                             yaw_a - DJI6020_Yaw->Init_deg + CH040_Data->
     //                             Init_yaw_a;
 }

@@ -90,7 +90,6 @@ __packed typedef struct
 
 	float		yaw_total_agl_calib; //deg
 	float		pitch_agl_calib;
-	uint8_t		Init_Flag;
 	
 }CH040_t;
 
