@@ -10,8 +10,8 @@
 
 typedef enum
 {
-	Friction_ON=0,
-	Friction_OFF,
+	FRICTION_ON=0,
+	FRICTION_OFF,
 }Friction_State;
 
 typedef enum
@@ -93,13 +93,13 @@ typedef struct
 extern Shooter_t Shooter;
 
 void Shooter_PID_Init(void);
-void Friction_Speed_Get(Shooter_t* Shooter);
+void Friction_Spd_Get(Shooter_t* Shooter);
 void Shooter_Speed_CalcSend_FullAutoFire(float Speed,int8_t Freq);
 void Shooter_Speed_CalcSend_Single(float Speed,uint8_t Fire_Flag);
 void Shooter_Speed_CalcSend_GetTrap(float Speed,float Freq);
 void    Shooter_Angle_Clear(void);
 void Shooter_PID_Clear(void);
-void Poke_Data_Get(Shooter_t* Shooter);
+void Poke_Ang_Spd_Get(Shooter_t* Shooter);
 void Poke_Get_Trap_Judge(void);
 void Friction_Get_Trap_Judge(void);
 uint8_t Shooter_Cooling_Judge(void);

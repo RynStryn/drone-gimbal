@@ -80,3 +80,11 @@ void Peripheral_State_Judge(Peripheral_State_t* Peripheral_State, float T)
     Equipment_State_Judge(
         &Peripheral_State->Equipment_Visual_Equipment_Auto_Aim, T);
 }
+void Offline_Protect(void)
+{
+        RmtCtrl_Mode    = OFFLINE;
+        Gimbal.Mode = GIMBAL_OFF;
+        Gimbal.power_on = 0;
+        Shooter.Friction_State =FRICTION_OFF;
+        PID_AllClear();
+}

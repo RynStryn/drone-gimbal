@@ -45,6 +45,7 @@ typedef struct
 
 	gimbal_ESO_t 	Yaw_LESO;
 	gimbal_ESO_t 	Pitch_LESO;
+    uint8_t power_on;
 }Gimbal_t;
 
 extern Gimbal_t Gimbal;
@@ -54,7 +55,7 @@ void DJI6020_Yaw_CalcSend(float Angle);
 void DM4310_Pitch_Control(float Angle);
 void Gimbal_Set_Inc(Gimbal_t *Gimbal,float Yaw_inc,float Pitch_inc);
 void Gimbal_Control_Task_Inc(Gimbal_t *Gimbal,float Yaw_inc,float Pitch_inc);
-void Gimbal_Get_Angle_Data(Gimbal_t *Gimbal,CH040_t *CH040_Data,DJI6020_t* DJI6020_Yaw,DM4310_t* DM4310_Pitch);
+void Gimbal_Ang_Spd_Get(Gimbal_t *Gimbal,CH040_t *CH040_Data,DJI6020_t* DJI6020_Yaw,DM4310_t* DM4310_Pitch);
 void Gimbal_PID_Clear(void);
 void Gimbal_Homing(void);
 

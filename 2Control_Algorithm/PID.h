@@ -190,5 +190,6 @@ void FeedForward_Init(FdFwd_t* FF,
     float                      FKv,
     float                      FKa);
 void PID_Clear(pidlc_t* pid);
+void PID_AllClear();
 void Feed_Forward_Calc(FdFwd_t* f, float get);
 #endif

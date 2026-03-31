@@ -29,7 +29,7 @@ void Link_State_Set(Equipment_State_t* Equipment_State,Link_State_e Link_State);
 void Peripheral_State_Init(Peripheral_State_t* Peripheral_State);
 void Equipment_Cnt_Clear(Equipment_State_t* Equipment_State);
 void Peripheral_State_Judge(Peripheral_State_t* Peripheral_State,float T);
-
+void Offline_Protect();
 
 
 #endif /*_FAULT_DIAGNOSIS_TASK_H_*/

@@ -32,7 +32,7 @@ void Shooter_PID_Clear(void)
     PID_Clear(&DJI2006_Fric_PID_V_3);
 }
 
-void Friction_Speed_Get(Shooter_t* Shooter)
+void Friction_Spd_Get(Shooter_t* Shooter)
 {
     Shooter->Friction_Speed_1_Get = DJI2006_Fric[0].speed_rpm;
     Shooter->Friction_Speed_2_Get = DJI2006_Fric[1].speed_rpm;
@@ -147,7 +147,7 @@ void Shooter_Angle_Clear(void)
     Mode_Change_Cnt++;
 }
 
-void Poke_Data_Get(Shooter_t* Shooter)
+void Poke_Ang_Spd_Get(Shooter_t* Shooter)
 {
     Shooter->Poke_Angle_Get = DJI2006_Pock.multi_turns_deg;
     Shooter->Poke_Speed_Get = DJI2006_Pock.speed_rpm;

@@ -4,6 +4,6 @@
 #include "stm32f4xx.h"
 #include "Shoot_Task.h"
 
-void Mode_Control(Gimbal_t* Gimbal,Shooter_t* Shooter);
+void Main_Task(Gimbal_t* Gimbal,Shooter_t* Shooter);
 
 #endif

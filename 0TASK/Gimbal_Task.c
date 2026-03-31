@@ -23,26 +23,28 @@ void Gimbal_PID_Clear(void)
     PID_Clear(&DM4310_PID_P);
     PID_Clear(&DM4310_PID_V);
 }
+float err_yaw;
+float err_pitch;
+uint8_t hmFin_cnt;
 void Gimbal_Homing(void)
 {
-    static uint8_t hmFin_cnt;
     uint8_t        DATA[8];
     memset(DATA, 0, 8);
 
-    float err_y = DJI6020_YAW_ZERO_ENCODER - DJI6020_Yaw.pos_deg;
-    // if (err_y > 180.0f)
-    //     err_y -= 360.0f;
-    // if (err_y < -180.0f)
-    //     err_y += 360.0f;
-    float err_p = DM4310_Pitch_ZERO_ENCODER - DM4310_Pitch.POS;
-    // if (err_p > 180.0f)
-    //     err_p -= 360.0f;
-    // if (err_p < -180.0f)
-    //     err_p += 360.0f;
+    err_yaw = DJI6020_YAW_ZERO_ENCODER - DJI6020_Yaw.pos_deg;
+    if (err_yaw > 180.0f)
+        err_yaw -= 360.0f;
+    if (err_yaw < -180.0f)
+        err_yaw += 360.0f;
+    err_pitch = DM4310_Pitch_ZERO_ENCODER - DM4310_Pitch.POS;
+    if (err_pitch > 180.0f)
+        err_pitch -= 360.0f;
+    if (err_pitch < -180.0f)
+        err_pitch += 360.0f;
 
-    if ((fabs(err_y) < DJI6020_YAW_HOMING_TOLERANCE)
+    if ((fabs(err_yaw) < DJI6020_YAW_HOMING_TOLERANCE)
 #ifdef pitchHoming
-        && (fabs(err_p) < DM4310_Pitch_HOMING_TOLERANCE)
+        && (fabs(err_pitch) < DM4310_Pitch_HOMING_TOLERANCE)
 #endif
     )
     {
@@ -72,9 +74,9 @@ void Gimbal_Homing(void)
         return;
     }
 
-    PID_Cal(&DJI6020_PID_P, DJI6020_YAW_ZERO_ENCODER, DJI6020_Yaw.pos_deg);
+    PID_Cal(&DJI6020_PID_P, 0, err_yaw);
     float Speed=DJI6020_PID_P.Out;
-    CLAMP(Speed,-50,50);
+    CLAMP(Speed,-10,10);
     PID_Cal(&DJI6020_PID_V, Speed, Gimbal.Yaw_Speed_Get);
     float Effort =DJI6020_PID_V.Out;
     CLAMP(Effort,-16384,16384);
@@ -85,12 +87,12 @@ void Gimbal_Homing(void)
     CAN2_Transmit(DJI6020_Yaw_Send_ID, 8, DATA);
 #ifdef pitchHoming
 #    ifdef DM4310_V
-    PID_Cal(&DM4310_PID_P, DM4310_Pitch_ZERO_ENCODER, DM4310_Pitch.POS);
+    PID_Cal(&DM4310_PID_P, 0, err_pitch);
     Speed = DM4310_PID_P.Out;
     DM4310_V_Ctrl(DM4310_Pitch_ID_Send, Speed);
 #    endif
 #    ifdef DM4310_MIT
-    PID_Cal(&DM4310_PID_P, DM4310_Pitch_ZERO_ENCODER, DM4310_Pitch.POS);
+    PID_Cal(&DM4310_PID_P, 0, err_pitch);
     Speed = DM4310_PID_P.Out;
     PID_Cal(&DM4310_PID_V, Speed, Gimbal.Pitch_Speed_Get);
     float torq;
@@ -298,7 +300,7 @@ void Gimbal_Control_Task_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
 }
 
 
-void Gimbal_Get_Angle_Data(Gimbal_t* Gimbal,
+void Gimbal_Ang_Spd_Get(Gimbal_t* Gimbal,
     CH040_t*                         CH040_Data,
     DJI6020_t*                       DJI6020_Yaw,
     DM4310_t*                        DM4310_Pitch)

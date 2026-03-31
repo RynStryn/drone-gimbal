@@ -138,7 +138,17 @@ void PID_Clear(pidlc_t* pid)
     pid->FdFwd.x[1] = 0;
     pid->FdFwd.a    = 0;
 }
-
+pidlc_t* pidGrp[]=
+{
+&DJI6020_PID_V, &DJI6020_PID_P, &DM4310_PID_P, &DM4310_PID_V,
+&DJI2006_Poke_PID_V, &DJI2006_Poke_PID_P,
+&DJI2006_Fric_PID_V_1,&DJI2006_Fric_PID_V_2, &DJI2006_Fric_PID_V_3
+};
+void PID_AllClear(void)
+{
+    for (int i = 0; i < sizeof(pidGrp) / sizeof(pidGrp[0]); i++)
+    {PID_Clear(pidGrp[i]);}
+};
 void Feed_Forward_Calc(FdFwd_t* f, float get)
 {
     // smaller index indicate a newer value

@@ -1,5 +1,5 @@
 #include "main.h"
-
+debug_t dbg;
 int main()
 {
  	Drone_akaFighter_init();
@@ -9,7 +9,7 @@ int main()
 //    Remote_data.Remote_Control.s2=1;
 #endif
 
-	while (1)
+ 	while (1)
 	{
 
     }

@@ -1,9 +1,9 @@
+#include "00debug.h"
 #include "main.h"
 
 /*******************************************************/
-Remote         Remote_data;        // 遥控数据结构体（包含键鼠）
-Control_Mode_e Control_Mode;       // 本次控制方式
-Control_Mode_e Control_Mode_Last;  // 上次控制方式
+Remote         Remote_data;
+Control_Mode_e RmtCtrl_Mode;
 /*****************************************************/
 
 
@@ -87,6 +87,7 @@ void Remote_Switch_Action_Get(Remote_t* Remote)
     {
         Remote->s1_Action = M_2_L;
     }
+    //_上面或许能用来拓展
     if (Remote->ch4 <= 364 + CH4_Dead_Zone)
     {
         Remote->Trigger_H = 1;
@@ -158,13 +159,7 @@ void Key_Single_Click_CD(Key_Mouse_Action_t* _Key_Mouse_Action)  //
 }
 
 
-/**********************
- *@Brief:单个按键状态检测函数
- *@Call:内部或外部
- *@Param:State：按键的状态
- *@Note:无
- *@RetVal:无
- **********************/
+
 void Single_Key_Mouse_Action_Detection(Key_Mouse_Action_t* _Key_Mouse_Action,
     int                                                    _State)
 {
@@ -266,145 +261,140 @@ void Key_Mouse_Action_Get(Mouse_t* _Mouse, Key_t* _Key)
         &_Key->Key_CTRL_Action, _Key->v & KEY_PRESSED_OFFSET_CTRL);
 }
 
-void Remote_Control(void)
+void Cmd_Get(void)
 {
     Key_Mouse_Action_Get(&Remote_data.Remote_Mouse, &Remote_data.Remote_Key);
     // 获取键鼠按键状态
     Remote_Switch_Action_Get(
         &Remote_data.Remote_Control);  // 获取遥控器拨杆、按键等状态
-    Control_Mode_Choise();             // 控制模式选择以及对应按键的使用
 }
 
 //_在这里添加功能
-void Control_Mode_Choise(void)
+// 控制模式选择以及对应按键的使用
+void RmtCtrl_Input_Interpreter(void)
 {
     // 通过右上拨杆来选择控制模式
-    if (1)
+    switch (Remote_data.Remote_Control.s2)
     {
-// #ifdef TEST
-//         Peripheral_State.Remote_Control.Link_State=CONNECTED;
-// #endif
-        if (Peripheral_State.Remote_Control.Link_State)
-        {
-            Control_Mode_Last = Control_Mode;
-
-            switch (Remote_data.Remote_Control.s2)//_{db
-            {
-                case 1:
-                    Control_Mode = REMOTE;
-                    break;
-                case 3:
-                    Control_Mode = KEY_MOUSE;
-                    break;
-                case 2:
-                    Control_Mode = OFFLINE;
-                    break;
-                default:
-                    Control_Mode = OFFLINE;
-                    break;
-            }
-        }
-        else
-        {
-            Control_Mode = OFFLINE;
-        }
+        case 1:
+            RmtCtrl_Mode = REMOTE;
+            break;
+        case 3:
+            RmtCtrl_Mode = KEY_MOUSE;
+            break;
+        case 2:
+            RmtCtrl_Mode = RC_RELAX;
+            break;
+        case 0:
+        default:
+            RmtCtrl_Mode = OFFLINE;
+            break;
     }
+
     // 对应控制模式下的任务
-    switch (Control_Mode)
+    switch (RmtCtrl_Mode)
     {
         case OFFLINE:
         {
-            if (Gimbal.Mode != GIMBAL_INIT&&Gimbal.Mode!=GIMBAL_OFF)
-                
-						Gimbal.Mode = GIMBAL_RELAX;
+            dbg.f[30]++;
+            Gimbal.power_on=0;
+            Gimbal.Mode=GIMBAL_OFF;
+        }
+            break;
+        case RC_RELAX:
+        {
+            dbg.f[31]++;
+            if (Gimbal.Mode != GIMBAL_INIT && Gimbal.Mode != GIMBAL_OFF)
+            {
+                Gimbal.Mode = GIMBAL_RELAX;
+            }
 
             Shooter.Poke_State     = POKE_OFF;
             Shooter.State          = STOP;
-            Shooter.Friction_State = Friction_OFF;
+            Shooter.Friction_State = FRICTION_OFF;
             break;
         }
 
             /*****遥控器模式*****/
         case REMOTE:
         {
+            dbg.f[32]++;
             /*云台只需切换模式*/
-            if (Gimbal.Mode != GIMBAL_INIT)
+            if (Gimbal.Mode != GIMBAL_INIT&&Gimbal.Mode != GIMBAL_OFF)
                 Gimbal.Mode = GIMBAL_RC;
 
-            if (1)
+            // 发射机构判断拨轮状态，选择开启/关闭摩擦轮
+            static volatile uint8_t Hold_Flag = 0;  //_?1
+            if (Remote_data.Remote_Control.Trigger_H == 0)
             {
-                // 发射机构判断拨轮状态，选择开启/关闭摩擦轮
-                static volatile uint8_t Hold_Flag = 0;  //_?1
-                if (Remote_data.Remote_Control.Trigger_H == 0)
-                {
-                    Hold_Flag = 0;
-                }
-                if (Remote_data.Remote_Control.Trigger_H_Hold == 1
-                    && Shooter.Friction_State == Friction_OFF
-                    && Hold_Flag == 0)  // 向上保持开摩擦轮
-                {
-                    Shooter.Friction_State = Friction_ON;
-                    Hold_Flag              = 1;
-                }
-                else if (Remote_data.Remote_Control.Trigger_H == 1
-                    && Shooter.Friction_State == Friction_ON
-                    && Hold_Flag == 0)  // 向上短按关摩擦轮
-                {
-                    Shooter.Friction_State = Friction_OFF;
-                    Hold_Flag              = 1;//_?
-                }
-                // 通过左上拨杆选择开火模式，通过拨轮判断开关摩擦轮/是否开火
-                switch (Remote_data.Remote_Control.s1)
-                {
-                    case 1:
-                    {
-                        Shooter.Mode = FullAuto_FIRE;  // 拨杆在上，连发开火
-                        if (Shooter.Mode != Shooter.Mode_Last)
-                        {
-                            Shooter.State = START;
-                        }
-                        if (Remote_data.Remote_Control.Trigger_L == 1)
-                            // 向下拨动拨轮以开火
-                        {
-                            Shooter.Poke_State = POKE_ON;
-                        }
-                        else
-                        {
-                            Shooter.Poke_State = POKE_OFF;
-                        }
-                        break;
-                    }
-                    case 2:
-                        Shooter.State = STOP;
-                        Shooter.Friction_State
-                            = Friction_OFF;  // 拨杆在下关闭发射机构
-                        break;
-                    case 3:
-                    {
-                        Shooter.Mode = SINGLE_SHOT;  // 拨杆在中，单发开火
-                        if (Shooter.Mode != Shooter.Mode_Last)
-                        {
-                            Shooter.State = START;
-                        }
-                        if (Remote_data.Remote_Control.Trigger_L == 1)
-                            // 拨轮控制开火
-                        {
-                            Shooter.Poke_State = POKE_ON;
-                        }
-                        else
-                        {
-                            Shooter.Poke_State = POKE_OFF;
-                        }
-                        break;
-                    }
-                    default:
-                        Shooter.State          = STOP;
-                        Shooter.Friction_State = Friction_OFF;
-                        break;
-                }
+                Hold_Flag = 0;
             }
-            break;
+            if (Remote_data.Remote_Control.Trigger_H_Hold == 1
+                && Shooter.Friction_State == FRICTION_OFF
+                && Hold_Flag == 0)  // 向上保持开摩擦轮
+            {
+                Shooter.Friction_State = FRICTION_ON;
+                Hold_Flag              = 1;
+            }
+            else if (Remote_data.Remote_Control.Trigger_H == 1
+                && Shooter.Friction_State == FRICTION_ON
+                && Hold_Flag == 0)  // 向上短按关摩擦轮
+            {
+                Shooter.Friction_State = FRICTION_OFF;
+                Hold_Flag              = 1;  //_?
+            }
+            // 通过左上拨杆选择开火模式，通过拨轮判断开关摩擦轮/是否开火
+            switch (Remote_data.Remote_Control.s1)
+            {
+                case 1:
+                {
+                    Shooter.Mode = FullAuto_FIRE;  // 拨杆在上，连发开火
+                    if (Shooter.Mode != Shooter.Mode_Last)
+                    {
+                        Shooter.State = START;
+                    }
+                    if (Remote_data.Remote_Control.Trigger_L == 1)
+                    // 向下拨动拨轮以开火
+                    {
+                        Shooter.Poke_State = POKE_ON;
+                    }
+                    else
+                    {
+                        Shooter.Poke_State = POKE_OFF;
+                    }
+                    break;
+                }
+                case 2:
+                    Shooter.State = STOP;
+                    Shooter.Friction_State
+                        = FRICTION_OFF;  // 拨杆在下关闭发射机构
+                    break;
+                case 3:
+                {
+                    Shooter.Mode = SINGLE_SHOT;  // 拨杆在中，单发开火
+                    if (Shooter.Mode != Shooter.Mode_Last)
+                    {
+                        Shooter.State = START;
+                    }
+                    if (Remote_data.Remote_Control.Trigger_L == 1)
+                    // 拨轮控制开火
+                    {
+                        Shooter.Poke_State = POKE_ON;
+                    }
+                    else
+                    {
+                        Shooter.Poke_State = POKE_OFF;
+                    }
+                    break;
+                }
+                default:
+                    Shooter.State          = STOP;
+                    Shooter.Friction_State = FRICTION_OFF;
+                    break;
+            }
         }
+        break;
+
             /*****键鼠模式*****/
         case KEY_MOUSE:
         {
@@ -413,16 +403,16 @@ void Control_Mode_Choise(void)
             // 短按C开摩擦轮
             if (Remote_data.Remote_Key.Key_C_Action.Key_Mouse_Action
                     == SHORT_PRESS
-                && Shooter.Friction_State == Friction_OFF)
+                && Shooter.Friction_State == FRICTION_OFF)
             {
-                Shooter.Friction_State = Friction_ON;
+                Shooter.Friction_State = FRICTION_ON;
             }
             // 长按C关摩擦轮
             else if (Remote_data.Remote_Key.Key_C_Action.Key_Mouse_Action
                     == LONG_PRESS
-                && Shooter.Friction_State == Friction_ON)
+                && Shooter.Friction_State == FRICTION_ON)
             {
-                Shooter.Friction_State = Friction_OFF;
+                Shooter.Friction_State = FRICTION_OFF;
             }
             // 短按B切换开火模式（单发、连发）
             if (Remote_data.Remote_Key.Key_B_Action.Key_Mouse_Action
@@ -484,7 +474,7 @@ void Control_Mode_Choise(void)
             Gimbal.Mode            = GIMBAL_RELAX;
             Shooter.Poke_State     = POKE_OFF;
             Shooter.State          = STOP;
-            Shooter.Friction_State = Friction_OFF;
+            Shooter.Friction_State = FRICTION_OFF;
             break;
     }
 }

@@ -1,18 +1,15 @@
 #include "main.h"
-uint8_t power_on=0;
-void Gimbal_Mode_Control(Gimbal_t* Gimbal)
+#include "00debug.h"
+void Gimbal_Mode_Task(Gimbal_t* Gimbal)
 {
     switch (Gimbal->Mode)
     {
-        case GIMBAL_OFF:
-    if (power_on)
-    {
-        Gimbal->Mode=GIMBAL_INIT;
-    }
-break;
+
         case GIMBAL_INIT:
-        // 云台初始化时不断尝试使能达妙电机，
-        // 直到收到达妙电机的反馈(说明电机已上电)
+        {
+            dbg.f[2]++;
+            // 云台初始化时不断尝试使能达妙电机，
+            // 直到收到达妙电机的反馈(说明电机已上电)
             if (DM4310_Pitch.ERR == 0x01)
             {
                 DM4310_Pitch.Acked = 1;
@@ -23,7 +20,8 @@ break;
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_V, DM4310_Init_Disable);
 #endif
-            } else
+            }
+            else
             {
                 DM4310_Init(
                     DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
@@ -39,6 +37,8 @@ break;
 #endif
             )
             {
+                dbg.f[10]++;
+                //电机init_flag只在这里写入,所以正常情况，即使掉线,只会校准一次
                 Gimbal_Homing();
             }
             if (DM4310_Pitch.Init_Flag == 1 && DM4310_Pitch.Acked == 1
@@ -46,8 +46,11 @@ break;
             {
                 Gimbal->Mode = GIMBAL_RELAX;
             }
+        }
             break;
         case GIMBAL_RELAX:
+        {
+            dbg.f[3]++;
             // 云台放松，将实际值作为设定值，防跳变
             if (Gimbal->Mode != Gimbal->Mode_Last)
             {
@@ -65,6 +68,7 @@ break;
             // PID清零
             Gimbal_PID_Clear();
             break;
+        }
         case GIMBAL_STOP:
             // 云台静止（暂时用不到）
             if (Gimbal->Mode != Gimbal->Mode_Last)
@@ -75,8 +79,9 @@ break;
 
             break;
         case GIMBAL_RC:
+        {
             if (Gimbal->Mode != Gimbal->Mode_Last
-                /*||DM4310_Pitch.ERR!=0x01*/)
+               /*||DM4310_Pitch.ERR!=0x01*/)
             {
                 Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;//_
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
@@ -88,7 +93,7 @@ break;
                 -(Remote_data.Remote_Control.ch2 - 1024) * RmtCtrl_Sensitivity,
                 (Remote_data.Remote_Control.ch3 - 1024) * RmtCtrl_Sensitivity);//_
             break;
-        case GIMBAL_KeyMouse_NORMAL:
+            case GIMBAL_KeyMouse_NORMAL:
             if (Gimbal->Mode != Gimbal->Mode_Last
                 /*||DM4310_Pitch.ERR!=0x01*/)
             {
@@ -106,6 +111,13 @@ break;
                 -(Remote_data.Remote_Mouse.x) * Mouse_Sensitivity,
                 (Remote_data.Remote_Mouse.y) * Mouse_Sensitivity);//_
             break;
+        }
+        case GIMBAL_OFF:
+            dbg.f[1]++;
+            if (Gimbal->power_on)
+            {
+                Gimbal->Mode=GIMBAL_INIT;
+            }
         default:
             // 云台放松，将实际值设为设定值，防跳变
             if (Gimbal->Mode != Gimbal->Mode_Last)
@@ -126,10 +138,10 @@ break;
     }
 }
 
-void Shooter_Mode_Control(Shooter_t* Shooter)
+void Shooter_Mode_Task(Shooter_t* Shooter)
 {
     Stop_Fire_Judge();
-    if ( Shoot_Cooling_Judge(Shooter->Heat) )
+    if ( Shoot_Cooling_Judge(Shooter->Heat) ==1)
     {
         Shooter->Poke_State = POKE_OFF;
     }
@@ -153,7 +165,7 @@ void Shooter_Mode_Control(Shooter_t* Shooter)
             Shooter->Mode = FullAuto_FIRE;
         }
     }
-    if (Shooter->Friction_State == Friction_ON)
+    if (Shooter->Friction_State == FRICTION_ON)
     {
         float speed_calib = Shooter->Friction_Speed_Set//===9100
             + Shooter_Bullet_Speed_Self_Adaptation(
@@ -242,7 +254,7 @@ void Shooter_Mode_Control(Shooter_t* Shooter)
     }
 }
 
-void Mode_Control(Gimbal_t* Gimbal, Shooter_t* Shooter)
+void Main_Task(Gimbal_t* Gimbal, Shooter_t* Shooter)
 {
     //	static volatile int DM_Control_Flag;
     //	DM_Control_Flag++;
@@ -250,9 +262,9 @@ void Mode_Control(Gimbal_t* Gimbal, Shooter_t* Shooter)
     //	{
     //		DM_Control_Flag=1;
     //	}
-    Gimbal_Mode_Control(Gimbal);
-    Shooter_Mode_Control(Shooter);
-
+    Gimbal_Mode_Task(Gimbal);
+    Shooter_Mode_Task(Shooter);
+dbg.f[0]++;
 
     Gimbal->Mode_Last  = Gimbal->Mode;
     Shooter->Mode_Last = Shooter->Mode;

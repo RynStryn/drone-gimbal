@@ -79,6 +79,7 @@ typedef __packed struct
 	int16_t ch3;
 	int16_t ch4;
 	int8_t s1;
+    //1RC,3KeyMouse,2RELAX
 	int8_t s2;
 	u8 s1_last;
 	u8 s2_last;
@@ -141,7 +142,7 @@ typedef __packed struct
 typedef enum
 {
 	OFFLINE=0,
-
+    RC_RELAX,
 	REMOTE,
 	KEY_MOUSE,
 }Control_Mode_e;
@@ -149,13 +150,13 @@ typedef enum
 
 
 extern Remote Remote_data;	//遥控数据
-extern Control_Mode_e Control_Mode;	//控制模式（遥控器or键鼠）
+extern Control_Mode_e RmtCtrl_Mode;	//控制模式（遥控器or键鼠）
 
 void Get_Remote_Data(uint8_t *RemoteData);;
 void Key_Mouse_Action_Get(Mouse_t *_Mouse,Key_t *_Key);
-void Remote_Control(void);
+void Cmd_Get(void);
 
-void Control_Mode_Choise(void);
+void RmtCtrl_Input_Interpreter(void);
 
 
 #endif

@@ -1,6 +1,19 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
+/***without RC***/
+#define TEST
+//#define YAW_TEST
+
+//#define PITCH_TEST
+
+#define DM4310_MIT
+//#define DM4310_V
+/***a new motor***/
+//#define DJI6020_TEST
+//#define DM4310_TEST
+//#define DJI2006_TEST
+
 #define DJI6020_YAW_ZERO_ENCODER 176.0f//236-30-30
 #define DJI6020_YAW_HOMING_DIR   1
 #define DJI6020_YAW_HOMING_TOLERANCE 0.5f
@@ -16,18 +29,7 @@
 
 
 
-/***without RC***/
-#define TEST
-//#define YAW_TEST
 
-//#define PITCH_TEST
-
-#define DM4310_MIT
-//#define DM4310_V
-/***a new motor***/
-//#define DJI6020_TEST
-//#define DM4310_TEST
-//#define DJI2006_TEST
 
 #define BULEET_SPEED_KALMAN_ENABLE 1
 
@@ -94,3 +96,4 @@ else if(val>max)\
 #include "signal.h"
 #include "data_sample.h"
 /*************¡üËã·¨¡ü*************/
+#include "00debug.h"

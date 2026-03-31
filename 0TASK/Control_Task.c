@@ -1,13 +1,14 @@
 #include "main.h"
-int  Control_timer = 0;
-    //float out[3];
+//即使overflow也是从0计数
+uint32_t  Control_timer = 0;
+//u8 sys_isSafe=1;
+uint8_t EverythingAllRight=1;
+int8_t last_s2;
 void Control_Task()
 {
+
     Control_timer++;
 #ifdef DJI2006_TEST
-    // DJI2006_Fric_PID_V_1.Out=out[0];
-    // DJI2006_Fric_PID_V_2.Out=out[1];
-    // DJI2006_Fric_PID_V_3.Out=out[2];
     uint8_t DATA[8];
     DATA[0] = ((int) DJI2006_Fric_PID_V_1.Out >> 8) & 0xFF;
     DATA[1] = (int) DJI2006_Fric_PID_V_1.Out;
@@ -20,35 +21,39 @@ void Control_Task()
     CAN1_Transmit(0x200, 8, DATA);
 #else
     Peripheral_State_Judge(&Peripheral_State, 0.001);  // 模块心跳检测
+    Cmd_Get();  // 遥控数据
 
-    Remote_Control();  // 遥控数据
-     #ifdef TEST
-             Peripheral_State.Remote_Control.Link_State=CONNECTED;
-     #endif
-    if (Peripheral_State.Gimbal_Yaw_Gyro.Link_State
-        == CONNECTED)  // 陀螺仪连接正常
-    {
-        Gimbal_Get_Angle_Data(
-            &Gimbal, &CH040_Data, &DJI6020_Yaw, &DM4310_Pitch);
-        Poke_Data_Get(&Shooter);
-        Friction_Speed_Get(&Shooter);
-    } else  // 异常:失能
-    {
-        Gimbal.Mode            = GIMBAL_RELAX;
-        Shooter.Poke_State     = POKE_OFF;
-        Shooter.Friction_State = Friction_OFF;
-    }
-    Mode_Control(&Gimbal, &Shooter);  // 对应模式下的任务处理
 #ifdef TEST
-    if (DM4310_Pitch.Init_Flag == 1 && DM4310_Pitch.Acked == 1
-        && DJI6020_Yaw.Init_Flag == 1)
-    {
-        Remote_data.Remote_Control.s2=1;
-    }
+    Peripheral_State.Gimbal_Yaw_Gyro.Link_State=CONNECTED;
+    Peripheral_State.Remote_Control.Link_State=CONNECTED;
 #endif
-#endif
-    if (Control_timer >= 10000)
+
+    if (Peripheral_State.Gimbal_Yaw_Gyro.Link_State == DISCONNECTED
+        ||Peripheral_State.Remote_Control.Link_State == DISCONNECTED)
     {
-        Control_timer = 0;
+        EverythingAllRight=0;
     }
+    else
+    {EverythingAllRight=1;}
+    if (EverythingAllRight)
+    {
+        Gimbal_Ang_Spd_Get(&Gimbal, &CH040_Data, &DJI6020_Yaw, &DM4310_Pitch);
+        Poke_Ang_Spd_Get(&Shooter);
+        Friction_Spd_Get(&Shooter);
+        RmtCtrl_Input_Interpreter();
+        // 检测到拨杆活动
+        if (RmtCtrl_Mode != OFFLINE && Remote_data.Remote_Control.s2 != last_s2)
+        {
+            dbg.f[20]++;
+            Gimbal.power_on = 1;
+            PID_AllClear();
+        }
+        last_s2 = Remote_data.Remote_Control.s2;
+    }
+    else
+    {
+        Offline_Protect();
+    }
+    Main_Task(&Gimbal, &Shooter);
+#endif
 }
