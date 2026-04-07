@@ -86,5 +86,13 @@ void Offline_Protect(void)
         Gimbal.Mode = GIMBAL_OFF;
         Gimbal.power_on = 0;
         Shooter.Friction_State =FRICTION_OFF;
+#if 0
+    DM4310_Init(
+        DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Disable);
+#    ifdef DM4310_V
+    DM4310_Init(
+        DM4310_Pitch_ID_Send, DM4310_Mode_V, DM4310_Init_Disable);
+#    endif
+#endif
         PID_AllClear();
 }

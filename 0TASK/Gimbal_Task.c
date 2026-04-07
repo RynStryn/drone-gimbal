@@ -31,7 +31,7 @@ void Gimbal_Homing(void)
     uint8_t        DATA[8];
     memset(DATA, 0, 8);
 
-    err_yaw = DJI6020_YAW_ZERO_ENCODER - DJI6020_Yaw.pos_deg;
+    err_yaw = 60 - DJI6020_Yaw.pos_deg;//DJI6020_YAW_ZERO_ENCODER
     if (err_yaw > 180.0f)
         err_yaw -= 360.0f;
     if (err_yaw < -180.0f)
@@ -76,7 +76,7 @@ void Gimbal_Homing(void)
 
     PID_Cal(&DJI6020_PID_P, 0, err_yaw);
     float Speed=DJI6020_PID_P.Out;
-    CLAMP(Speed,-10,10);
+    CLAMP(Speed,-50,50);
     PID_Cal(&DJI6020_PID_V, Speed, Gimbal.Yaw_Speed_Get);
     float Effort =DJI6020_PID_V.Out;
     CLAMP(Effort,-16384,16384);
@@ -224,6 +224,7 @@ float TempAngle;
 float Speed;
 float kg=0.38;//0.4大致平衡,但很可能把摩擦也带上了
 //float kgg=0.15;//?->0.4
+float edge_T_clamp=1.7;
 void DM4310_Pitch_Control(float Angle)
 {
 #ifdef DM4310_V
@@ -247,7 +248,15 @@ void DM4310_Pitch_Control(float Angle)
 #endif
 
     torq *=-1;
-	  torq=0;
+	 // torq=0;
+    if (Angle> -Pitch_Angle_MAX_rev-2)
+        CLAMP(torq,-edge_T_clamp,edge_T_clamp);
+    if (Angle> -Pitch_Angle_MAX_rev-1)
+        CLAMP(torq,-edge_T_clamp/2,edge_T_clamp/2);
+    if (Angle< -Pitch_Angle_MIN_rev+2)
+        CLAMP(torq,-edge_T_clamp,edge_T_clamp);
+    if (Angle< -Pitch_Angle_MIN_rev+1)
+        CLAMP(torq,-edge_T_clamp/1.5f,edge_T_clamp/1.5f);
     DM4310_MIT_Ctrl(DM4310_Pitch_ID_Send, 0, 0, 0, 0, torq);
 }
 
@@ -269,11 +278,11 @@ void Gimbal_Set_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
         Gimbal->Yaw_Angle_Set += Yaw_inc;
     }
 
-    if (-DM4310_Pitch.POS + Pitch_inc >= -Pitch_Angle_MIN && Pitch_inc >= 0)
+    if (-DM4310_Pitch.POS + Pitch_inc >= -Pitch_Angle_MAX_rev && Pitch_inc >= 0)
     {
         Pitch_inc               = 0;
         Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;//_
-    } else if (-DM4310_Pitch.POS + Pitch_inc <= -Pitch_Angle_MAX
+    } else if (-DM4310_Pitch.POS + Pitch_inc <= -Pitch_Angle_MIN_rev
         && Pitch_inc <= 0)
     {
         Pitch_inc               = 0;
@@ -282,6 +291,7 @@ void Gimbal_Set_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)
     {
         Gimbal->Pitch_Angle_Set += Pitch_inc;
     }
+    CLAMP(Gimbal->Pitch_Angle_Set,-Pitch_Angle_MIN_rev,-Pitch_Angle_MAX_rev);
 }
 // Incremental
 void Gimbal_Control_Task_Inc(Gimbal_t* Gimbal, float Yaw_inc, float Pitch_inc)

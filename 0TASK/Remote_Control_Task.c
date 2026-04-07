@@ -5,7 +5,7 @@
 Remote         Remote_data;
 Control_Mode_e RmtCtrl_Mode;
 /*****************************************************/
-
+float RmtCtrl_Sensitivity=0.0005f;
 
 /********************************
  *@Brief： 遥控器数据处理函数

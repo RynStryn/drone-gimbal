@@ -6,8 +6,10 @@
 
 #define Yaw_Angle_MAX 50
 #define Yaw_Angle_MIN -50
-#define Pitch_Angle_MAX 30//24
-#define Pitch_Angle_MIN -25//_ -16
+//dm pos;-30~18
+//pitch get;-23~24
+#define Pitch_Angle_MIN_rev 23
+#define Pitch_Angle_MAX_rev -19
 
 typedef enum
 {

@@ -39,8 +39,8 @@
 
 #define CH4_Dead_Zone								50
 
-#define RmtCtrl_Sensitivity								0.0001f
-
+//#define RmtCtrl_Sensitivity								0.0001f
+extern float RmtCtrl_Sensitivity;
 #define Mouse_Sensitivity								0.001f
 
 

@@ -6,31 +6,55 @@
 #define filter
 // PID_mode, D on fdbk, out max, Iout max ; (ff:v_out max,a_...)
 //	Kp, Ki, Kd ;; filter: a ;; (ff: Kv, Ka )
+#if 0//激进+限幅
 #define DJI6020_PID_P_Init \
 Position_PID, Enable,  200,  5,    150, 50, \
-50.0f, 0.0f, 300.0f,    1.0f,         0.0f, 0.0f
+50.0f, 0.0f, 300.0f,    1.0f,         0.4f, 0.0f
 
 #define DJI6020_PID_V_Init \
 Position_PID, Enable, 20000, 200,   0, 0, \
 30.0f, 0.0f, 0.0f,    1.0f,         0.0f, 0.0f
-
+//30,0,100
 
 #define DM4310_PID_P_Init \
-Position_PID, Disable, 5000, 100, 150, 50,\
-25, 0.000f, 65, 1.0f, 0, 0
+Position_PID, Disable, 5000, 100, 25, 50,\
+25, 0.000f, 65, 1.0f, 0.4f, 0
 #define DM_kGRV 0.1
 
-#ifdef DM4310_MIT
+#   ifdef DM4310_MIT
 #define DM4310_PID_V_Init \
 Position_PID, Disable, 4, 1, 3,1, \
 0.025f, 0.0005, 0.085f, 1.0f, 0, 0
-#else
-#ifdef  DM4310_V
+#   else
+#   ifdef  DM4310_V
 #define DM4310_PID_V_Init \
 Position_PID, Disable, 4, 1, 3,1, \
 0.025f, 0.0005, 0.085f, 1.0f, 0, 0
 #endif
-#endif
+#   endif
+
+
+#else//稳定+前馈+限幅
+
+#define DJI6020_PID_P_Init \
+Position_PID, Enable, 250,  5,    150, 50, \
+28.0f, 0.01f, 350.0f,    1.0f,         0.4f, 0.0f
+//120,160
+#define DJI6020_PID_V_Init \
+Position_PID, Enable, 4000, 200,   0, 0, \
+30.0f, 0.0f, 0.0f,    1.0f,         0.0f, 0.0f
+//2000
+
+#define DM4310_PID_P_Init \
+Position_PID, Disable, 240, 25, 50, 0.1,\
+25, 0.000f, 70, 1.0f, 0.3f, 0
+//25[250],,65,,0.4
+#define DM_kGRV 0.1
+#define DM4310_PID_V_Init \
+Position_PID, Disable, 4.5, 0.3, 2,0.2, \
+0.032f, 0.0005f, 0.09f, 1.0f, 0, 0
+//0.032f, 0.0005f, 0.096f
+#endif//目前torq 最大3,ω最大150+50
 
 //---gimbal end---
 

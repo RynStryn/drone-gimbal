@@ -2,7 +2,7 @@
 #define __MAIN_H__
 
 /***without RC***/
-#define TEST
+//#define TEST
 //#define YAW_TEST
 
 //#define PITCH_TEST

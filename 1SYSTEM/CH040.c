@@ -106,16 +106,12 @@ void USART_CH040_IRQHandler(void)
 		USART_ClearITPendingBit(USART_CH040,USART_IT_IDLE);
 		DMA_Cmd(USART_CH040_RX_DMA_STREAM,DISABLE);
 		USART_DMACmd(USART_CH040,USART_DMAReq_Rx,DISABLE);
-		
 
 		memcpy(&CH040_Data,&CH040_Rx_Buffer[6],76);
 		
 		Equipment_Cnt_Clear(&Peripheral_State.Gimbal_Yaw_Gyro);
-
 		CH040_Data_Cal();
-		
-		
-		
+
 		USART_DMACmd(USART_CH040,USART_DMAReq_Rx,ENABLE);
 		DMA_Cmd(USART_CH040_RX_DMA_STREAM,ENABLE);
 	}
