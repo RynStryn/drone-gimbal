@@ -4,12 +4,12 @@
 #include "stm32f4xx.h"
 #include "LESO.h"
 
-#define Yaw_Angle_MAX 50
-#define Yaw_Angle_MIN -50
+#define Yaw_Angle_CCW 80
+#define Yaw_Angle_CW -260
 //dm pos;-30~18
 //pitch get;-23~24
-#define Pitch_Angle_MIN_rev 23
-#define Pitch_Angle_MAX_rev -19
+#define Pitch_Angle_MIN_rev 25
+#define Pitch_Angle_MAX_rev -15//
 
 typedef enum
 {

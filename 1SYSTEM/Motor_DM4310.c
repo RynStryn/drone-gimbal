@@ -123,7 +123,7 @@ void DM4310_MIT_Ctrl(uint8_t ID, float pos, float vel,float kp, float kd, float 
 }
 
 //position,velocity||rad,rad/s
-//max(velMax)=12.566370614359171830206674001655rad/s
+//??max(velMax)=12.566370614359171830206674001655rad/s
 void DM4310_PV_Ctrl(uint8_t ID, float _pos, float _velMax)
 {
 	uint8_t DATA[8];
@@ -133,7 +133,7 @@ void DM4310_PV_Ctrl(uint8_t ID, float _pos, float _velMax)
 	memcpy(&DATA[4],&_velMax,4);
     CAN2_Transmit(ID+0x100,0x08,DATA);
 }
-
+//rad/s
 void DM4310_V_Ctrl(uint8_t ID,float _vel)
 {
 	uint8_t DATA[8];

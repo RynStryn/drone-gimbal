@@ -31,24 +31,28 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/0TASK/00debug.h" afterDir="false" />
+    <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment="取消回退,回到最新版本,准备测试">
+      <change afterPath="$PROJECT_DIR$/2Control_Algorithm/calibration_data.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2Control_Algorithm/calibration_data.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2Control_Algorithm/gravity.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2Control_Algorithm/gravity.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3Judge_System/VTM_Remote.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3Judge_System/VTM_Remote.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Control_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Control_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Init_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Init_Task.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Mode_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Mode_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Mode_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Mode_Task.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Remote_Control_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Remote_Control_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Remote_Control_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Remote_Control_Task.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Shoot_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Shoot_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Shoot_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Shoot_Task.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/CAN1.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CAN1.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/CAN2.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CAN2.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1SYSTEM/CH040.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CH040.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/LESO.h" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/LESO.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.c" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.h" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/data_sample.c" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/data_sample.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3Judge_System/Judge_System.c" beforeDir="false" afterPath="$PROJECT_DIR$/3Judge_System/Judge_System.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3Judge_System/Judge_System.h" beforeDir="false" afterPath="$PROJECT_DIR$/3Judge_System/Judge_System.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CORE/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CORE/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/USER/Project.uvprojx" beforeDir="false" afterPath="$PROJECT_DIR$/USER/Project.uvprojx" afterDir="false" />
@@ -69,7 +73,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="77f9f42d059c54b8dec92901db70ba969ebd63d6" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -97,6 +101,9 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="3ACPz8ETBf5YmgY3EYc0oWrVTL2" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectStatusUIService">{
   &quot;uiKindId&quot;: &quot;Widget&quot;
 }</component>
@@ -125,7 +132,7 @@
     &quot;git-widget-placeholder&quot;: &quot;beta&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/keil/prjct/26DroneMastered&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/keil/prjct/26DroneMastered/3Judge_System&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -139,6 +146,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\keil\prjct\26DroneMastered\3Judge_System" />
       <recent name="D:\keil\prjct\26Drone" />
     </key>
   </component>
@@ -218,6 +226,22 @@
       <workItem from="1774886943501" duration="3337000" />
       <workItem from="1774942049710" duration="1985000" />
       <workItem from="1774945521901" duration="2409000" />
+      <workItem from="1775572503682" duration="4731000" />
+      <workItem from="1775634822784" duration="4995000" />
+      <workItem from="1775699357326" duration="637000" />
+      <workItem from="1775700150982" duration="3776000" />
+      <workItem from="1775743366528" duration="5804000" />
+      <workItem from="1775813863102" duration="2055000" />
+      <workItem from="1775836492629" duration="2034000" />
+      <workItem from="1775886983079" duration="18140000" />
+      <workItem from="1775960927656" duration="8139000" />
+      <workItem from="1775986814535" duration="8107000" />
+      <workItem from="1776047825751" duration="6010000" />
+      <workItem from="1776079968528" duration="3060000" />
+      <workItem from="1776086315219" duration="6184000" />
+      <workItem from="1776093635705" duration="8000" />
+      <workItem from="1776164255045" duration="1410000" />
+      <workItem from="1776212529312" duration="1341000" />
     </task>
     <task id="LOCAL-00001" summary="hi">
       <option name="closed" value="true" />
@@ -331,7 +355,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774774792597</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="取消回退,回到最新版本,准备测试">
+      <option name="closed" value="true" />
+      <created>1775573630555</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1775573630555</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -394,7 +426,8 @@
     <MESSAGE value="." />
     <MESSAGE value="即将大改" />
     <MESSAGE value="插入栓失败于是即将大大改" />
-    <option name="LAST_COMMIT_MESSAGE" value="插入栓失败于是即将大大改" />
+    <MESSAGE value="取消回退,回到最新版本,准备测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="取消回退,回到最新版本,准备测试" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

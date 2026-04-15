@@ -140,11 +140,11 @@ void Gimbal_Mode_Task(Gimbal_t* Gimbal)
 
 void Shooter_Mode_Task(Shooter_t* Shooter)
 {
-    Stop_Fire_Judge();
-    if ( Shoot_Cooling_Judge(Shooter->Heat) ==1)
-    {
-        Shooter->Poke_State = POKE_OFF;
-    }
+    // Stop_Fire_Judge();
+    // if ( Shoot_Cooling_Judge(Shooter->Heat) ==1)
+    // {
+    //     Shooter->Poke_State = POKE_OFF;
+    // }
 
     if (Shooter->Mode == SHOOTER_INIT)
     {
@@ -156,7 +156,8 @@ void Shooter_Mode_Task(Shooter_t* Shooter)
         if (Shooter->switch_Single_Mode_Flag == 1
             && Shooter->switch_Single_Mode_Flag_Finish == 0)
         {
-            // 拨盘角度清零
+            // 拨盘角度清零//_???
+            //_回中?
             Shooter_Angle_Clear();
         }
         if (Shooter->switch_Single_Mode_Flag == 1
@@ -173,11 +174,11 @@ void Shooter_Mode_Task(Shooter_t* Shooter)
         switch (Shooter->Mode)
         {
             case FullAuto_FIRE:
-                //					if(	Shooter->Mode_Last!=Shooter->Mode)
-                //					{
-                //						Shooter->Into_Single_Mode_Flag=0;
-                //						Shooter->Into_Single_Mode_Flag_Finish=0;
-                //					}
+                //if(	Shooter->Mode_Last!=Shooter->Mode)
+                //{
+                //	Shooter->Into_Single_Mode_Flag=0;
+                //	Shooter->Into_Single_Mode_Flag_Finish=0;
+                //}
                 // 拨盘卡弹校验
                 Poke_Get_Trap_Judge();
                 // 摩擦轮卡弹校验

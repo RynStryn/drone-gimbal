@@ -145,7 +145,10 @@ void sample_control_task(void)
 //    VAL_LIMIT(sys_input,-16380,+16380);
 //    gimbal_ESO_cal(&yaw_gimbal_ESO,sys_input,Gimbal.Yaw_Spped_Fdb);  
     sys_input = ref_signal;
-     //sin_signal.seconds_point
+    //DM4310_MIT_Ctrl(DM4310_Pitch_ID_Send, 0, 0, 0, 0, sys_input);
+    //DM4310_Pitch->VEL
+
+    //sin_signal.seconds_point
     //yaw_Encoder.Torque
     //gimbal_gyro.yaw_Gyro
 

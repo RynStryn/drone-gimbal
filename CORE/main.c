@@ -8,6 +8,7 @@ int main()
 //	Gimbal.Mode=GIMBAL_OFF;
 //    Remote_data.Remote_Control.s2=1;
 #endif
+    
 
  	while (1)
 	{

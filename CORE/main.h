@@ -18,16 +18,17 @@
 #define DJI6020_YAW_HOMING_DIR   1
 #define DJI6020_YAW_HOMING_TOLERANCE 0.5f
 //#define pitchHoming
-#define DM4310_Pitch_ZERO_ENCODER -60.0f
-#define DM4310_Pitch_HOMING_DIR   1
-#define DM4310_Pitch_HOMING_TOLERANCE 0.5f
+// #define DM4310_Pitch_ZERO_ENCODER -60.0f
+// #define DM4310_Pitch_HOMING_DIR   1
+// #define DM4310_Pitch_HOMING_TOLERANCE 0.5f
 
-#define DJI6020_Yaw_ID 0x205
+#define DJI6020_Yaw_ID 0x208
 //ID.5:0x205+4
 #define DJI6020_Yaw_Send_ID 0x1FE
 //I_loop 0x1FE;0x2FE for 5~7
+#define DATAPOS 6
 
-
+//#define CANoff
 
 
 
@@ -95,5 +96,6 @@ else if(val>max)\
 #include "LESO.h"
 #include "signal.h"
 #include "data_sample.h"
+#include "gravity.h"
 /*************¡üËã·¨¡ü*************/
 #include "00debug.h"

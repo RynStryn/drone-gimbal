@@ -684,6 +684,11 @@
               <FileType>1</FileType>
               <FilePath>..\0TASK\Shoot_Task.c</FilePath>
             </File>
+            <File>
+              <FileName>Gimbal_Task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\0TASK\Gimbal_Task.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -718,6 +723,21 @@
               <FileName>data_sample.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\2Control_Algorithm\data_sample.c</FilePath>
+            </File>
+            <File>
+              <FileName>PID.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\2Control_Algorithm\PID.h</FilePath>
+            </File>
+            <File>
+              <FileName>gravity.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\2Control_Algorithm\gravity.c</FilePath>
+            </File>
+            <File>
+              <FileName>calibration_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\2Control_Algorithm\calibration_data.c</FilePath>
             </File>
           </Files>
         </Group>

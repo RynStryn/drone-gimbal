@@ -2,9 +2,10 @@
 #include "Gyroscope4Comparison.h"
 void Drone_akaFighter_init(void)
 {
+#ifndef CANoff
     CAN1_Init();
     CAN2_Init();
-
+#endif
     USART1_Init(100000);
     CH040_USART3_Init();
 	CH040_UART4_Init();//

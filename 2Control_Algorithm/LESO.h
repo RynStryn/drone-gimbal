@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define h 0.001
+#define h 0.001//0.001
 
 
 typedef struct

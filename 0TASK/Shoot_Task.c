@@ -112,6 +112,7 @@ void Shooter_Speed_CalcSend_GetTrap(float Speed, float Freq)
 
 //in:Shooter.switch_Single_Mode_Flag
 //out:Shooter.switch_Single_Mode_Flag_Finish
+//ËÆºõÊÇ»Ø×ª
 void Shooter_Angle_Clear(void)
 {
     static volatile int16_t Mode_Change_Cnt = 0;

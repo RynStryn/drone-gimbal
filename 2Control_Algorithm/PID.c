@@ -140,9 +140,9 @@ void PID_Clear(pidlc_t* pid)
 }
 pidlc_t* pidGrp[]=
 {
-&DJI6020_PID_V, &DJI6020_PID_P, &DM4310_PID_P, &DM4310_PID_V,
-&DJI2006_Poke_PID_V, &DJI2006_Poke_PID_P,
-&DJI2006_Fric_PID_V_1,&DJI2006_Fric_PID_V_2, &DJI2006_Fric_PID_V_3
+&DJI6020_PID_V, &DJI6020_PID_P, &DM4310_PID_P, &DM4310_PID_V
+// &DJI2006_Poke_PID_V, &DJI2006_Poke_PID_P,
+// &DJI2006_Fric_PID_V_1,&DJI2006_Fric_PID_V_2, &DJI2006_Fric_PID_V_3
 };
 void PID_AllClear(void)
 {

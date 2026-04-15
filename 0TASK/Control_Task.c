@@ -6,7 +6,7 @@ uint8_t EverythingAllRight=1;
 int8_t last_s2;
 void Control_Task()
 {
-
+    Gimbal.power_on=1;
     Control_timer++;
 #ifdef DJI2006_TEST
     uint8_t DATA[8];
@@ -27,33 +27,12 @@ void Control_Task()
     Peripheral_State.Gimbal_Yaw_Gyro.Link_State=CONNECTED;
     Peripheral_State.Remote_Control.Link_State=CONNECTED;
 #endif
+    Poke_Ang_Spd_Get(&Shooter);
+    Friction_Spd_Get(&Shooter);
 
-    if (Peripheral_State.Gimbal_Yaw_Gyro.Link_State == DISCONNECTED
-        ||Peripheral_State.Remote_Control.Link_State == DISCONNECTED)
-    {
-        EverythingAllRight=0;
-    }
-    else
-    {EverythingAllRight=1;}
-    if (EverythingAllRight)
-    {
         Gimbal_Ang_Spd_Get(&Gimbal, &CH040_Data, &DJI6020_Yaw, &DM4310_Pitch);
-        Poke_Ang_Spd_Get(&Shooter);
-        Friction_Spd_Get(&Shooter);
         RmtCtrl_Input_Interpreter();
-        // ¼ì²âµ½²¦¸Ë»î¶¯
-        if (RmtCtrl_Mode != OFFLINE && Remote_data.Remote_Control.s2 != last_s2)
-        {
-            dbg.f[20]++;
-            Gimbal.power_on = 1;
-            PID_AllClear();
-        }
-        last_s2 = Remote_data.Remote_Control.s2;
-    }
-    else
-    {
-        Offline_Protect();
-    }
+    Auto_Gravity_Data_Collection();
     Main_Task(&Gimbal, &Shooter);
 #endif
 }
