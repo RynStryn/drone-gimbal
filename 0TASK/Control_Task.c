@@ -21,7 +21,23 @@ void Control_Task()
     CAN1_Transmit(0x200, 8, DATA);
 #else
     Peripheral_State_Judge(&Peripheral_State, 0.001);  // 模块心跳检测
-    Cmd_Get();  // 遥控数据
+	 if((Peripheral_State.Remote_Control.Link_State==CONNECTED &&Peripheral_State.VTM_Remote.Link_State==CONNECTED)
+	 ||(Peripheral_State.Remote_Control.Link_State==DISCONNECTED&&Peripheral_State.VTM_Remote.Link_State==DISCONNECTED))
+	{
+		RemoteCtrl_Mode=RC_RELAX;
+	}
+	else if(Peripheral_State.Remote_Control.Link_State==CONNECTED)
+	{
+		RC_Type_e=DR16_Remote;
+		Rmt_Input_Mode();
+	}
+	else
+	{
+		RC_Type_e=VTM_Remote;
+		Rmt_Input_Mode();
+		VTM_Switch_Action_Get();
+	}
+    Cmd_Get();  // 遥控键鼠数据
 
 #ifdef TEST
     Peripheral_State.Gimbal_Yaw_Gyro.Link_State=CONNECTED;
@@ -32,7 +48,6 @@ void Control_Task()
 
         Gimbal_Ang_Spd_Get(&Gimbal, &CH040_Data, &DJI6020_Yaw, &DM4310_Pitch);
         RmtCtrl_Input_Interpreter();
-    Auto_Gravity_Data_Collection();
     Main_Task(&Gimbal, &Shooter);
 #endif
 }

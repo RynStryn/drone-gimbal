@@ -26,7 +26,7 @@ void CAN1_Init(void)
 	
 	CAN_InitStruecture.CAN_ABOM=ENABLE;
 	CAN_InitStruecture.CAN_AWUM=DISABLE;
-	CAN_InitStruecture.CAN_NART=DISABLE;//
+	CAN_InitStruecture.CAN_NART=DISABLE;//DISABLE开启自动重传
 	CAN_InitStruecture.CAN_RFLM=DISABLE;
 	CAN_InitStruecture.CAN_TTCM=DISABLE;
 	CAN_InitStruecture.CAN_TXFP=DISABLE;

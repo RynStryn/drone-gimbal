@@ -9,6 +9,8 @@
 #define		MODE_SW_N 	1
 #define		MODE_SW_S 	2
 
+#define BSP_USART6_RX_BUF_LENGTH  	152
+#define BSP_USART6_TX_BUF_LENGTH	300
 
 typedef __packed struct
 {
@@ -39,9 +41,12 @@ typedef __packed struct
 uint16_t get_crc16_check_sum(uint8_t *p_msg, uint16_t len, uint16_t crc16);
 void VTM_Reomte_Data_Handle(uint8_t *pData,u16 rec_len);
 void VTM_Switch_Action_Get(void);
-
+void usart6_init();
 extern remote_data_t vtm_remote_data;
 extern u8 fn_1_trigger_flag;
 extern u8 pause_trigger_flag;
+extern u8 fn_2_trigger_flag;
+extern u8 trigger_flag;
+extern u8 fn_1_cnt,pause_cnt,fn_2_cnt,trigger_cnt;
 #endif
 

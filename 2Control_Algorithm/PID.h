@@ -8,22 +8,22 @@
 //	Kp, Ki, Kd ;; filter: a ;; (ff: Kv, Ka )
 
 #define DJI6020_PID_P_Init \
-Position_PID, Enable, 250,  5,    150, 50, \
-32.0f, 0.01f, 350.0f,    1.0f,         0.4f, 0.0f
+Position_PID, Enable, 1000,  5,    150, 50, \
+32.0f, 0.01, 350.0f,    1.0f,         0.4f, 0.0f
 //120,160
 #define DJI6020_PID_V_Init \
-Position_PID, Enable, 4000, 200,   0, 0, \
-60.0f, 0.0f, 75.0f,    1.0f,         0.0f, 0.0f
+Position_PID, Enable, 16384, 500,   0, 0, \
+60.0f, 0.01f, 30.0f,    1.0f,         0.0f, 0.0f
 //2000
 
 #define DM4310_PID_P_Init \
-Position_PID, Disable, 240, 25, 50, 0.1,\
-22,0.0f, 33, 0.4f, 0.3f, 0
+Position_PID, Disable, 600, 25, 50, 0.1,\
+22,0.0f, 0.1f, 0.4f, 0.3f, 0
 //25[250],,70,,0.3
 #define DM_kGRV 0.1
 #define DM4310_PID_V_Init \
-Position_PID, Disable, 4.5, 0.3, 2,0.2, \
-0.018f, 0.0f, 0.0f, 1.0f, 0, 0
+Position_PID, Disable, 10, 0.12f, 2,0.2, \
+0.0258f, 0.0029f, 0.15f, 1.0f, 0, 0
 //0.032f, 0.000f, 0.09f, 1.0f, 0, 0
 //0.032f, 0.000f, 0.06f, 1.0f, 0, 0
 //0.032f, 0.0005f, 0.096f
@@ -33,7 +33,7 @@ Position_PID, Disable, 4.5, 0.3, 2,0.2, \
 
 #define DJI2006_Poke_PID_V_Init \
 Position_PID, Disable, 4000, 1000, 0, 0,\
-12, 0.5, 2, 1, 0, 0
+12, 0.2, 2, 1, 0, 0
 
 #define DJI2006_Poke_PID_P_Init \
 Position_PID, Disable, 8000, 200, 0, 0,\
@@ -123,7 +123,7 @@ typedef struct {
     // float frc_deadzone;
     // float Kfrc;
     float Kgrv;
-}FdFwd_t;
+}FeedForward_t;
 
 typedef struct{
 	float 	Kp;
@@ -145,7 +145,7 @@ typedef struct{
  PID_Mode 	PID_Mode;
 
 	Enable_D_on_Fdbk		Enable_D_on_Fdbk;
-	FdFwd_t FdFwd;
+	FeedForward_t FeedForward;
     float 	filter_a;
     float   Dout_last;
 }pidlc_t;
@@ -161,14 +161,14 @@ void Ctrler_Init(pidlc_t* pid,
     Enable_D_on_Fdbk   isEnable,
     float              Out_Max,
     float              I_Max,
-    float              ff_v_outMax,
-    float              ff_a_outMax,
+    float              FeedForward_OutMax_v,
+    float              FeedForward_OutMax_a,
     float              kp,
     float              ki,
     float              kd,
-    float              Ftr_alpha,
-    float              FKv,
-    float              FKa);
+    float              Filter_alpha,
+    float              feed_forward_kv,
+    float              feed_forward_ka);
 void Pid_Init(pidlc_t* pid,
     PID_Mode           Mode,
     Enable_D_on_Fdbk   isEnable,
@@ -180,13 +180,13 @@ void Pid_Init(pidlc_t* pid,
     float kp,
     float ki,
     float kd,
-    float Ftr_alpha);
-void FeedForward_Init(FdFwd_t* FF,
-    float                      ff_v_outMax,
-    float                      ff_a_outMax,
-    float                      FKv,
-    float                      FKa);
+    float Filter_alpha);
+void FeedForward_Init(FeedForward_t* FeedForward,
+    float                      FeedForward_OutMax_v,
+    float                      FeedForward_OutMax_a,
+    float                      FeedForward_Kv,
+    float                      FeedForward_Ka);
 void PID_Clear(pidlc_t* pid);
 void PID_AllClear();
-void Feed_Forward_Calc(FdFwd_t* f, float get);
+void Feed_Forward_Calc(FeedForward_t* f, float get);
 #endif

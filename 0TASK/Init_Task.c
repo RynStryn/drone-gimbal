@@ -10,7 +10,7 @@ void Drone_akaFighter_init(void)
     CH040_USART3_Init();
 	CH040_UART4_Init();//
     USART5_DMA_R_T_JUDGE_Init();
-
+	usart6_init();
     Gimbal_Ctrler_Init();
     Shooter_PID_Init();
 

@@ -9,6 +9,7 @@
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/LiveTemplatesHousekeeping/HotspotSessionHintIsShown/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppFormatterOtherPage" type="string" />
+    <option name="/Default/Housekeeping/RefactoringsMru/RenameRefactoring/DoSearchForTextInStrings/@EntryValue" value="true" type="bool" />
     <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
   </component>
   <component name="CMakePresetLoader">{
@@ -32,28 +33,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e11da381-99e1-4131-b80e-d29864360527" name="更改" comment="取消回退,回到最新版本,准备测试">
-      <change afterPath="$PROJECT_DIR$/2Control_Algorithm/calibration_data.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2Control_Algorithm/calibration_data.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2Control_Algorithm/gravity.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/2Control_Algorithm/gravity.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/3Judge_System/VTM_Remote.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/3Judge_System/VTM_Remote.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/00debug.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/00debug.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Control_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Control_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Fault_Diagnosis_Task.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Gimbal_Task.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Init_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Init_Task.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/0TASK/Mode_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Mode_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/0TASK/Shoot_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Shoot_Task.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/CH040.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CH040.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/Motor_DM4310.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/LESO.h" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/LESO.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Remote_Control_Task.c" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Remote_Control_Task.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0TASK/Remote_Control_Task.h" beforeDir="false" afterPath="$PROJECT_DIR$/0TASK/Remote_Control_Task.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1SYSTEM/CAN1.c" beforeDir="false" afterPath="$PROJECT_DIR$/1SYSTEM/CAN1.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.c" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2Control_Algorithm/PID.h" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/PID.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/data_sample.c" beforeDir="false" afterPath="$PROJECT_DIR$/2Control_Algorithm/data_sample.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/3Judge_System/Judge_System.c" beforeDir="false" afterPath="$PROJECT_DIR$/3Judge_System/Judge_System.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/3Judge_System/Judge_System.h" beforeDir="false" afterPath="$PROJECT_DIR$/3Judge_System/Judge_System.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CORE/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/gravity.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/2Control_Algorithm/gravity.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3Judge_System/VTM_Remote.c" beforeDir="false" afterPath="$PROJECT_DIR$/3Judge_System/VTM_Remote.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3Judge_System/VTM_Remote.h" beforeDir="false" afterPath="$PROJECT_DIR$/3Judge_System/VTM_Remote.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CORE/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/CORE/main.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/USER/Project.uvprojx" beforeDir="false" afterPath="$PROJECT_DIR$/USER/Project.uvprojx" afterDir="false" />
     </list>
@@ -73,7 +70,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="77f9f42d059c54b8dec92901db70ba969ebd63d6" />
+        <entry key="$PROJECT_DIR$" value="beta" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -129,10 +126,10 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;beta&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;clean&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/keil/prjct/26DroneMastered/3Judge_System&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/keil/prjct/26DroneJwtMstd&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -242,6 +239,14 @@
       <workItem from="1776093635705" duration="8000" />
       <workItem from="1776164255045" duration="1410000" />
       <workItem from="1776212529312" duration="1341000" />
+      <workItem from="1776692621354" duration="1262000" />
+      <workItem from="1777472844200" duration="601000" />
+      <workItem from="1777882535495" duration="700000" />
+      <workItem from="1777963282882" duration="620000" />
+      <workItem from="1777963930701" duration="186000" />
+      <workItem from="1777964147761" duration="3478000" />
+      <workItem from="1778120001970" duration="38000" />
+      <workItem from="1778159272101" duration="2475000" />
     </task>
     <task id="LOCAL-00001" summary="hi">
       <option name="closed" value="true" />
@@ -400,7 +405,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="beta" />
+                        <option value="clean" />
                       </list>
                     </value>
                   </entry>

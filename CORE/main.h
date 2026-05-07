@@ -78,6 +78,7 @@ else if(val>max)\
 #include "USART1.h"
 #include "CH040.h"
 #include "Judge_System.h"
+#include "VTM_Remote.h"
 
 /*************¡üÓ²¼þ¡ü*************/
 

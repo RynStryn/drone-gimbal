@@ -1,5 +1,158 @@
 #include <main.h>
 
+uint8_t _USART6_DMA_RX_BUF[BSP_USART6_RX_BUF_LENGTH];
+uint8_t _USART6_DMA_TX_BUF[BSP_USART6_TX_BUF_LENGTH];
+void usart6_init()
+{
+    USART_InitTypeDef usart;
+    GPIO_InitTypeDef  gpio;
+    NVIC_InitTypeDef  nvic;
+		DMA_InitTypeDef dma;
+
+		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE); 
+		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6, ENABLE); 
+	
+		//串口1对应引脚复用映射
+		GPIO_PinAFConfig(GPIOC,GPIO_PinSource6,GPIO_AF_USART6); //GPIOC6为USART1
+		GPIO_PinAFConfig(GPIOC,GPIO_PinSource7,GPIO_AF_USART6); //GPIOC7复用为USART1
+		
+		//USART1端口配置
+		gpio.GPIO_Pin 	= GPIO_Pin_6 | GPIO_Pin_7; //GPIOC6与GPIOC7
+		gpio.GPIO_Mode 	= GPIO_Mode_AF;//复用功能
+		gpio.GPIO_OType = GPIO_OType_PP;
+		gpio.GPIO_Speed = GPIO_Speed_50MHz;	//速度50MHz
+		gpio.GPIO_PuPd 	= GPIO_PuPd_UP; //上拉
+		GPIO_Init(GPIOC,&gpio); //初始化PC6，PC7
+
+    USART_DeInit(USART6);
+//    USART_StructInit(&usart);
+    usart.USART_BaudRate = 921600;
+    usart.USART_WordLength = USART_WordLength_8b;
+    usart.USART_StopBits = USART_StopBits_1;
+    usart.USART_Parity = USART_Parity_No;
+    usart.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
+    usart.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_Init(USART6, &usart);   
+
+
+		USART_DMACmd(USART6, USART_DMAReq_Rx, ENABLE);
+    
+		DMA_DeInit(DMA2_Stream1);
+    dma.DMA_Channel = DMA_Channel_5;
+    dma.DMA_PeripheralBaseAddr	= (uint32_t)(&USART6->DR);
+    dma.DMA_Memory0BaseAddr   	= (uint32_t)&_USART6_DMA_RX_BUF[0];
+    dma.DMA_DIR 			    = DMA_DIR_PeripheralToMemory;
+    dma.DMA_BufferSize			= BSP_USART6_RX_BUF_LENGTH;//sizeof(USART1_DMA_RX_BUF);
+    dma.DMA_PeripheralInc 		= DMA_PeripheralInc_Disable;
+    dma.DMA_MemoryInc 			= DMA_MemoryInc_Enable;
+    dma.DMA_PeripheralDataSize 	= DMA_PeripheralDataSize_Byte;
+    dma.DMA_MemoryDataSize 		= DMA_MemoryDataSize_Byte;
+    dma.DMA_Mode 				= DMA_Mode_Normal;
+    dma.DMA_Priority 			= DMA_Priority_Medium;
+    dma.DMA_FIFOMode 			= DMA_FIFOMode_Disable;
+    dma.DMA_FIFOThreshold 		= DMA_FIFOThreshold_1QuarterFull;
+    dma.DMA_MemoryBurst 		= DMA_MemoryBurst_Single;
+    dma.DMA_PeripheralBurst 	= DMA_PeripheralBurst_Single;
+    DMA_Init(DMA2_Stream1, &dma);
+    DMA_Cmd(DMA2_Stream1, ENABLE);
+		nvic.NVIC_IRQChannel = USART6_IRQn;                          
+		nvic.NVIC_IRQChannelPreemptionPriority = 2;   //pre-emption priority 
+		nvic.NVIC_IRQChannelSubPriority = 2;		    //subpriority 
+		nvic.NVIC_IRQChannelCmd = ENABLE;			
+		NVIC_Init(&nvic);	
+		USART_ITConfig(USART6, USART_IT_IDLE, ENABLE);        //usart rx idle interrupt  enabled
+
+
+	USART_DMACmd(USART6, USART_DMAReq_Tx, ENABLE);
+	while(DMA_GetCmdStatus(DMA2_Stream6) != DISABLE) {}
+	dma.DMA_Channel = DMA_Channel_5;
+	dma.DMA_PeripheralBaseAddr	= (uint32_t)(&USART6->DR);
+	dma.DMA_Memory0BaseAddr   	= (uint32_t)&_USART6_DMA_TX_BUF[0];
+	dma.DMA_DIR 			   				 = DMA_DIR_MemoryToPeripheral;
+	dma.DMA_BufferSize					= 0;//sizeof(UART4_DMA_TX_BUF);
+	dma.DMA_PeripheralInc 			= DMA_PeripheralInc_Disable;
+	dma.DMA_MemoryInc 					= DMA_MemoryInc_Enable;
+	dma.DMA_PeripheralDataSize 	= DMA_PeripheralDataSize_Byte;
+	dma.DMA_MemoryDataSize 			= DMA_MemoryDataSize_Byte;
+	dma.DMA_Mode 								= DMA_Mode_Normal;
+	dma.DMA_Priority 						= DMA_Priority_Medium;
+	dma.DMA_FIFOMode 						= DMA_FIFOMode_Disable;
+	dma.DMA_FIFOThreshold 			= DMA_FIFOThreshold_Full;
+	dma.DMA_MemoryBurst 				= DMA_MemoryBurst_Single;
+	dma.DMA_PeripheralBurst 		= DMA_PeripheralBurst_Single;
+	DMA_Init(DMA2_Stream6,&dma);
+
+	DMA_Cmd(DMA2_Stream6, DISABLE);                           // 关DMA通道
+	nvic.NVIC_IRQChannel = DMA2_Stream6_IRQn;   // 发送DMA通道的中断配置
+	nvic.NVIC_IRQChannelPreemptionPriority = 3;     // 优先级设置
+	nvic.NVIC_IRQChannelSubPriority = 2;
+	nvic.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&nvic);
+	DMA_ITConfig(DMA2_Stream6,DMA_IT_TC,ENABLE);
+
+	USART_ITConfig(USART6,USART_IT_IDLE,ENABLE);
+		
+		
+    USART_Cmd(USART6,ENABLE);
+}
+
+//串口接收中断服务函数
+void USART6_IRQHandler(void)
+
+{
+	static uint32_t this_time_rx_len6 = 0;
+	if(USART_GetITStatus(USART6, USART_IT_IDLE) != RESET)
+	{
+		(void)USART6->SR;
+		(void)USART6->DR;
+		DMA_Cmd(DMA2_Stream1, DISABLE); 
+		DMA_ClearFlag(DMA2_Stream1, DMA_FLAG_TCIF1 | DMA_FLAG_HTIF1);  //************************************
+		this_time_rx_len6 = BSP_USART6_RX_BUF_LENGTH - DMA_GetCurrDataCounter(DMA2_Stream1);
+
+		VTM_Reomte_Data_Handle(&_USART6_DMA_RX_BUF[0],this_time_rx_len6);
+		Equipment_Cnt_Clear(&Peripheral_State.VTM_Remote);
+		DMA_SetCurrDataCounter(DMA2_Stream1,BSP_USART6_RX_BUF_LENGTH);
+		DMA_Cmd(DMA2_Stream1, ENABLE);
+	}       
+}
+
+void DMA2_Stream6_IRQHandler(void)
+{
+  //清除标志
+  if(DMA_GetFlagStatus(DMA2_Stream6,DMA_FLAG_TCIF6)!=RESET)//等待DMA1_Steam3传输完成
+    {
+      DMA_Cmd(DMA2_Stream6, DISABLE);                      //关闭DMA传输
+      DMA_ClearFlag(DMA2_Stream6,DMA_FLAG_TCIF6);//清除DMA1_Steam3传输完成标志
+    }
+}
+
+ void Uart6DmaSendDataProc(DMA_Stream_TypeDef *DMA_Streamx,u16 ndtr)
+
+{
+    DMA_Cmd(DMA_Streamx, DISABLE);                      //关闭DMA传输
+    DMA_ClearFlag(DMA2_Stream6, DMA_FLAG_TCIF6 | DMA_FLAG_HTIF6);
+    while (DMA_GetCmdStatus(DMA_Streamx) != DISABLE){}  //确保DMA可以被设置
+  DMA_SetCurrDataCounter(DMA_Streamx,ndtr);          //数据传输量
+  DMA_Cmd(DMA_Streamx, ENABLE);                      //开启DMA传输
+}
+
+void Uart6SendBytesInfoProc(u8* pSendInfo, u16 nSendCount)
+{
+  u16 i = 0;
+  u8 *pBuf = NULL;
+  //指向发送缓冲区
+  pBuf = _USART6_DMA_TX_BUF;
+  for (i=0; i<nSendCount; i++)
+    {
+      *(pBuf+i) = pSendInfo[i];
+    }
+
+  //DMA发送方式
+
+  Uart6DmaSendDataProc(DMA2_Stream6,nSendCount); //开始一次DMA传输！
+}
+
 
 
 static uint16_t crc16_init = 0xffff;
@@ -136,19 +289,17 @@ void VTM_Reomte_Data_Handle(uint8_t *pData,u16 rec_len)
 	//			vtm_remote_data.mouse_right = pData[16]&0x0C;
 	//			vtm_remote_data.mouse_middle = pData[16]&0x30;
 				
-				Remote_data.Remote_clicker.ch0 = vtm_remote_data.ch_0;
-				Remote_data.Remote_clicker.ch1 = vtm_remote_data.ch_1;
-				Remote_data.Remote_clicker.ch2 = vtm_remote_data.ch_3;
-				Remote_data.Remote_clicker.ch3 = vtm_remote_data.ch_2; 
-				Remote_data.Remote_clicker.ch4 = vtm_remote_data.wheel;
-				Remote_data.Remote_mouse.x = vtm_remote_data.mouse_x;;
-				Remote_data.Remote_mouse.y = vtm_remote_data.mouse_y;
-				Remote_data.Remote_mouse.z = vtm_remote_data.mouse_z;
-				Remote_data.Remote_mouse.press_l = vtm_remote_data.mouse_left;
-				Remote_data.Remote_mouse.press_r = vtm_remote_data.mouse_right;
-				Remote_data.Remote_clicker.s1 = 2;
-				Remote_data.Remote_clicker.s2 = vtm_remote_data.mode_sw +1;
-				Remote_data.key.v = (pData[18]<<8) | pData[17];
+				Remote_data.Remote_Control.ch0   = vtm_remote_data.ch_0;
+				Remote_data.Remote_Control.ch1   = vtm_remote_data.ch_1;
+				Remote_data.Remote_Control.ch2   = vtm_remote_data.ch_3;
+				Remote_data.Remote_Control.ch3   = vtm_remote_data.ch_2; 
+				Remote_data.Remote_Control.ch4   = 2048-vtm_remote_data.wheel;//灰控和白控拨轮极性相反，需处理
+				Remote_data.Remote_Mouse.x 	     = vtm_remote_data.mouse_x;;
+				Remote_data.Remote_Mouse.y       = vtm_remote_data.mouse_y;
+				Remote_data.Remote_Mouse.z       = vtm_remote_data.mouse_z;
+				Remote_data.Remote_Mouse.press_l = vtm_remote_data.mouse_left;
+				Remote_data.Remote_Mouse.press_r = vtm_remote_data.mouse_right;
+				Remote_data.Remote_Key.v		 = (pData[18]<<8) | pData[17];
 				
 				deal_cnt += Frame_length;
         continue; // 继续解析缓冲区里的下一帧
@@ -162,67 +313,100 @@ void VTM_Reomte_Data_Handle(uint8_t *pData,u16 rec_len)
 //	GetRemoteSwitchAction(&RC_CtrlData);
 }
 
-//u8 fn_1_flag,fn_1_trigger_flag,pause_flag,pause_trigger_flag;
-//int fn_1_cnt,pause_cnt;
-//void VTM_Switch_Action_Get(void)
-//{
-//	//////////////////////////////////   mode_sw选择信号输入模式    ///////////////////////////////////////////////////	
-//	//中间模式切换
-////	if(vtm_remote_data.mode_sw == MODE_SW_C)
-////	{
-////		Control_Mode = NUll;
-////	}
-////	else if(vtm_remote_data.mode_sw == MODE_SW_N)
-////	{
-////		Control_Mode = REMOTE;
-////	}
-////	else if(vtm_remote_data.mode_sw == MODE_SW_S)
-////	{
-////		Control_Mode = KEY_MOUSE;
-////	}
-//	//////////////////////////////////    fn_1触发式标志位    ///////////////////////////////////////////////////	
-//	if(vtm_remote_data.fn_1 == 1)
-//	{
-//		if(fn_1_flag == 0)
-//		{
-//			fn_1_cnt++;
-//			fn_1_flag = 1;
-//		}
-//	}
-//	else
-//	{
-//		fn_1_flag = 0;
-//	}
-//	if(fn_1_cnt % 2 == 1)
-//	{
-//		fn_1_trigger_flag = 1;
-//	}
-//	else
-//	{
-//		fn_1_trigger_flag = 0;
-//	}
-//	
-//	//////////////////////////////////        ///////////////////////////////////////////////////
-//	if(vtm_remote_data.pause == 1)
-//	{
-//		if(pause_flag == 0)
-//		{
-//			pause_cnt++;
-//			pause_flag = 1;
-//		}
-//	}
-//	else
-//	{
-//		pause_flag = 0;
-//	}
-//	if(pause_cnt %2 == 0)
-//	{
-//		pause_trigger_flag = 0;
-//	}
-//	else
-//	{
-//		pause_trigger_flag = 1;
-//	}
-//}
-
-
+u8 fn_1_flag,fn_1_trigger_flag,pause_flag,pause_trigger_flag;
+u8 fn_1_cnt,pause_cnt,fn_2_cnt,trigger_cnt;
+u8 fn_2_flag,fn_2_trigger_flag,trigger_flag,trigger_flag1;
+void VTM_Switch_Action_Get(void)
+{
+	if(RemoteCtrl_Mode!=RC_RELAX)
+	{
+		
+		//////////////////////////////////    fn_1触发式标志位    ///////////////////////////////////////////////////	
+		if(vtm_remote_data.fn_1 == 1)
+		{
+			if(fn_1_flag == 0)
+			{
+				fn_1_cnt++;
+				fn_1_flag = 1;
+			}
+		}
+		else
+		{
+			fn_1_flag = 0;
+		}
+		if(fn_1_cnt % 2 == 1)
+		{
+			fn_1_trigger_flag = 1;
+		}
+		else
+		{
+			fn_1_trigger_flag = 0;
+		}
+		
+		//////////////////////////////////        ///////////////////////////////////////////////////
+		if(vtm_remote_data.pause == 1)
+		{
+			if(pause_flag == 0)
+			{
+				pause_cnt++;
+				pause_flag = 1;
+			}
+		}
+		else
+		{
+			pause_flag = 0;
+		}
+		if(pause_cnt %2 == 0)
+		{
+			pause_trigger_flag = 0;
+		}
+		else
+		{
+			pause_trigger_flag = 1;
+		}
+		//////////////////////////////////        ///////////////////////////////////////////////////
+		if(vtm_remote_data.fn_2 == 1)
+		{
+			if(fn_2_flag == 0)
+			{
+				fn_2_cnt++;
+				fn_2_flag = 1;
+			}
+		}
+		else
+		{
+			fn_2_flag = 0;
+		}
+		if(fn_2_cnt %2 ==0)
+		{
+			fn_2_trigger_flag = 0;
+		}
+		else
+		{
+			fn_2_trigger_flag = 1;
+		}
+		
+		if(vtm_remote_data.trigger == 1)
+		{
+			if(trigger_flag1 == 0)
+			{
+				trigger_cnt++;
+				trigger_flag1 = 1;
+			}
+		}
+		else
+		{
+			trigger_flag1 = 0;
+		}
+		if(trigger_cnt %2 ==0)
+		{
+			trigger_flag = 0;
+		}
+		else
+		{
+			trigger_flag = 1;
+		}
+	
+	}
+		
+}

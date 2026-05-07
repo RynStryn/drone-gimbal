@@ -43,6 +43,10 @@
 extern float RmtCtrl_Sensitivity;
 #define Mouse_Sensitivity								0.001f
 
+typedef enum{
+	DR16_Remote=0,
+	VTM_Remote,
+}RC_Type;
 
 /*****************************老接收机**********************************/
 
@@ -150,8 +154,9 @@ typedef enum
 
 
 extern Remote Remote_data;	//遥控数据
-extern Control_Mode_e RmtCtrl_Mode;	//控制模式（遥控器or键鼠）
-
+extern Control_Mode_e RemoteCtrl_Mode;	//控制模式（遥控器or键鼠）
+extern RC_Type RC_Type_e;
+void Rmt_Input_Mode(void);
 void Get_Remote_Data(uint8_t *RemoteData);;
 void Key_Mouse_Action_Get(Mouse_t *_Mouse,Key_t *_Key);
 void Cmd_Get(void);

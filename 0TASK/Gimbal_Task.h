@@ -3,7 +3,7 @@
 
 #include "stm32f4xx.h"
 #include "LESO.h"
-
+#define Yaw_Angle_Init -30
 #define Yaw_Angle_CCW 80
 #define Yaw_Angle_CW -260
 //dm pos;-30~18

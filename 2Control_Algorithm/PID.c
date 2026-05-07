@@ -66,21 +66,21 @@ void Ctrler_Init(pidlc_t* pid,
 
     float Out_Max,
     float I_Max,
-    float ff_v_outMax,
-    float ff_a_outMax,
+    float FeedForward_OutMax_v,
+    float FeedForward_OutMax_a,
 
     float kp,
     float ki,
     float kd,
-    float Ftr_alpha,
+    float Filter_alpha,
 
-    float FKv,
-    float FKa)
+    float feed_forward_kv,
+    float feed_forward_ka)
 {
-    Pid_Init(pid, Mode, isEnable, Out_Max, I_Max, kp, ki, kd, Ftr_alpha);
-    FeedForward_Init(&pid->FdFwd, ff_v_outMax, ff_a_outMax, FKv, FKa);
+    Pid_Init(pid, Mode, isEnable, Out_Max, I_Max, kp, ki, kd, Filter_alpha);
+    FeedForward_Init(&pid->FeedForward, FeedForward_OutMax_v, FeedForward_OutMax_a, feed_forward_kv, feed_forward_ka);
     if (pid==&DM4310_PID_P)
-    {pid->FdFwd.Kgrv=DM_kGRV;}
+    {pid->FeedForward.Kgrv=DM_kGRV;}
 }
 void Pid_Init(pidlc_t* pid,
     PID_Mode           Mode,
@@ -93,7 +93,7 @@ void Pid_Init(pidlc_t* pid,
     float kp,
     float ki,
     float kd,
-    float Ftr_alpha)
+    float Filter_alpha)
 {
     pid->PID_Mode         = Mode;
     pid->Enable_D_on_Fdbk = isEnable;
@@ -104,19 +104,19 @@ void Pid_Init(pidlc_t* pid,
     pid->Kp       = kp;
     pid->Ki       = ki;
     pid->Kd       = kd;
-    pid->filter_a = Ftr_alpha;
+    pid->filter_a = Filter_alpha;
 }
-void FeedForward_Init(FdFwd_t* FF,
-    float                      ff_v_outMax,
-    float                      ff_a_outMax,
-    float                      FKv,
-    float                      FKa)
+void FeedForward_Init(FeedForward_t* FeedForward,
+    float                      FeedForward_OutMax_v,
+    float                      FeedForward_OutMax_a,
+    float                      FeedForward_Kv,
+    float                      FeedForward_Ka)
 {
-    FF->a_outMax = ff_a_outMax;
-    FF->v_outMax = ff_v_outMax;
+    FeedForward->a_outMax = FeedForward_OutMax_a;
+    FeedForward->v_outMax = FeedForward_OutMax_v;
 
-    FF->Kv = FKv;
-    FF->Ka = FKa;
+    FeedForward->Kv = FeedForward_Kv;
+    FeedForward->Ka = FeedForward_Ka;
 }
 void PID_Clear(pidlc_t* pid)
 {
@@ -132,11 +132,11 @@ void PID_Clear(pidlc_t* pid)
     pid->Dout_last = 0;
     pid->Out       = 0;
 
-    pid->FdFwd.v[0] = 0;
-    pid->FdFwd.v[1] = 0;
-    pid->FdFwd.x[0] = 0;
-    pid->FdFwd.x[1] = 0;
-    pid->FdFwd.a    = 0;
+    pid->FeedForward.v[0] = 0;
+    pid->FeedForward.v[1] = 0;
+    pid->FeedForward.x[0] = 0;
+    pid->FeedForward.x[1] = 0;
+    pid->FeedForward.a    = 0;
 }
 pidlc_t* pidGrp[]=
 {
@@ -149,7 +149,8 @@ void PID_AllClear(void)
     for (int i = 0; i < sizeof(pidGrp) / sizeof(pidGrp[0]); i++)
     {PID_Clear(pidGrp[i]);}
 };
-void Feed_Forward_Calc(FdFwd_t* f, float get)
+//500,25000用于统一量纲
+void Feed_Forward_Calc(FeedForward_t* f, float get)
 {
     // smaller index indicate a newer value
     f->x[1] = f->x[0];

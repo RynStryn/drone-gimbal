@@ -699,6 +699,11 @@
               <FileType>1</FileType>
               <FilePath>..\3Judge_System\Judge_System.c</FilePath>
             </File>
+            <File>
+              <FileName>VTM_Remote.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\3Judge_System\VTM_Remote.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -745,9 +750,9 @@
           <GroupName>ReadMe</GroupName>
           <Files>
             <File>
-              <FileName>ReadMe.txt</FileName>
+              <FileName>ReadMe(江文涛).txt</FileName>
               <FileType>5</FileType>
-              <FilePath>..\ReadMe\ReadMe.txt</FilePath>
+              <FilePath>..\ReadMe\ReadMe(江文涛).txt</FilePath>
             </File>
           </Files>
         </Group>

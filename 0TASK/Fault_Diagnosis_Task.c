@@ -77,12 +77,14 @@ void Peripheral_State_Judge(Peripheral_State_t* Peripheral_State, float T)
     Equipment_State_Judge(&Peripheral_State->Remote_Control, T);
 
     Equipment_State_Judge(&Peripheral_State->Gimbal_Yaw_Gyro, T);
-    Equipment_State_Judge(
-        &Peripheral_State->Equipment_Visual_Equipment_Auto_Aim, T);
+	
+    Equipment_State_Judge(&Peripheral_State->Equipment_Visual_Equipment_Auto_Aim, T);
+	
+	Equipment_State_Judge(&Peripheral_State->VTM_Remote, T);
 }
 void Offline_Protect(void)
 {
-        RmtCtrl_Mode    = OFFLINE;
+        RemoteCtrl_Mode    = OFFLINE;
         Gimbal.Mode = GIMBAL_OFF;
         Gimbal.power_on = 0;
         Shooter.Friction_State =FRICTION_OFF;

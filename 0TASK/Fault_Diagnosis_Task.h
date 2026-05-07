@@ -2,8 +2,8 @@
 #define __FAULT_DIAGNOSIS_TASK_H__
 #include "stm32f4xx.h"
 typedef enum{//_?
-	DISCONNECTED          ,//正常
-	CONNECTED       		,//连接异常
+	DISCONNECTED          ,//异常
+	CONNECTED       		,//正常
 	INACTIVE         	,//关闭状态
 }Link_State_e;//连接状态枚举
 
@@ -15,10 +15,13 @@ typedef struct{
 
 typedef struct{
 	Equipment_State_t Remote_Control;
+	Equipment_State_t VTM_Remote;
+	
 	Equipment_State_t Gimbal_Yaw_Gyro;//云台yaw轴陀螺仪对应状态
 	
 	Equipment_State_t Equipment_Visual_Equipment_Auto_Aim;//下云台视觉设备
 	Equipment_State_t Equipment_Visual_Equipment_Radar;//雷达视觉运算设备
+	
 }Peripheral_State_t;
 
 
