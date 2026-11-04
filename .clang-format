@@ -1,0 +1,91 @@
+Language: Cpp
+# 以 Chromium 为基准
+BasedOnStyle: Chromium
+
+# --- 核心特征强化 ---
+PointerAlignment: Left
+SpaceBeforeParens: ControlStatements
+
+# [已修复] 变更为枚举类型
+SortIncludes: CaseSensitive
+
+AllowShortFunctionsOnASingleLine: Inline
+# [已修复] 变更为枚举类型
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# --- 自定义偏好 ---
+AccessModifierOffset: -4
+
+# [已修复] 变更为枚举类型
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AlignOperands: DontAlign
+
+# [已修复] 变更为结构体类型 (Clang 15+)
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 0
+AlignAfterOpenBracket: DontAlign
+
+BreakBeforeBinaryOperators: All
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: false
+  # 修复 2：现代版本中此项为枚举，不能填 true，必须用 Always/MultiLine/Never
+  AfterControlStatement: Always
+  AfterEnum: false
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: true
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+
+# --- 细节微调 ---
+ColumnLimit: 80
+BinPackArguments: false
+BinPackParameters: OnePerLine
+BreakConstructorInitializers: AfterColon
+
+IndentWidth: 4
+TabWidth: 4
+ContinuationIndentWidth: 4
+IndentCaseLabels: true
+
+# 修复 4：新版中推荐使用 Yes/No 代替 true/false
+BreakTemplateDeclarations: Yes
+SpaceAfterTemplateKeyword: false
+
+# [已修复] 变更为枚举类型 (Clang 14+)
+SpacesInAngles: Never
+
+IncludeCategories:
+  - Regex: '^<.*'
+    Priority: 1
+  - Regex: '^".*'
+    Priority: 2
+  - Regex: '.*'
+    Priority: 3
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+InsertNewlineAtEOF: true
+MaxEmptyLinesToKeep: 2
+NamespaceIndentation: All
+SpaceAfterCStyleCast: true
+SpaceBeforeRangeBasedForLoopColon: true
+
+# [已修复] Clang 17+ 中，旧版的括号空格选项已全部合并至此
+SpacesInParens: Custom
+SpacesInParensOptions:
+  InConditionalStatements: false
+  InCStyleCasts: false
+  InEmptyParentheses: false
+  Other: false
+# AllowShortBlocksOnASingleLine: Always

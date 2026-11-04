@@ -1,0 +1,33 @@
+#ifndef __MOTOR_DJI6020_H__
+#define __MOTOR_DJI6020_H__
+#include "stm32f4xx.h"
+
+#define DJI6020_Yaw_ID 0x205
+//ID.5:0x205+4
+
+//0x2FE for 5~7
+//I_loop 0x1FE
+#define DJI6020_Yaw_Send_ID 0x1FE
+
+typedef struct
+{
+	float	pos_deg_last;
+	float 	pos_deg;
+	float	Init_deg;
+    int32_t pos_turns;
+	float	multi_turns_deg;//
+    float 	speed_rpm;
+	
+	float 	I_ofTorq;//I_O?
+	
+	float	Temp;
+	
+	uint8_t Init_Flag;
+	
+}DJI6020_t;
+
+extern DJI6020_t DJI6020_Yaw;
+
+void DJI6020_Receive_Data(DJI6020_t* DJI6020_Yaw,uint8_t* Data);//
+
+#endif
