@@ -85,8 +85,7 @@ void Gimbal_Mode_Task(Gimbal_t* Gimbal)
             {
                 Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;//_
                 Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
-                DM4310_Init(
-                    DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
+                DM4310_Init(                    DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
             }
             // 角度增量
             Gimbal_Control_Task_Inc(Gimbal,
@@ -96,17 +95,19 @@ void Gimbal_Mode_Task(Gimbal_t* Gimbal)
             case GIMBAL_KeyMouse_NORMAL:
             if (Gimbal->Mode != Gimbal->Mode_Last
                 /*||DM4310_Pitch.ERR!=0x01*/)
-            {
-                Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;//_
-                Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
-                DM4310_Init(
-                    DM4310_Pitch_ID_Send, DM4310_Mode_MIT, DM4310_Init_Enable);
+                {
+                    Gimbal->Pitch_Angle_Set = Gimbal->Pitch_Angle_Get;  //_
+                    Gimbal->Yaw_Angle_Set   = Gimbal->Yaw_Angle_Get;
+                    DM4310_Init(DM4310_Pitch_ID_Send,
+                        DM4310_Mode_MIT,
+                        DM4310_Init_Enable);
 #ifdef DM4310_V
-                DM4310_Init(
-                    DM4310_Pitch_ID_Send, DM4310_Mode_V, DM4310_Init_Enable);
+                    DM4310_Init(DM4310_Pitch_ID_Send,
+                        DM4310_Mode_V,
+                        DM4310_Init_Enable);
 #endif
-            }
-            // 同理
+                }
+                // 同理
             Gimbal_Control_Task_Inc(Gimbal,
                 -(Remote_data.Remote_Mouse.x) * Mouse_Sensitivity,
                 (Remote_data.Remote_Mouse.y) * Mouse_Sensitivity);//_

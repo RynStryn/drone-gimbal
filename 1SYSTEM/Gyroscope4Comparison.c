@@ -43,7 +43,7 @@ void CH040_UART4_Init(void)
     NVIC_Init(&NVIC_InitStructure);
 
     /* UART ≈‰÷√ */
-    USART_InitStructure.USART_BaudRate = 921600;
+    USART_InitStructure.USART_BaudRate = 115200;
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -80,6 +80,13 @@ void CH040_UART4_Init(void)
     USART_Cmd(USART_CH040_2, ENABLE);
 }
 //
+void UART4_SendByte(uint8_t data)
+{
+    while (USART_GetFlagStatus(UART4, USART_FLAG_TXE) == RESET);
+    USART_SendData(UART4, data);
+    while (USART_GetFlagStatus(UART4, USART_FLAG_TC) == RESET);
+}
+
 void CH040_Data_Cal2(void)
 {
 

@@ -1,11 +1,14 @@
+#include "Gyroscope4Comparison.h"
 #include "main.h"
 //即使overflow也是从0计数
 uint32_t  Control_timer = 0;
 //u8 sys_isSafe=1;
 uint8_t EverythingAllRight=1;
 int8_t last_s2;
+uint8_t data;
 void Control_Task()
 {
+    UART4_SendByte(data);
     Gimbal.power_on=1;
     Control_timer++;
 #ifdef DJI2006_TEST
@@ -36,3 +39,4 @@ void Control_Task()
     Main_Task(&Gimbal, &Shooter);
 #endif
 }
+

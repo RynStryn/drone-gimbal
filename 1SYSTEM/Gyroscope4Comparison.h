@@ -24,7 +24,9 @@
 #define USART_CH040_2_DMAx_CLK       RCC_AHB1Periph_DMA1
 #define USART_CH040_2_RX_DMA_CHANNEL DMA_Channel_4
 #define USART_CH040_2_RX_DMA_STREAM  DMA1_Stream2
+#include <stdint.h>
 
 void CH040_UART4_Init();
+void UART4_SendByte(uint8_t data);
 
 #endif  // INC_26DRONEMSTD_CH040_2_H
