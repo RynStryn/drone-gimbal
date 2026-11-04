@@ -2,10 +2,10 @@
 #define __MOTOR_DJI6020_H__
 #include "stm32f4xx.h"
 
-#define DJI6020_Yaw_ID 0x205
+#define DJI6020_Yaw_ID 0x209
 
 //I_loop 0x1FE
-#define DJI6020_Yaw_Send_ID 0x1FE
+#define DJI6020_Yaw_Send_ID 0x2FE
 
 typedef struct
 {
