@@ -1,4 +1,4 @@
-#include "00debug.h"
+// #include "00debug.h"
 #include "main.h"
 
 /*******************************************************/
@@ -322,14 +322,14 @@ void RmtCtrl_Input_Interpreter(void)
     {
         case OFFLINE:
         {
-            debug_HitCnt[HIT_CNT_INIT_POLL]++;
+
             Gimbal.power_on=0;
             Gimbal.Mode=GIMBAL_OFF;
         }
             break;
         case RC_RELAX:
         {
-            debug_HitCnt[HIT_CNT_RELAX_MODE]++;
+
             if (Gimbal.Mode != GIMBAL_INIT && Gimbal.Mode != GIMBAL_OFF)
             {
                 Gimbal.Mode = GIMBAL_RELAX;
@@ -344,7 +344,7 @@ void RmtCtrl_Input_Interpreter(void)
             /*****遥控器模式*****/
         case REMOTE:
         {
-			debug_HitCnt[HIT_CNT_OFF_ERR_PATH]++;
+
 			/*云台只需切换模式*/
 			if (Gimbal.Mode != GIMBAL_INIT&&Gimbal.Mode != GIMBAL_OFF)
 				Gimbal.Mode = GIMBAL_RC;

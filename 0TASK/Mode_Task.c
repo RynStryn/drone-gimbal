@@ -1,5 +1,5 @@
 #include "main.h"
-#include "00debug.h"
+
 void Gimbal_Mode_Task(Gimbal_t* Gimbal)
 {
     switch (Gimbal->Mode)
@@ -7,7 +7,7 @@ void Gimbal_Mode_Task(Gimbal_t* Gimbal)
 
         case GIMBAL_INIT:
         {
-            debug_HitCnt[HIT_CNT_INIT_POLL]++;
+
             // 云台初始化时不断尝试使能达妙电机，
             // 直到收到达妙电机的反馈(说明电机已上电)
             if (DM4310_Pitch.ERR == 0x01)
@@ -37,7 +37,6 @@ void Gimbal_Mode_Task(Gimbal_t* Gimbal)
 #endif
             )
             {
-                debug_HitCnt[HIT_CNT_GIMBAL_HOMING]++;
                 //电机init_flag只在这里写入,所以正常情况，即使掉线,只会校准一次
                 Gimbal_Homing();
             }
@@ -50,7 +49,6 @@ void Gimbal_Mode_Task(Gimbal_t* Gimbal)
             break;
         case GIMBAL_RELAX:
         {
-            debug_HitCnt[HIT_CNT_RELAX_MODE]++;
             // 云台放松，将实际值作为设定值，防跳变
             if (Gimbal->Mode != Gimbal->Mode_Last)
             {
@@ -113,7 +111,6 @@ void Gimbal_Mode_Task(Gimbal_t* Gimbal)
             break;
         }
         case GIMBAL_OFF:
-            debug_HitCnt[HIT_CNT_OFF_ERR_PATH]++;
             if (Gimbal->power_on)
             {
                 Gimbal->Mode=GIMBAL_INIT;
@@ -265,7 +262,6 @@ void Main_Task(Gimbal_t* Gimbal, Shooter_t* Shooter)
     //	}
     Gimbal_Mode_Task(Gimbal);
     Shooter_Mode_Task(Shooter);
-debug_HitCnt[HIT_CNT_GIMBAL_HOMING]++;
 
     Gimbal->Mode_Last  = Gimbal->Mode;
     Shooter->Mode_Last = Shooter->Mode;

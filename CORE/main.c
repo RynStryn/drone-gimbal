@@ -1,5 +1,7 @@
 #include "main.h"
-debug_t dbg;
+
+
+// extern hit_cnt_id_t dbg;
 int main()
 {
  	Drone_akaFighter_init();

@@ -99,4 +99,4 @@ else if(val>max)\
 #include "data_sample.h"
 #include "gravity.h"
 /*************¡üËã·¨¡ü*************/
-#include "00debug.h"
+// #include "00debug.h"

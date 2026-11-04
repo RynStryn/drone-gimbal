@@ -178,7 +178,7 @@ void DM4310_Pitch_Control(float Angle)
 #endif
 #ifdef DM4310_MIT
  //   Feed_Forward_Calc(&DM4310_PID_P.FdFwd, Angle);
-//    FeedForward_grv=Get_Interpolated_Torque(CH040_Data.pitch_agl_get);
+ FeedForward_grv=Get_Interpolated_Torque(CH040_Data.pitch_agl_get);
     PID_Cal(&DM4310_PID_P, Angle, Gimbal.Pitch_Angle_Get);
     Speed = DM4310_PID_P.Out;// + DM4310_PID_P.FdFwd.v_out;
     PID_Cal(&DM4310_PID_V, Speed, Gimbal.Pitch_Speed_Get);
